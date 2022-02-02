@@ -1,69 +1,75 @@
 <template>
-    <Head title="Log in" />
+    <Head title="Login" />
 
-    <jet-authentication-card>
-        <template #logo>
-            <jet-authentication-card-logo />
-        </template>
+<!--    <jet-validation-errors class="mb-4" />-->
 
-        <jet-validation-errors class="mb-4" />
+<!--    <div v-if="status">-->
+<!--        {{ status }}-->
+<!--    </div>-->
 
-        <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
-            {{ status }}
+    <main class="vh-100">
+        <div class="container-fluid h-100">
+            <div class="row d-flex align-items-center justify-content-center h-100">
+                <div class="d-md-block d-none col-md-6 col-lg-7 col-xl-8" id="left-side">
+                    <div class="d-flex align-items-center justify-content-center h-100">
+                        <section>
+                            <h1>Welcome back!</h1>
+                            <p class="mb-0">Enter your e-mail and</p>
+                            <p>Password to continue</p>
+                        </section>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-5 col-xl-4 p-5 text-center">
+                    <h1 class="mb-0">Log in</h1>
+                    <h2 class="mb-3">to access the portal</h2>
+
+                    <form @submit.prevent="submit" class="row">
+                        <div class="col-md-12 mb-3">
+                            <div class="form-floating">
+                                <input type="email" class="form-control" id="email" v-model="form.email" required autofocus placeholder="Email address">
+                                <label for="email">Email address</label>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <div class="form-floating">
+                                <input type="password" class="form-control" id="password" v-model="form.password" required autocomplete="current-password" placeholder="Password">
+                                <label for="password">Password</label>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <div class="form-check text-start">
+                                <input class="form-check-input" type="checkbox" id="remember" v-model="form.remember">
+                                <label class="form-check-label" for="remember">Remember me</label>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <button class="btn btn-primary mb-3 w-100 p-2" :disabled="form.processing">
+                                Login
+                            </button>
+                        </div>
+
+                        <div>
+                            <Link v-if="canResetPassword" :href="route('password.request')">
+                                Forgot your password?
+                            </Link>
+                        </div>
+                    </form>
+
+                    <div class="mt-5">
+                        Copyright &copy; {{ currentYear }} - Jacob Timmerman
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <form @submit.prevent="submit">
-            <div>
-                <jet-label for="email" value="Email" />
-                <jet-input id="email" type="email" class="mt-1 block w-full" v-model="form.email" required autofocus />
-            </div>
-
-            <div class="mt-4">
-                <jet-label for="password" value="Password" />
-                <jet-input id="password" type="password" class="mt-1 block w-full" v-model="form.password" required autocomplete="current-password" />
-            </div>
-
-            <div class="block mt-4">
-                <label class="flex items-center">
-                    <jet-checkbox name="remember" v-model:checked="form.remember" />
-                    <span class="ml-2 text-sm text-gray-600">Remember me</span>
-                </label>
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <Link v-if="canResetPassword" :href="route('password.request')" class="underline text-sm text-gray-600 hover:text-gray-900">
-                    Forgot your password?
-                </Link>
-
-                <jet-button class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Log in <i class="fa-solid fa-angles-right"></i>
-                </jet-button>
-            </div>
-        </form>
-    </jet-authentication-card>
+    </main>
 </template>
 
 <script>
-    import { defineComponent } from 'vue'
-    import JetAuthenticationCard from '@/Jetstream/AuthenticationCard.vue'
-    import JetAuthenticationCardLogo from '@/Jetstream/AuthenticationCardLogo.vue'
-    import JetButton from '@/Jetstream/Button.vue'
-    import JetInput from '@/Jetstream/Input.vue'
-    import JetCheckbox from '@/Jetstream/Checkbox.vue'
-    import JetLabel from '@/Jetstream/Label.vue'
-    import JetValidationErrors from '@/Jetstream/ValidationErrors.vue'
     import { Head, Link } from '@inertiajs/inertia-vue3';
 
-    export default defineComponent({
+    export default {
         components: {
             Head,
-            JetAuthenticationCard,
-            JetAuthenticationCardLogo,
-            JetButton,
-            JetInput,
-            JetCheckbox,
-            JetLabel,
-            JetValidationErrors,
             Link,
         },
 
@@ -78,7 +84,8 @@
                     email: '',
                     password: '',
                     remember: false
-                })
+                }),
+                currentYear: new Date().getFullYear()
             }
         },
 
@@ -94,5 +101,12 @@
                     })
             }
         }
-    })
+    }
 </script>
+<style>
+#left-side {
+    background: #5490ff;
+    color: #fff;
+    height: 100%;
+}
+</style>
