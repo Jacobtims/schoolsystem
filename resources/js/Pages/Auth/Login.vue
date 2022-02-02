@@ -36,7 +36,7 @@
                 </Link>
 
                 <jet-button class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Log in
+                    Log in <i class="fa-solid fa-angles-right"></i>
                 </jet-button>
             </div>
         </form>
