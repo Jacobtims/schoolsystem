@@ -17,6 +17,10 @@
                     <h1 class="mb-0" style="font-size: 50px;">Log in</h1>
                     <h3 class="mb-3">om toegang te krijgen tot het portaal</h3>
 
+                    <div v-if="status" class="alert alert-success">
+                        {{ status }}
+                    </div>
+
                     <form @submit.prevent="submit" class="row">
                         <div class="col-md-12 mb-3">
                             <div class="form-floating">
