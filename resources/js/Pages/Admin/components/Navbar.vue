@@ -1,7 +1,9 @@
 <template>
     <nav class="navbar navbar-expand-sm navbar-light bg-white">
         <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
@@ -11,13 +13,15 @@
                         <a class="nav-link notifications" href="#"><i class="fa-solid fa-bell"></i></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="https://eu.ui-avatars.com/api/?size=30&name=John+Doe" class="rounded-circle profile-image"/>
-                            <span class="align-middle mx-2">John Doe</span>
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <img :src="'https://eu.ui-avatars.com/api/?size=30&name='+$page.props.user.name"
+                                 class="rounded-circle profile-image"/>
+                            <span class="align-middle mx-2">{{ $page.props.user.name }}</span>
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-<!--                            <hr/>-->
+                            <!--                            <hr/>-->
                             <a class="dropdown-item" href="#">
                                 <form @submit.prevent="logout">
                                     <button type="submit" style="background: none; border: none;">Uitloggen</button>
