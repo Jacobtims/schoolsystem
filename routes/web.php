@@ -23,3 +23,9 @@ require_once __DIR__ . '/fortify.php';
 
 // Require admin routes
 require_once __DIR__ . '/admin.php';
+
+// Require teacher routes
+require_once __DIR__ . '/teacher.php';
+
+// Require student routes
+require_once __DIR__ . '/student.php';
