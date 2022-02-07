@@ -110,12 +110,14 @@ class User extends Authenticatable
     }
 
     /**
-     * @param string $role
+     * @param $role
      * @return bool
      */
-    public function hasRole(string $role): bool
+    public function hasRole($role): bool
     {
-        $role = Role::whereName($role)->first();
+        if (!($role instanceof Role)) {
+            $role = Role::whereName($role)->first();
+        }
         if ($this->roles->contains($role)) {
             return true;
         }
@@ -138,12 +140,14 @@ class User extends Authenticatable
     }
 
     /**
-     * @param string $permission
+     * @param $permission
      * @return bool
      */
-    public function hasPermission(string $permission): bool
+    public function hasPermission($permission): bool
     {
-        $permission = Permission::whereName($permission)->first();
+        if (!($permission instanceof Permission)) {
+            $permission = Permission::whereName($permission)->first();
+        }
         if ($this->permissions->contains($permission)) {
             return true;
         }
