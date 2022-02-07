@@ -1,5 +1,5 @@
 <template>
-    <nav class="navbar navbar-expand-sm navbar-light">
+    <nav class="navbar navbar-expand-sm navbar-light" id="student-navbar">
         <div class="container-fluid">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -43,27 +43,24 @@ export default {
     }
 }
 </script>
-<style>
-.navbar {
+<style lang="scss">
+#student-navbar {
     margin: 0 -12px;
-}
 
-.nav-link {
-    font-size: 17px;
-    font-weight: 500;
-}
-
-.notifications {
-    font-size: 24px;
-    padding: 4px 8px 4px 8px;
-}
-
-.profile-image {
-    width: 30px;
-    height: 30px;
-}
-
-.dropdown-toggle::after {
-    vertical-align: middle;
+    .nav-link {
+        font-size: 17px;
+        font-weight: 500;
+    }
+    .notifications {
+        font-size: 24px;
+        padding: 4px 8px 4px 8px;
+    }
+    .profile-image {
+        width: 30px;
+        height: 30px;
+    }
+    .dropdown-toggle::after {
+        vertical-align: middle;
+    }
 }
 </style>

@@ -1,7 +1,9 @@
 <template>
-    <div class="col-lg-3 col-xl-2 d-flex flex-column vh-100 flex-shrink-0 p-3" id="sidebar">
+    <div class="col-lg-3 col-xl-2 d-flex flex-column vh-100 flex-shrink-0 p-3" id="student-sidebar">
         <a class="text-decoration-none w-100 text-center text-dark">
-            <h2 class="sidebar-title">{{ $page.props.app_name }}</h2>
+            <Link :href="route('student.dashboard')" class="text-decoration-none text-black">
+                <h2 class="sidebar-title">{{ $page.props.app_name }}</h2>
+            </Link>
         </a>
         <ul class="nav nav-pills flex-column mb-auto mt-4">
             <li class="nav-item mb-3">
@@ -28,56 +30,51 @@ export default {
     }
 }
 </script>
-<style>
-#sidebar {
-}
+<style lang="scss">
+#student-sidebar {
+    .sidebar-icon {
+        width: 18px;
+        color: #575757;
+    }
+    .sidebar-item {
+        font-size: 17px;
+        font-weight: 600;
+        color: #575757;
+    }
+    .nav-item .nav-link {
+        border-radius: 10px;
 
-#sidebar .sidebar-icon {
-    width: 18px;
-    color: #575757;
-}
+        &.active,
+        &:hover {
+            background-color: #055CFC !important;
+        }
 
-#sidebar .sidebar-item {
-    font-size: 17px;
-    font-weight: 600;
-    color: #575757;
-}
-
-#sidebar .nav-item .nav-link {
-    border-radius: 10px;
-}
-
-#sidebar .nav-link.active,
-#sidebar .nav-link:hover {
-    background-color: #055CFC !important;
-}
-#sidebar .nav-link.active .sidebar-item,
-#sidebar .nav-link.active .sidebar-icon,
-#sidebar .nav-link:hover .sidebar-item,
-#sidebar .nav-link:hover .sidebar-icon {
-    color: #fff !important;
+        &.active .sidebar-item,
+        &.active .sidebar-icon,
+        &:hover .sidebar-item,
+        &:hover .sidebar-icon {
+            color: #fff !important;
+        }
+    }
 }
 
 @media (max-width: 991.98px) {
-    #sidebar .nav-link {
-        text-align: center;
-    }
-
-    #sidebar .sidebar-icon {
-        width: max-content;
-        font-size: 25px;
-    }
-
-    #sidebar .sidebar-item {
-        display: none;
-    }
-
-    #sidebar .sidebar-title {
-        font-size: 18px;
-    }
-
-    #sidebar {
+    #student-sidebar {
         max-width: 94px;
+
+        .nav-link {
+            text-align: center;
+        }
+        .sidebar-icon {
+            width: max-content;
+            font-size: 25px;
+        }
+        .sidebar-item {
+            display: none;
+        }
+        .sidebar-title {
+            font-size: 18px;
+        }
     }
 }
 </style>

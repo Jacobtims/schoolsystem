@@ -1,5 +1,5 @@
 <template>
-    <div class="col-lg-3 col-xl-2 d-flex flex-column vh-100 flex-shrink-0 p-3 bg-white" id="sidebar">
+    <div class="col-lg-3 col-xl-2 d-flex flex-column vh-100 flex-shrink-0 p-3 bg-white" id="admin-sidebar">
         <a class="text-decoration-none w-100 text-center text-dark">
             <h2 class="sidebar-title">Admin panel</h2>
         </a>
@@ -41,49 +41,45 @@ export default {
     }
 }
 </script>
-<style>
-#sidebar {
+<style lang="scss">
+#admin-sidebar {
     border-right: 1px solid #676565;
-}
 
-.sidebar-icon {
-    width: 18px;
-    color: #575757;
-}
-
-.sidebar-item {
-    font-size: 17px;
-    font-weight: 600;
-    color: #575757;
-}
-
-.nav-link.active {
-    background-color: #F4F9FF !important;
-}
-.nav-link.active .sidebar-item, .nav-link.active .sidebar-icon {
-    color: #055CFC !important;
+    .sidebar-icon {
+        width: 18px;
+        color: #575757;
+    }
+    .sidebar-item {
+        font-size: 17px;
+        font-weight: 600;
+        color: #575757;
+    }
+    .nav-link.active {
+        background-color: #F4F9FF !important;
+    }
+    .nav-link.active .sidebar-item,
+    .nav-link.active .sidebar-icon {
+        color: #055CFC !important;
+    }
 }
 
 @media (max-width: 991.98px) {
-    .nav-link {
-        text-align: center;
-    }
-
-    .sidebar-icon {
-        width: max-content;
-        font-size: 25px;
-    }
-
-    .sidebar-item {
-        display: none;
-    }
-
-    .sidebar-title {
-        font-size: 18px;
-    }
-
-    #sidebar {
+    #admin-sidebar {
         max-width: 94px;
+
+        .nav-link {
+            text-align: center;
+        }
+        .sidebar-icon {
+            width: max-content;
+            font-size: 25px;
+        }
+        .sidebar-item {
+            display: none;
+        }
+        .sidebar-title {
+            font-size: 18px;
+        }
     }
 }
 </style>
