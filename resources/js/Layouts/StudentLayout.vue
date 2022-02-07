@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid" id="adminBackground">
+    <div class="container-fluid" id="studentBackground">
         <div class="row flex-nowrap">
             <sidebar/>
 
@@ -14,8 +14,8 @@
     </div>
 </template>
 <script>
-import Sidebar from "@/Layouts/Admin/Sidebar";
-import Navbar from "@/Layouts/Admin/Navbar";
+import Sidebar from "@/Layouts/Student/Sidebar";
+import Navbar from "@/Layouts/Student/Navbar";
 export default {
     components: {
         Navbar,
