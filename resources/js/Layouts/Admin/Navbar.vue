@@ -15,9 +15,9 @@
                     <li class="nav-item">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <img :src="'https://eu.ui-avatars.com/api/?size=30&name='+$page.props.user.name"
+                            <img :src="'https://eu.ui-avatars.com/api/?size=30&name='+$page.props.user.firstname+'+'+$page.props.user.lastname"
                                  class="rounded-circle profile-image"/>
-                            <span class="align-middle mx-2">{{ $page.props.user.name }}</span>
+                            <span class="align-middle mx-2">{{ $page.props.user.firstname }} {{ $page.props.user.lastname }}</span>
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">

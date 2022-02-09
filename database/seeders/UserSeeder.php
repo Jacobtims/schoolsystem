@@ -20,24 +20,39 @@ class UserSeeder extends Seeder
         DB::table('users')->insert([
             [
                 'id' => 1,
-                'name' => 'Admin Account',
                 'email' => 'admin@schoolsystem.nl',
                 'email_verified_at' => Carbon::now(),
-                'password' => Hash::make('test123test')
+                'password' => Hash::make('test123test'),
+                'firstname' => 'Admin',
+                'lastname' => 'Account',
+                'phone_number' => '0612345678',
+                'date_of_birth' => Carbon::now()->subYears(rand(1, 99)),
+                'zipcode' => '1234AB',
+                'street' => 'Weetnietstraat',
             ],
             [
                 'id' => 2,
-                'name' => 'Teacher Account',
                 'email' => 'teacher@schoolsystem.nl',
                 'email_verified_at' => Carbon::now(),
-                'password' => Hash::make('test123test')
+                'password' => Hash::make('test123test'),
+                'firstname' => 'Teacher',
+                'lastname' => 'Account',
+                'phone_number' => '0612345678',
+                'date_of_birth' => Carbon::now()->subYears(rand(1, 99)),
+                'zipcode' => '1234AB',
+                'street' => 'Weetnietstraat',
             ],
             [
                 'id' => 3,
-                'name' => 'Student Account',
                 'email' => 'student@schoolsystem.nl',
                 'email_verified_at' => Carbon::now(),
-                'password' => Hash::make('test123test')
+                'password' => Hash::make('test123test'),
+                'firstname' => 'Student',
+                'lastname' => 'Account',
+                'phone_number' => '0612345678',
+                'date_of_birth' => Carbon::now()->subYears(rand(1, 99)),
+                'zipcode' => '1234AB',
+                'street' => 'Weetnietstraat',
             ]
         ]);
     }
