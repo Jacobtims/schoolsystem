@@ -181,6 +181,11 @@ return [
          * Laravel IDE Helper
          */
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+
+        /*
+         * Settings provider
+         */
+        App\Providers\SettingsServiceProvider::class,
     ],
 
     /*

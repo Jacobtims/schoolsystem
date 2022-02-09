@@ -2,7 +2,7 @@
     <div class="col-lg-3 col-xl-2 d-flex flex-column vh-100 flex-shrink-0 p-3" id="student-sidebar">
         <a class="text-decoration-none w-100 text-center text-dark">
             <Link :href="route('student.dashboard')" class="text-decoration-none text-black">
-                <h2 class="sidebar-title">{{ $page.props.app_name }}</h2>
+                <h2 class="sidebar-title">{{ $page.props.settings.school_name }}</h2>
             </Link>
         </a>
         <ul class="nav nav-pills flex-column mb-auto mt-4">
