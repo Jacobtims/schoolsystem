@@ -12,11 +12,17 @@
                     <span class="ms-2 sidebar-item">Dashboard</span>
                 </Link>
             </li>
-            <li class="nav-item">
+            <li class="nav-item mb-3">
                 <a href="#" class="nav-link">
                     <i class="fa fa-first-order sidebar-icon"></i>
                     <span class="ms-2 sidebar-item">Agenda</span>
                 </a>
+            </li>
+            <li class="nav-item mb-3">
+                <Link :href="route('student.grades')" :class="{'nav-link': true, 'active': route().current('student.grades')}">
+                    <i class="fa fa-first-order sidebar-icon"></i>
+                    <span class="ms-2 sidebar-item">Cijfers</span>
+                </Link>
             </li>
         </ul>
     </div>
