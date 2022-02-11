@@ -55,5 +55,22 @@ class UserSeeder extends Seeder
                 'street' => 'Weetnietstraat',
             ]
         ]);
+
+        // Seed teacher
+        DB::table('teachers')->insert([
+            [
+                'id' => 1,
+                'user_id' => 2,
+                'abbreviation' => 'TEA'
+            ]
+        ]);
+
+        // Seed student
+        DB::table('students')->insert([
+            [
+                'id' => 1,
+                'user_id' => 3
+            ]
+        ]);
     }
 }

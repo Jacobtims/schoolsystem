@@ -13,7 +13,7 @@ class GradeController extends Controller
      */
     public function index(): \Inertia\Response
     {
-        $grades = Auth::user()->student->grades()->with('subject')->orderByDesc('created_at')
+        $grades = Auth::user()->student->grades()->with(['subject', 'teacher'])->orderByDesc('created_at')
             ->get()->groupBy('subject_id');
 
         return Inertia::render('Student/Grades', [

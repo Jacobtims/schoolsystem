@@ -12,7 +12,7 @@
         </div>
 
         <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" ref="exampleModal">
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-body" v-if="activeGrade">
@@ -39,7 +39,7 @@
                             </tr>
                             <tr>
                                 <td><strong>Docent:</strong></td>
-                                <td>???</td>
+                                <td>{{ activeGrade.teacher.student_name }}</td>
                             </tr>
                         </table>
                     </div>
