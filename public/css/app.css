@@ -11282,6 +11282,10 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+.clickable {
+  cursor: pointer;
+}
+
 #adminBackground {
   background: #F4F9FF;
 }
