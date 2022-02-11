@@ -186,6 +186,11 @@ return [
          * Settings provider
          */
         App\Providers\SettingsServiceProvider::class,
+
+        /*
+         * Laravel debugbar
+         */
+        Barryvdh\Debugbar\ServiceProvider::class,
     ],
 
     /*
