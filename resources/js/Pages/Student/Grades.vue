@@ -3,10 +3,15 @@
         <div class="card mb-3" v-for="(subject, index) in grades" :key="index">
             <div class="card-body row">
                 <h3 class="d-inline col-2">{{ subject[0]['subject']['name'] }}</h3>
-                <div v-for="grade in subject"
-                     :class="{'col-10': true, 'grade': true, 'clickable': true, 'grade-plus': grade.number > 5.4, 'grade-min': grade.number < 5.5}"
-                     data-bs-toggle="modal" data-bs-target="#exampleModal" @click="openGradeModal(grade)">
-                    {{ grade.number }}
+                <div class="col-9 row" id="grades">
+                    <div v-for="grade in subject"
+                         :class="{'grade': true, 'clickable': true, 'grade-plus': grade.number > 5.4, 'grade-min': grade.number < 5.5}"
+                         data-bs-toggle="modal" data-bs-target="#exampleModal" @click="openGradeModal(grade)">
+                        {{ grade.number }}
+                    </div>
+                </div>
+                <div :class="{'col-1': true, 'average': true, 'grade-plus': averages[index] > 5.4, 'grade-min': averages[index] < 5.5}">
+                    {{ averages[index] }}
                 </div>
             </div>
         </div>
@@ -53,7 +58,8 @@ import StudentLayout from "@/Layouts/StudentLayout";
 
 export default {
     props: {
-        grades: Object
+        grades: Object,
+        averages: Object
     },
     components: {
         StudentLayout
@@ -72,9 +78,10 @@ export default {
 }
 </script>
 <style lang="scss">
-.grade {
+.grade, .average {
     padding: 8px;
     margin-right: 16px;
+    margin-bottom: 16px;
     width: 42px;
     height: 42px;
     text-align: center;
@@ -82,6 +89,15 @@ export default {
     border-radius: 8px;
     font-size: 17px;
     font-weight: 600;
+}
+
+.average {
+    position: absolute;
+    right: 0;
+}
+
+#grades {
+    margin-bottom: -16px;
 }
 
 .grade-plus {
