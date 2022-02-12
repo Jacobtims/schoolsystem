@@ -43,10 +43,6 @@
                             </tr>
                         </table>
                     </div>
-<!--                    <div class="modal-footer">-->
-<!--                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>-->
-<!--                        <button type="button" class="btn btn-primary">Save changes</button>-->
-<!--                    </div>-->
                 </div>
             </div>
         </div>
@@ -80,6 +76,7 @@ export default {
     padding: 8px;
     margin-right: 16px;
     width: 42px;
+    height: 42px;
     text-align: center;
     background-color: #E5E5E5;
     border-radius: 8px;

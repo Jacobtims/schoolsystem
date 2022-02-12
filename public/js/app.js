@@ -23564,7 +23564,7 @@ var _hoisted_9 = {
 };
 
 var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-  "class": "fa fa-first-order sidebar-icon"
+  "class": "fa-solid fa-list-ol sidebar-icon"
 }, null, -1
 /* HOISTED */
 );
@@ -26318,7 +26318,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       /* TEXT */
       )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [_hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.activeGrade.teacher.student_name), 1
       /* TEXT */
-      )])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                    <div class=\"modal-footer\">"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                        <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">Close</button>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                        <button type=\"button\" class=\"btn btn-primary\">Save changes</button>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                    </div>")])])])];
+      )])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])];
     }),
     _: 1
     /* STABLE */
@@ -33548,7 +33548,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".grade {\n  padding: 8px;\n  margin-right: 16px;\n  width: 42px;\n  text-align: center;\n  background-color: #E5E5E5;\n  border-radius: 8px;\n  font-size: 17px;\n  font-weight: 600;\n}\n.grade-plus {\n  color: #00E60F;\n}\n.grade-min {\n  color: #E60000;\n}\n#table-grades {\n  font-size: 18px;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".grade {\n  padding: 8px;\n  margin-right: 16px;\n  width: 42px;\n  height: 42px;\n  text-align: center;\n  background-color: #E5E5E5;\n  border-radius: 8px;\n  font-size: 17px;\n  font-weight: 600;\n}\n.grade-plus {\n  color: #00E60F;\n}\n.grade-min {\n  color: #E60000;\n}\n#table-grades {\n  font-size: 18px;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

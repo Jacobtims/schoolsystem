@@ -20,7 +20,7 @@
             </li>
             <li class="nav-item mb-3">
                 <Link :href="route('student.grades')" :class="{'nav-link': true, 'active': route().current('student.grades')}">
-                    <i class="fa fa-first-order sidebar-icon"></i>
+                    <i class="fa-solid fa-list-ol sidebar-icon"></i>
                     <span class="ms-2 sidebar-item">Cijfers</span>
                 </Link>
             </li>
