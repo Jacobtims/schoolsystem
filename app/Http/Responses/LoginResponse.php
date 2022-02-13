@@ -13,11 +13,11 @@ class LoginResponse implements LoginResponseContract
      */
     public function toResponse($request)
     {
-        if (Auth::user()->hasRole('admin')) {
+        if (Auth::user()->is_admin) {
             $home = '/admin/dashboard';
-        } elseif (Auth::user()->hasRole('teacher')) {
+        } elseif (Auth::user()->is_teacher) {
             $home = '/teacher/dashboard';
-        } elseif (Auth::user()->hasRole('student')) {
+        } elseif (Auth::user()->is_student) {
             $home = '/student/dashboard';
         } else {
             $home = '/dashboard';

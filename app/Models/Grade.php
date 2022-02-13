@@ -32,6 +32,9 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @method static \Illuminate\Database\Eloquent\Builder|Grade whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Grade whereWeighting($value)
  * @mixin \Eloquent
+ * @property int $teacher_id
+ * @property-read \App\Models\Teacher $teacher
+ * @method static \Illuminate\Database\Eloquent\Builder|Grade whereTeacherId($value)
  */
 class Grade extends Model
 {
