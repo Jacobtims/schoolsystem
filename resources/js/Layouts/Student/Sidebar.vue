@@ -14,8 +14,14 @@
             </li>
             <li class="nav-item mb-3">
                 <a href="#" class="nav-link">
-                    <i class="fa fa-first-order sidebar-icon"></i>
+                    <i class="fa-solid fa-book sidebar-icon"></i>
                     <span class="ms-2 sidebar-item">Agenda</span>
+                </a>
+            </li>
+            <li class="nav-item mb-3">
+                <a href="#" class="nav-link">
+                    <i class="fa-solid fa-calendar sidebar-icon"></i>
+                    <span class="ms-2 sidebar-item">Rooster</span>
                 </a>
             </li>
             <li class="nav-item mb-3">
