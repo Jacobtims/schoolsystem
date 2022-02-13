@@ -29,6 +29,7 @@ class UserSeeder extends Seeder
                 'date_of_birth' => Carbon::now()->subYears(rand(1, 99)),
                 'zipcode' => '1234AB',
                 'street' => 'Weetnietstraat',
+                'role_id' => 1
             ],
             [
                 'id' => 2,
@@ -41,6 +42,7 @@ class UserSeeder extends Seeder
                 'date_of_birth' => Carbon::now()->subYears(rand(1, 99)),
                 'zipcode' => '1234AB',
                 'street' => 'Weetnietstraat',
+                'role_id' => 2
             ],
             [
                 'id' => 3,
@@ -53,6 +55,7 @@ class UserSeeder extends Seeder
                 'date_of_birth' => Carbon::now()->subYears(rand(1, 99)),
                 'zipcode' => '1234AB',
                 'street' => 'Weetnietstraat',
+                'role_id' => 3
             ]
         ]);
 
@@ -61,7 +64,8 @@ class UserSeeder extends Seeder
             [
                 'id' => 1,
                 'user_id' => 2,
-                'abbreviation' => 'TEA'
+                'abbreviation' => 'TEA',
+                'student_name' => 'T. Account'
             ]
         ]);
 
