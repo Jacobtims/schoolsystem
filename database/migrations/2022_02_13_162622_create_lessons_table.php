@@ -19,8 +19,8 @@ class CreateLessonsTable extends Migration
             $table->foreignId('teacher_id')->nullable()->constrained();
             $table->foreignId('school_class_id')->nullable()->constrained();
             $table->foreignId('subject_id')->constrained();
-            $table->foreignId('from')->constrained('standard_lessons', 'lesson');
-            $table->foreignId('to')->constrained('standard_lessons', 'lesson');
+            $table->date('date');
+            $table->foreignId('time')->constrained('standard_lessons');
             $table->timestamps();
         });
     }

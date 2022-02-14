@@ -23,6 +23,10 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereUserId($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Lesson[] $lessons
+ * @property-read int|null $lessons_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\SchoolClass[] $schoolClasses
+ * @property-read int|null $school_classes_count
  */
 class Student extends Model
 {
@@ -50,5 +54,13 @@ class Student extends Model
     public function schoolClasses(): BelongsToMany
     {
         return $this->belongsToMany(SchoolClass::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function lessons(): HasMany
+    {
+        return $this->hasMany(Lesson::class);
     }
 }

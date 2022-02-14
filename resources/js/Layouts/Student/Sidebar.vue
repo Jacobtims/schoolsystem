@@ -19,10 +19,10 @@
                 </a>
             </li>
             <li class="nav-item mb-3">
-                <a href="#" class="nav-link">
+                <Link :href="route('student.schedule')" :class="{'nav-link': true, 'active': route().current('student.schedule')}">
                     <i class="fa-solid fa-calendar sidebar-icon"></i>
                     <span class="ms-2 sidebar-item">Rooster</span>
-                </a>
+                </Link>
             </li>
             <li class="nav-item mb-3">
                 <Link :href="route('student.grades')" :class="{'nav-link': true, 'active': route().current('student.grades')}">

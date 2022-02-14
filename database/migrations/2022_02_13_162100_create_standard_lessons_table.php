@@ -14,9 +14,9 @@ class CreateStandardLessonsTable extends Migration
     public function up()
     {
         Schema::create('standard_lessons', function (Blueprint $table) {
-            $table->id('lesson');
-            $table->timestamp('from');
-            $table->timestamp('to');
+            $table->id();
+            $table->time('from');
+            $table->time('to');
         });
     }
 
