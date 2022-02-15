@@ -31,7 +31,7 @@ class ScheduleController extends Controller
         $period = CarbonPeriod::create($monday, $friday);
         $dates = $period->toArray();
 
-        return Inertia::render('Student/Schedule', [
+        return Inertia::render('Student/Schedule2', [
             'lessons' => $lessons,
             'standardLessons' => $standardLessons,
             'dates' => $dates
