@@ -1,27 +1,39 @@
 <template>
     <student-layout>
-        <div class="row">
-            <div class="col-2">
-                <div>-</div>
-                <div v-for="(hour, index) in standardLessons" :key="'hour'+index">
-                    <h5>{{ hour.from }} - {{ hour.to }}</h5>
-                </div>
+        <div class="card mb-3" id="schedule-navigator">
+            <div class="card-body d-flex justify-content-center">
+                <section>
+                    <button class="navigator"><i class="fa-solid fa-arrow-left"></i></button>
+                    <span class="date mx-4">{{ this.$moment(dates[0]).format('LL') }} - {{ this.$moment(dates[dates.length - 1]).format('LL') }}</span>
+                    <button class="navigator"><i class="fa-solid fa-arrow-right"></i></button>
+                </section>
             </div>
-            <div class="col-2" v-for="(day, index) in dates" :key="index">
-                <h5>{{ day }}</h5>
+        </div>
 
-                <div v-for="hour in standardLessons">
-                    <div v-if="lessons[day] && lessons[day][hour.id]">
-                        <div v-for="les in lessons[day][hour.id]">
-                            {{ les.subject.name }}
+
+        <div class="card">
+            <div class="row">
+                <div class="col-2">
+                    <div>-</div>
+                    <div v-for="(hour, index) in standardLessons" :key="'hour'+index">
+                        <h5>{{ hour.from }} - {{ hour.to }}</h5>
+                    </div>
+                </div>
+                <div class="col-2" v-for="(day, index) in dates" :key="index">
+                    <h5>{{ this.$moment(day).format('L') }}</h5>
+
+                    <div v-for="hour in standardLessons">
+                        <div v-if="lessons[this.$moment(day).format('YYYY-MM-DD')] && lessons[this.$moment(day).format('YYYY-MM-DD')][hour.id]">
+                            <span v-for="les in lessons[this.$moment(day).format('YYYY-MM-DD')][hour.id]">
+                                {{ les.subject.name }},
+                            </span>
+                        </div>
+                        <div v-else>
+                            &nbsp;
                         </div>
                     </div>
-                    <div v-else>
-                        &nbsp;
-                    </div>
                 </div>
             </div>
-
         </div>
 
         <!-- Loop through dates -> loop through standard hours -> get hours -->
@@ -42,5 +54,14 @@ export default {
 }
 </script>
 <style lang="scss">
-
+#schedule-navigator {
+    .date {
+        font-size: 18px;
+    }
+    .navigator {
+        border: 0;
+        background: none;
+        font-size: 20px;
+    }
+}
 </style>
