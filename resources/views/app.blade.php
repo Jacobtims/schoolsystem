@@ -18,6 +18,7 @@
 
         <!-- FontAwesome -->
         <script src="https://kit.fontawesome.com/6193c34507.js" crossorigin="anonymous"></script>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
     </head>
     <body class="font-sans antialiased">
         @inertia

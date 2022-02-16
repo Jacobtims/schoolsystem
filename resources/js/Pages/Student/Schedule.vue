@@ -10,6 +10,9 @@
             </div>
         </div>
 
+        <!-- https://codepen.io/JacobTimmer/pen/eYeGwVw -->
+        <!-- https://drive.google.com/file/d/1BLSbjaFuFEkEBap1taeQBfYL5Tgsp8J2/view?usp=sharing -->
+        <!-- https://www.geeksforgeeks.org/how-to-convert-jquery-to-javascript/ -->
 
         <div class="card">
             <div class="row">
