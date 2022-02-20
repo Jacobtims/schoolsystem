@@ -1,6 +1,18 @@
 <template>
     <student-layout>
-        <div id="schedule-table">
+        <div class="card mb-3" id="schedule-navigator">
+            <div class="card-body d-flex justify-content-center">
+                <section>
+                    <button class="navigator"><i class="fa-solid fa-arrow-left"></i></button>
+                    <span class="date mx-4">{{
+                            this.$moment(dates[0]).format('LL')
+                        }} - {{ this.$moment(dates[dates.length - 1]).format('LL') }}</span>
+                    <button class="navigator" @click="nextWeek"><i class="fa-solid fa-arrow-right"></i></button>
+                </section>
+            </div>
+        </div>
+
+        <div class="card card-body py-0 pe-0 w-100" id="schedule-table">
             <div class="cd-schedule js-full"> <!-- loading -->
                 <div class="timeline">
                     <ul>
@@ -24,12 +36,12 @@
                         <li><span>15:00</span></li>
                         <li><span>15:30</span></li>
                         <li><span>16:00</span></li>
-                        <!--                        <li><span>16:30</span></li>-->
-                        <!--                        <li><span>17:00</span></li>-->
-                        <!--                        <li><span>17:30</span></li>-->
-                        <!--                        <li><span>18:00</span></li>-->
+                        <!--<li><span>16:30</span></li>-->
+                        <!--<li><span>17:00</span></li>-->
+                        <!--<li><span>17:30</span></li>-->
+                        <!--<li><span>18:00</span></li>-->
                     </ul>
-                </div> <!-- .timeline -->
+                </div>
 
                 <div class="events">
                     <ul class="wrap">
@@ -195,7 +207,10 @@ export default {
     props: {
         lessons: Object,
         standardLessons: Object,
-        dates: Array
+        dates: Array,
+        data9: {
+            week: 9
+        }
     },
     components: {
         StudentLayout
@@ -225,11 +240,26 @@ export default {
             let end = eventSlotHeight * this.duration / timelineDuration;
             return (end - 1);
             // eventSlotHeight * duration / timeLineUnitDuration
+        },
+        nextWeek() {
+            this.$inertia.get(this.route('student.schedule'), this.data9, { replace: true, preserveState: true })
         }
     }
 }
 </script>
 <style lang="scss">
+#schedule-navigator {
+    .date {
+        font-size: 18px;
+    }
+
+    .navigator {
+        border: 0;
+        background: none;
+        font-size: 20px;
+    }
+}
+
 #schedule-table {
     /* Reset */
     ol, ul {
@@ -255,7 +285,7 @@ export default {
 
     .cd-schedule {
         width: 100%;
-        max-width: 1400px;
+        max-width: 1600px;
         //margin: 2em auto;
     }
 
@@ -296,29 +326,29 @@ export default {
         background: #EAEAEA;
     }
 
-    .cd-schedule .timeline li:last-of-type::after {
-        display: none;
+    //.cd-schedule .timeline li:last-of-type::after {
+    //    display: none;
+    //}
+    //
+    //.cd-schedule .timeline li span {
+    //    display: none;
+    //}
+
+    .cd-schedule .timeline li::after {
+        width: calc(100% - 48px);
+        left: 48px;
     }
 
     .cd-schedule .timeline li span {
-        display: none;
+        display: inline-block;
+        color: #575757;
+        -webkit-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
     }
 
-    @media only screen and (min-width: 1000px) {
-        .cd-schedule .timeline li::after {
-            width: calc(100% - 48px);
-            left: 48px;
-        }
-        .cd-schedule .timeline li span {
-            display: inline-block;
-            color: #575757;
-            -webkit-transform: translateY(-50%);
-            -ms-transform: translateY(-50%);
-            transform: translateY(-50%);
-        }
-        .cd-schedule .timeline li:nth-of-type(2n) span {
-            display: none;
-        }
+    .cd-schedule .timeline li:nth-of-type(2n) span {
+        display: none;
     }
 
     /* Events */
@@ -352,18 +382,14 @@ export default {
         //display: flex;
         //overflow-x: scroll;
         //-webkit-overflow-scrolling: touch;
+        /* Standard blue background */
+        //background-color: #F4F9FF;
     }
 
     .cd-schedule .events .single-event a {
         display: block;
         height: 100%;
         //padding: .8em;
-    }
-
-    @media only screen and (min-width: 550px) {
-        .cd-schedule .events .single-event {
-            width: 40%;
-        }
     }
 
     .cd-schedule .events {
@@ -375,8 +401,14 @@ export default {
         width: 20%;
         float: left;
         border: 1px solid #EAEAEA;
+        border-top: 0;
+        border-bottom: 0;
         /* reset style */
         margin-bottom: 0;
+
+        &:last-child {
+            border-right: 0;
+        }
     }
 
     .cd-schedule .events .events-group:not(:first-of-type) {
@@ -443,6 +475,7 @@ export default {
         max-width: none;
         margin-right: 0;
         overflow: hidden;
+        white-space: nowrap;
 
         background-color: #fff;
         border-radius: 8px;
@@ -463,14 +496,12 @@ export default {
         visibility: hidden;
     }
 
-    @media only screen and (min-width: 1000px) {
-        .cd-schedule .events {
-            /* 60px is the .timeline element width */
-            //width: calc(100% - 60px);
-            //margin-left: 60px;
-            width: calc(100% - 16px);
-            margin-left: 16px;
-        }
+    .cd-schedule .events {
+        /* 60px is the .timeline element width */
+        //width: calc(100% - 60px);
+        //margin-left: 60px;
+        width: calc(100% - 16px);
+        margin-left: 16px;
     }
 
     .cd-schedule.loading .events .single-event {
