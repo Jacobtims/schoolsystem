@@ -26726,29 +26726,22 @@ var _hoisted_7 = {
 var _hoisted_8 = {
   id: "day"
 };
-var _hoisted_9 = ["data-start", "data-end"];
-var _hoisted_10 = {
+var _hoisted_9 = {
   href: "#0"
 };
-var _hoisted_11 = {
+var _hoisted_10 = {
   "class": "event-name"
 };
 
-var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   "class": "event-abbreviation"
 }, "NONE", -1
 /* HOISTED */
 );
 
-var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   "class": "event-classroom"
 }, "E404", -1
-/* HOISTED */
-);
-
-var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-  "class": "cover-layer"
-}, null, -1
 /* HOISTED */
 );
 
@@ -26764,27 +26757,32 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         /* TEXT */
         ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_this.$moment(date).format('DD/MM')), 1
         /* TEXT */
-        )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.lessons[_this.$moment(date).format('YYYY-MM-DD')], function (les) {
-          return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
-            "class": "single-event",
-            "data-start": les[0].time.from,
-            "data-end": les[0].time.to,
-            "data-content": "event-abs-circuit",
-            style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-              'top': _this.eventTop(les[0].time.from) + 'px',
-              'height': _this.eventHeight(les[0].time.to) + 'px'
-            })
-          }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(les[0].subject.name), 1
-          /* TEXT */
-          ), _hoisted_12, _hoisted_13])], 12
-          /* STYLE, PROPS */
-          , _hoisted_9);
+        )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.lessons[_this.$moment(date).format('YYYY-MM-DD')], function (lesson) {
+          return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(lesson, function (les, index) {
+            return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
+              "class": "single-event",
+              style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
+                'top': _this.eventTop(les.time.from) + 'px',
+                'height': _this.eventHeight(les.time.to) + 'px',
+                'width': 100 / lesson.length + '%',
+                'left': index * (100 / lesson.length) + '%'
+              })
+            }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(les.subject.name), 1
+            /* TEXT */
+            ), _hoisted_11, _hoisted_12])], 4
+            /* STYLE */
+            );
+          }), 256
+          /* UNKEYED_FRAGMENT */
+          ))], 64
+          /* STABLE_FRAGMENT */
+          );
         }), 256
         /* UNKEYED_FRAGMENT */
         ))])]);
       }), 256
       /* UNKEYED_FRAGMENT */
-      ))])]), _hoisted_14]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" .cd-schedule ")])];
+      ))])])])])];
     }),
     _: 1
     /* STABLE */
@@ -34062,7 +34060,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "#schedule-table {\n  /* Reset */\n  /* style css */\n  /* Main Components */\n  /* Timeline */\n  /* Events */\n  /* Single event */\n}\n#schedule-table ol, #schedule-table ul {\n  list-style: none;\n}\n#schedule-table table {\n  border-collapse: collapse;\n  border-spacing: 0;\n}\n#schedule-table a {\n  color: #A2B9B2;\n  text-decoration: none;\n}\n#schedule-table .cd-schedule {\n  position: relative;\n}\n#schedule-table .cd-schedule {\n  width: 100%;\n  max-width: 1400px;\n}\n#schedule-table .cd-schedule::after {\n  clear: both;\n  content: \"\";\n  display: block;\n}\n#schedule-table .cd-schedule .timeline {\n  display: block;\n  position: absolute;\n  top: 0;\n  left: 0;\n  height: 100%;\n  width: 100%;\n  padding-top: 50px;\n}\n#schedule-table .cd-schedule .timeline ul {\n  padding-left: 0 !important;\n}\n#schedule-table .cd-schedule .timeline li {\n  position: relative;\n  height: 50px;\n}\n#schedule-table .cd-schedule .timeline li::after {\n  /* this is used to create the table horizontal lines */\n  content: \"\";\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  height: 1px;\n  background: #EAEAEA;\n}\n#schedule-table .cd-schedule .timeline li:last-of-type::after {\n  display: none;\n}\n#schedule-table .cd-schedule .timeline li span {\n  display: none;\n}\n@media only screen and (min-width: 1000px) {\n#schedule-table .cd-schedule .timeline li::after {\n    width: calc(100% - 48px);\n    left: 48px;\n}\n#schedule-table .cd-schedule .timeline li span {\n    display: inline-block;\n    color: #575757;\n    transform: translateY(-50%);\n}\n#schedule-table .cd-schedule .timeline li:nth-of-type(2n) span {\n    display: none;\n}\n}\n#schedule-table .cd-schedule .events {\n  position: relative;\n  z-index: 1;\n}\n#schedule-table .cd-schedule .events .events-group {\n  margin-bottom: 30px;\n}\n#schedule-table .cd-schedule .events .top-info {\n  width: 100%;\n  padding: 0 5%;\n}\n#schedule-table .cd-schedule .events .events-group > ul {\n  position: relative;\n  padding: 0 5%;\n  /* force its children to stay on one line */\n}\n#schedule-table .cd-schedule .events .single-event a {\n  display: block;\n  height: 100%;\n}\n@media only screen and (min-width: 550px) {\n#schedule-table .cd-schedule .events .single-event {\n    width: 40%;\n}\n}\n#schedule-table .cd-schedule .events {\n  float: left;\n  width: 100%;\n}\n#schedule-table .cd-schedule .events .events-group {\n  width: 20%;\n  float: left;\n  border: 1px solid #EAEAEA;\n  /* reset style */\n  margin-bottom: 0;\n}\n#schedule-table .cd-schedule .events .events-group:not(:first-of-type) {\n  border-left-width: 0;\n}\n#schedule-table .cd-schedule .events .top-info {\n  /* vertically center its content */\n  display: table;\n  height: 50px;\n  border-bottom: 1px solid #EAEAEA;\n  /* reset style */\n  padding: 0;\n}\n#schedule-table .cd-schedule .events .top-info span {\n  display: inline-block;\n  width: 100%;\n  vertical-align: middle;\n  text-align: center;\n}\n#schedule-table .cd-schedule .events .top-info span#day {\n  font-size: 18px;\n  font-weight: bold;\n  margin-bottom: -8px;\n  text-transform: lowercase;\n}\n#schedule-table .cd-schedule .events .top-info span#day:first-letter {\n  text-transform: uppercase;\n}\n#schedule-table .cd-schedule .events .events-group > ul {\n  height: 950px;\n  /* reset style */\n  display: block;\n  overflow: visible;\n  padding: 0;\n}\n#schedule-table .cd-schedule .events .events-group > ul::after {\n  clear: both;\n  content: \"\";\n  display: block;\n}\n#schedule-table .cd-schedule .events .events-group > ul::after {\n  /* reset style */\n  display: none;\n}\n#schedule-table .cd-schedule .events .single-event {\n  position: absolute;\n  z-index: 3;\n  /* top position and height will be set using vue */\n  width: 100%;\n  /* reset style */\n  flex-shrink: 1;\n  height: auto;\n  max-width: none;\n  margin-right: 0;\n  background-color: #fff;\n  border-radius: 8px;\n}\n#schedule-table .cd-schedule .events .single-event a {\n  padding: 8px;\n}\n#schedule-table .cd-schedule .events .single-event:last-of-type {\n  /* reset style */\n  margin-right: 0;\n}\n#schedule-table .cd-schedule .events .single-event.selected-event {\n  /* the .selected-event class is added when an user select the event */\n  visibility: hidden;\n}\n@media only screen and (min-width: 1000px) {\n#schedule-table .cd-schedule .events {\n    /* 60px is the .timeline element width */\n    width: calc(100% - 16px);\n    margin-left: 16px;\n}\n}\n#schedule-table .cd-schedule.loading .events .single-event {\n  /* the class .loading is added by default to the .cd-schedule element\n       it is removed as soon as the single events are placed in the schedule plan (using javascript) */\n  opacity: 0;\n}\n#schedule-table .cd-schedule .event-name {\n  display: block;\n  color: #000;\n  font-weight: bold;\n  font-size: 17px;\n  line-height: 1.2rem;\n}\n#schedule-table .cd-schedule .event-abbreviation,\n#schedule-table .cd-schedule .event-classroom {\n  display: block;\n  color: #575757;\n  line-height: 1.2rem;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "#schedule-table {\n  /* Reset */\n  /* style css */\n  /* Main Components */\n  /* Timeline */\n  /* Events */\n  /* Single event */\n}\n#schedule-table ol, #schedule-table ul {\n  list-style: none;\n}\n#schedule-table table {\n  border-collapse: collapse;\n  border-spacing: 0;\n}\n#schedule-table a {\n  color: #A2B9B2;\n  text-decoration: none;\n}\n#schedule-table .cd-schedule {\n  position: relative;\n}\n#schedule-table .cd-schedule {\n  width: 100%;\n  max-width: 1400px;\n}\n#schedule-table .cd-schedule::after {\n  clear: both;\n  content: \"\";\n  display: block;\n}\n#schedule-table .cd-schedule .timeline {\n  display: block;\n  position: absolute;\n  top: 0;\n  left: 0;\n  height: 100%;\n  width: 100%;\n  padding-top: 50px;\n}\n#schedule-table .cd-schedule .timeline ul {\n  padding-left: 0 !important;\n}\n#schedule-table .cd-schedule .timeline li {\n  position: relative;\n  height: 50px;\n}\n#schedule-table .cd-schedule .timeline li::after {\n  /* this is used to create the table horizontal lines */\n  content: \"\";\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  height: 1px;\n  background: #EAEAEA;\n}\n#schedule-table .cd-schedule .timeline li:last-of-type::after {\n  display: none;\n}\n#schedule-table .cd-schedule .timeline li span {\n  display: none;\n}\n@media only screen and (min-width: 1000px) {\n#schedule-table .cd-schedule .timeline li::after {\n    width: calc(100% - 48px);\n    left: 48px;\n}\n#schedule-table .cd-schedule .timeline li span {\n    display: inline-block;\n    color: #575757;\n    transform: translateY(-50%);\n}\n#schedule-table .cd-schedule .timeline li:nth-of-type(2n) span {\n    display: none;\n}\n}\n#schedule-table .cd-schedule .events {\n  position: relative;\n  z-index: 1;\n}\n#schedule-table .cd-schedule .events .events-group {\n  margin-bottom: 30px;\n}\n#schedule-table .cd-schedule .events .top-info {\n  width: 100%;\n  padding: 0 5%;\n}\n#schedule-table .cd-schedule .events .events-group > ul {\n  position: relative;\n  padding: 0 5%;\n  /* force its children to stay on one line */\n}\n#schedule-table .cd-schedule .events .single-event a {\n  display: block;\n  height: 100%;\n}\n@media only screen and (min-width: 550px) {\n#schedule-table .cd-schedule .events .single-event {\n    width: 40%;\n}\n}\n#schedule-table .cd-schedule .events {\n  float: left;\n  width: 100%;\n}\n#schedule-table .cd-schedule .events .events-group {\n  width: 20%;\n  float: left;\n  border: 1px solid #EAEAEA;\n  /* reset style */\n  margin-bottom: 0;\n}\n#schedule-table .cd-schedule .events .events-group:not(:first-of-type) {\n  border-left-width: 0;\n}\n#schedule-table .cd-schedule .events .top-info {\n  /* vertically center its content */\n  display: table;\n  height: 50px;\n  border-bottom: 1px solid #EAEAEA;\n  /* reset style */\n  padding: 0;\n}\n#schedule-table .cd-schedule .events .top-info span {\n  display: inline-block;\n  width: 100%;\n  vertical-align: middle;\n  text-align: center;\n}\n#schedule-table .cd-schedule .events .top-info span#day {\n  font-size: 18px;\n  font-weight: bold;\n  margin-bottom: -8px;\n  text-transform: lowercase;\n}\n#schedule-table .cd-schedule .events .top-info span#day:first-letter {\n  text-transform: uppercase;\n}\n#schedule-table .cd-schedule .events .events-group > ul {\n  height: 950px;\n  /* reset style */\n  display: block;\n  overflow: visible;\n  padding: 0;\n}\n#schedule-table .cd-schedule .events .events-group > ul::after {\n  clear: both;\n  content: \"\";\n  display: block;\n}\n#schedule-table .cd-schedule .events .events-group > ul::after {\n  /* reset style */\n  display: none;\n}\n#schedule-table .cd-schedule .events .single-event {\n  position: absolute;\n  z-index: 3;\n  /* top position and height will be set using vue */\n  width: 100%;\n  /* reset style */\n  flex-shrink: 1;\n  height: auto;\n  max-width: none;\n  margin-right: 0;\n  overflow: hidden;\n  background-color: #fff;\n  border-radius: 8px;\n  border: 1px solid #f6f6f6;\n}\n#schedule-table .cd-schedule .events .single-event a {\n  padding: 8px;\n}\n#schedule-table .cd-schedule .events .single-event:last-of-type {\n  /* reset style */\n  margin-right: 0;\n}\n#schedule-table .cd-schedule .events .single-event.selected-event {\n  /* the .selected-event class is added when an user select the event */\n  visibility: hidden;\n}\n@media only screen and (min-width: 1000px) {\n#schedule-table .cd-schedule .events {\n    /* 60px is the .timeline element width */\n    width: calc(100% - 16px);\n    margin-left: 16px;\n}\n}\n#schedule-table .cd-schedule.loading .events .single-event {\n  /* the class .loading is added by default to the .cd-schedule element\n       it is removed as soon as the single events are placed in the schedule plan (using javascript) */\n  opacity: 0;\n}\n#schedule-table .cd-schedule .event-name {\n  display: block;\n  color: #000;\n  font-weight: bold;\n  font-size: 17px;\n  line-height: 1.2rem;\n}\n#schedule-table .cd-schedule .event-abbreviation,\n#schedule-table .cd-schedule .event-classroom {\n  display: block;\n  color: #575757;\n  line-height: 1.2rem;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

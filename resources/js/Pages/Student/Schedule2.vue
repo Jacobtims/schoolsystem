@@ -1,6 +1,5 @@
 <template>
     <student-layout>
-
         <div id="schedule-table">
             <div class="cd-schedule js-full"> <!-- loading -->
                 <div class="timeline">
@@ -25,10 +24,10 @@
                         <li><span>15:00</span></li>
                         <li><span>15:30</span></li>
                         <li><span>16:00</span></li>
-<!--                        <li><span>16:30</span></li>-->
-<!--                        <li><span>17:00</span></li>-->
-<!--                        <li><span>17:30</span></li>-->
-<!--                        <li><span>18:00</span></li>-->
+                        <!--                        <li><span>16:30</span></li>-->
+                        <!--                        <li><span>17:00</span></li>-->
+                        <!--                        <li><span>17:30</span></li>-->
+                        <!--                        <li><span>18:00</span></li>-->
                     </ul>
                 </div> <!-- .timeline -->
 
@@ -40,24 +39,22 @@
                                 <span>{{ this.$moment(date).format('DD/MM') }}</span>
                             </div>
                             <ul>
-                                <li class="single-event" v-for="les in lessons[this.$moment(date).format('YYYY-MM-DD')]" :data-start="les[0].time.from" :data-end="les[0].time.to"
-                                    data-content="event-abs-circuit" :style="{'top': this.eventTop(les[0].time.from)+'px', 'height': this.eventHeight(les[0].time.to)+'px'}">
-
-                                    <a href="#0">
-                                        <span class="event-name">{{ les[0].subject.name }}</span>
-                                        <span class="event-abbreviation">NONE</span>
-                                        <span class="event-classroom">E404</span>
-                                    </a>
-                                </li>
+                                <template v-for="lesson in lessons[this.$moment(date).format('YYYY-MM-DD')]">
+                                    <li class="single-event" v-for="(les, index) in lesson"
+                                        :style="{'top': this.eventTop(les.time.from)+'px', 'height': this.eventHeight(les.time.to)+'px', 'width': (100 / lesson.length)+'%', 'left': (index * (100 / lesson.length))+'%'}">
+                                        <a href="#0">
+                                            <span class="event-name">{{ les.subject.name }}</span>
+                                            <span class="event-abbreviation">NONE</span>
+                                            <span class="event-classroom">E404</span>
+                                        </a>
+                                    </li>
+                                </template>
                             </ul>
                         </li>
                     </ul>
                 </div>
-
-                <div class="cover-layer"></div>
-            </div> <!-- .cd-schedule -->
+            </div>
         </div>
-
     </student-layout>
 </template>
 <script>
@@ -238,6 +235,7 @@ export default {
     ol, ul {
         list-style: none;
     }
+
     table {
         border-collapse: collapse;
         border-spacing: 0;
@@ -254,16 +252,18 @@ export default {
         position: relative;
         //margin: 2em 0;
     }
-        .cd-schedule {
-            width: 100%;
-            max-width: 1400px;
-            //margin: 2em auto;
-        }
-        .cd-schedule::after {
-            clear: both;
-            content: "";
-            display: block;
-        }
+
+    .cd-schedule {
+        width: 100%;
+        max-width: 1400px;
+        //margin: 2em auto;
+    }
+
+    .cd-schedule::after {
+        clear: both;
+        content: "";
+        display: block;
+    }
 
     /* Timeline */
     .cd-schedule .timeline {
@@ -275,13 +275,16 @@ export default {
         width: 100%;
         padding-top: 50px;
     }
+
     .cd-schedule .timeline ul {
         padding-left: 0 !important;
     }
+
     .cd-schedule .timeline li {
         position: relative;
         height: 50px;
     }
+
     .cd-schedule .timeline li::after {
         /* this is used to create the table horizontal lines */
         content: '';
@@ -292,9 +295,11 @@ export default {
         height: 1px;
         background: #EAEAEA;
     }
+
     .cd-schedule .timeline li:last-of-type::after {
         display: none;
     }
+
     .cd-schedule .timeline li span {
         display: none;
     }
@@ -365,6 +370,7 @@ export default {
         float: left;
         width: 100%;
     }
+
     .cd-schedule .events .events-group {
         width: 20%;
         float: left;
@@ -372,9 +378,11 @@ export default {
         /* reset style */
         margin-bottom: 0;
     }
+
     .cd-schedule .events .events-group:not(:first-of-type) {
         border-left-width: 0;
     }
+
     .cd-schedule .events .top-info {
         /* vertically center its content */
         display: table;
@@ -383,6 +391,7 @@ export default {
         /* reset style */
         padding: 0;
     }
+
     .cd-schedule .events .top-info span {
         display: inline-block;
         width: 100%;
@@ -394,11 +403,13 @@ export default {
             font-weight: bold;
             margin-bottom: -8px;
             text-transform: lowercase;
+
             &:first-letter {
                 text-transform: uppercase;
             }
         }
     }
+
     .cd-schedule .events .events-group > ul {
         height: 950px;
         /* reset style */
@@ -406,15 +417,18 @@ export default {
         overflow: visible;
         padding: 0;
     }
+
     .cd-schedule .events .events-group > ul::after {
         clear: both;
         content: "";
         display: block;
     }
+
     .cd-schedule .events .events-group > ul::after {
         /* reset style */
         display: none;
     }
+
     .cd-schedule .events .single-event {
         position: absolute;
         z-index: 3;
@@ -428,17 +442,22 @@ export default {
         height: auto;
         max-width: none;
         margin-right: 0;
+        overflow: hidden;
 
         background-color: #fff;
         border-radius: 8px;
+        border: 1px solid #f6f6f6;
     }
+
     .cd-schedule .events .single-event a {
         padding: 8px;
     }
+
     .cd-schedule .events .single-event:last-of-type {
         /* reset style */
         margin-right: 0;
     }
+
     .cd-schedule .events .single-event.selected-event {
         /* the .selected-event class is added when an user select the event */
         visibility: hidden;
@@ -468,6 +487,7 @@ export default {
         font-size: 17px;
         line-height: 1.2rem;
     }
+
     .cd-schedule .event-abbreviation,
     .cd-schedule .event-classroom {
         display: block;
