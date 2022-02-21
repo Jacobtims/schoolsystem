@@ -21340,148 +21340,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _Layouts_StudentLayout__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/Layouts/StudentLayout */ "./resources/js/Layouts/StudentLayout.vue");
-// jQuery(document).ready(function($) {
-//     function SchedulePlan(element) {
-//         this.element = element;
-//         this.timeline = this.element.find('.timeline');
-//         this.timelineItems = this.timeline.find('li');
-//         this.timelineItemsNumber = this.timelineItems.length;
-//         this.timelineStart = getScheduleTimestamp(this.timelineItems.eq(0).text());
-//         //need to store delta (in our case half hour) timestamp
-//         this.timelineUnitDuration = getScheduleTimestamp(this.timelineItems.eq(1).text()) - getScheduleTimestamp(this.timelineItems.eq(0).text());
-//
-//         this.eventsWrapper = this.element.find('.events');
-//         this.eventsGroup = this.eventsWrapper.find('.events-group');
-//         this.singleEvents = this.eventsGroup.find('.single-event');
-//         this.eventSlotHeight = this.eventsGroup.eq(0).children('.top-info').outerHeight();
-//
-//         console.log('eventSlotHeight: ' + this.eventSlotHeight);
-//         console.log('timelineStart: ' + this.timelineStart);
-//         console.log('timelineUnitDuration: ' + this.timelineUnitDuration);
-//
-//         this.animating = false;
-//
-//         this.initSchedule();
-//     }
-//
-//     SchedulePlan.prototype.initSchedule = function () {
-//         this.scheduleReset();
-//         this.initEvents();
-//     };
-//
-//     SchedulePlan.prototype.scheduleReset = function () {
-//         var mq = this.mq();
-//         if (mq == 'desktop' && !this.element.hasClass('js-full')) {
-//             //in this case you are on a desktop version (first load or resize from mobile)
-//             this.eventSlotHeight = this.eventsGroup.eq(0).children('.top-info').outerHeight();
-//             this.element.addClass('js-full');
-//             this.placeEvents();
-//             // this.element.hasClass('modal-is-open') && this.checkEventModal();
-//         } else if (mq == 'mobile' && this.element.hasClass('js-full')) {
-//             //in this case you are on a mobile version (first load or resize from desktop)
-//             this.element.removeClass('js-full loading');
-//             this.eventsGroup.children('ul').add(this.singleEvents).removeAttr('style');
-//             this.eventsWrapper.children('.grid-line').remove();
-//             // this.element.hasClass('modal-is-open') && this.checkEventModal();
-//         } else if (mq == 'desktop' && this.element.hasClass('modal-is-open')) {
-//             //on a mobile version with modal open - need to resize/move modal window
-//             this.checkEventModal('desktop');
-//             this.element.removeClass('loading');
-//         } else {
-//             this.element.removeClass('loading');
-//         }
-//     };
-//
-//     SchedulePlan.prototype.initEvents = function () {
-//         var self = this;
-//
-//         this.singleEvents.each(function () {
-//             //create the .event-date element for each event
-//             var durationLabel = '<span class="event-date">' + $(this).data('start') + ' - ' + $(this).data('end') + '</span>';
-//             $(this).children('a').prepend($(durationLabel));
-//         });
-//     };
-//
-//     SchedulePlan.prototype.placeEvents = function () {
-//         var self = this;
-//         this.singleEvents.each(function () {
-//             //place each event in the grid -> need to set top position and height
-//             var start = getScheduleTimestamp($(this).attr('data-start')),
-//                 duration = getScheduleTimestamp($(this).attr('data-end')) - start;
-//
-//             var eventTop = self.eventSlotHeight * (start - self.timelineStart) / self.timelineUnitDuration,
-//                 eventHeight = self.eventSlotHeight * duration / self.timelineUnitDuration;
-//
-//             $(this).css({
-//                 top: (eventTop - 1) + 'px',
-//                 height: (eventHeight + 1) + 'px'
-//             });
-//         });
-//
-//         this.element.removeClass('loading');
-//     };
-//
-//     SchedulePlan.prototype.mq = function () {
-//         //get MQ value ('desktop' or 'mobile')
-//         var self = this;
-//         return window.getComputedStyle(this.element.get(0), '::before').getPropertyValue('content').replace(/["']/g, '');
-//     };
-//
-//     var schedules = $('.cd-schedule');
-//     var objSchedulesPlan = [],
-//         windowResize = false;
-//
-//     if (schedules.length > 0) {
-//         schedules.each(function () {
-//             //create SchedulePlan objects
-//             objSchedulesPlan.push(new SchedulePlan($(this)));
-//         });
-//     }
-//
-//     $(window).on('resize', function () {
-//         if (!windowResize) {
-//             windowResize = true;
-//             (!window.requestAnimationFrame) ? setTimeout(checkResize) : window.requestAnimationFrame(checkResize);
-//         }
-//     });
-//
-//     function checkResize() {
-//         objSchedulesPlan.forEach(function (element) {
-//             element.scheduleReset();
-//         });
-//         windowResize = false;
-//     }
-//
-//     function getScheduleTimestamp(time) {
-//         //accepts hh:mm format - convert hh:mm to timestamp
-//         time = time.replace(/ /g, '');
-//         var timeArray = time.split(':');
-//         var timeStamp = parseInt(timeArray[0]) * 60 + parseInt(timeArray[1]);
-//         return timeStamp;
-//     }
-//
-//     function transformElement(element, value) {
-//         element.css({
-//             '-moz-transform': value,
-//             '-webkit-transform': value,
-//             '-ms-transform': value,
-//             '-o-transform': value,
-//             'transform': value
-//         });
-//     }
-// });
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
-    lessons: Object,
-    standardLessons: Object,
     dates: Array,
-    data9: {
-      week: 9
-    }
+    lessons: Object,
+    week: String
   },
   components: {
     StudentLayout: _Layouts_StudentLayout__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  data: function data() {
+    return {};
   },
   methods: {
     getScheduleTimestamp: function getScheduleTimestamp(time) {
@@ -21507,9 +21377,27 @@ __webpack_require__.r(__webpack_exports__);
       return end - 1; // eventSlotHeight * duration / timeLineUnitDuration
     },
     nextWeek: function nextWeek() {
-      this.$inertia.get(this.route('student.schedule'), this.data9, {
+      var weekNumber = this.week.split('-')[1];
+      weekNumber++;
+      var week = this.week.split('-')[0] + '-' + weekNumber;
+      this.$inertia.get(this.route('student.schedule'), {
+        'week': week
+      }, {
         replace: true,
-        preserveState: true
+        preserveState: true,
+        preserveScroll: true
+      });
+    },
+    previousWeek: function previousWeek() {
+      var weekNumber = this.week.split('-')[1];
+      weekNumber--;
+      var week = this.week.split('-')[0] + '-' + weekNumber;
+      this.$inertia.get(this.route('student.schedule'), {
+        'week': week
+      }, {
+        replace: true,
+        preserveState: true,
+        preserveScroll: true
       });
     }
   }
@@ -26715,68 +26603,69 @@ var _hoisted_2 = {
   "class": "card-body d-flex justify-content-center"
 };
 
-var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-  "class": "navigator"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-  "class": "fa-solid fa-arrow-left"
-})], -1
-/* HOISTED */
-);
-
-var _hoisted_4 = {
-  "class": "date mx-4"
-};
-
-var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-  "class": "fa-solid fa-arrow-right"
+var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  "class": "fa-solid fa-arrow-left",
+  title: "<"
 }, null, -1
 /* HOISTED */
 );
 
-var _hoisted_6 = [_hoisted_5];
-var _hoisted_7 = {
+var _hoisted_4 = [_hoisted_3];
+var _hoisted_5 = {
+  "class": "date mx-4"
+};
+
+var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  "class": "fa-solid fa-arrow-right",
+  title: ">"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_7 = [_hoisted_6];
+var _hoisted_8 = {
   "class": "card card-body py-0 pe-0 w-100",
   id: "schedule-table"
 };
-var _hoisted_8 = {
+var _hoisted_9 = {
   "class": "cd-schedule js-full"
 };
 
-var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "timeline"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "07:00")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "07:30")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "08:00")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "08:30")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "09:00")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "09:30")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "10:00")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "10:30")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "11:00")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "11:30")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "12:00")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "12:30")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "13:00")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "13:30")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "14:00")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "14:30")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "15:00")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "15:30")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "16:00")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("<li><span>16:30</span></li>"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("<li><span>17:00</span></li>"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("<li><span>17:30</span></li>"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("<li><span>18:00</span></li>")])], -1
 /* HOISTED */
 );
 
-var _hoisted_10 = {
+var _hoisted_11 = {
   "class": "events"
 };
-var _hoisted_11 = {
+var _hoisted_12 = {
   "class": "wrap"
 };
-var _hoisted_12 = {
+var _hoisted_13 = {
   "class": "events-group"
 };
-var _hoisted_13 = {
+var _hoisted_14 = {
   "class": "top-info"
 };
-var _hoisted_14 = {
+var _hoisted_15 = {
   id: "day"
 };
-var _hoisted_15 = {
+var _hoisted_16 = {
   href: "#0"
 };
-var _hoisted_16 = {
+var _hoisted_17 = {
   "class": "event-name"
 };
 
-var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   "class": "event-abbreviation"
 }, "NONE", -1
 /* HOISTED */
 );
 
-var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   "class": "event-classroom"
 }, "E404", -1
 /* HOISTED */
@@ -26789,15 +26678,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_student_layout, null, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", null, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_this.$moment($props.dates[0]).format('LL')) + " - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_this.$moment($props.dates[$props.dates.length - 1]).format('LL')), 1
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+        "class": "navigator",
+        onClick: _cache[0] || (_cache[0] = function () {
+          return $options.previousWeek && $options.previousWeek.apply($options, arguments);
+        })
+      }, _hoisted_4), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_this.$moment($props.dates[0]).format('LL')) + " - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_this.$moment($props.dates[$props.dates.length - 1]).format('LL')), 1
       /* TEXT */
       ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         "class": "navigator",
-        onClick: _cache[0] || (_cache[0] = function () {
+        onClick: _cache[1] || (_cache[1] = function () {
           return $options.nextWeek && $options.nextWeek.apply($options, arguments);
         })
-      }, _hoisted_6)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" loading "), _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_11, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.dates, function (date) {
-        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_this.$moment(date).format('dddd')), 1
+      }, _hoisted_7)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" loading "), _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_12, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.dates, function (date) {
+        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_this.$moment(date).format('dddd')), 1
         /* TEXT */
         ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_this.$moment(date).format('DD/MM')), 1
         /* TEXT */
@@ -26811,9 +26705,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 'width': 100 / lesson.length + '%',
                 'left': index * (100 / lesson.length) + '%'
               })
-            }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(les.subject.name), 1
+            }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(les.subject.name), 1
             /* TEXT */
-            ), _hoisted_17, _hoisted_18])], 4
+            ), _hoisted_18, _hoisted_19])], 4
             /* STYLE */
             );
           }), 256
