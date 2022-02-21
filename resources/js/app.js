@@ -4,7 +4,8 @@ import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/inertia-vue3';
 import { InertiaProgress } from '@inertiajs/progress';
 import PrimeVue from 'primevue/config';
-import 'primevue/resources/themes/bootstrap4-light-blue/theme.css';
+import 'primevue/resources/themes/bootstrap4-light-blue/theme.css';//theme
+import 'primevue/resources/primevue.min.css';//core css
 
 import moment from "moment";
 moment.locale('nl');

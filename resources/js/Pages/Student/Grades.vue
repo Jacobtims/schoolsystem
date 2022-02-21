@@ -6,7 +6,7 @@
                 <div class="col-9 row" id="grades">
                     <div v-for="grade in subject"
                          :class="{'grade': true, 'clickable': true, 'grade-plus': grade.number > 5.4, 'grade-min': grade.number < 5.5}"
-                         data-bs-toggle="modal" data-bs-target="#exampleModal" @click="openGradeModal(grade)">
+                         @click="openGradeModal(grade)">
                         {{ grade.number }}
                     </div>
                 </div>
@@ -17,8 +17,17 @@
         </div>
 
         <!-- Test modal -->
-        <Dialog v-model:visible="openModal" >
+        <Dialog v-model:visible="openModal">
+            <template #header>
+                <h3>Header</h3>
+            </template>
+
             Content
+
+            <template #footer>
+                <Button label="No" icon="pi pi-times" class="p-button-text"/>
+                <Button label="Yes" icon="pi pi-check" />
+            </template>
         </Dialog>
 
 <!--        &lt;!&ndash; Modal &ndash;&gt;-->
@@ -61,6 +70,7 @@
 <script>
 import StudentLayout from "@/Layouts/StudentLayout";
 import Dialog from 'primevue/dialog';
+import Button from 'primevue/button';
 
 export default {
     props: {
@@ -69,7 +79,8 @@ export default {
     },
     components: {
         StudentLayout,
-        Dialog
+        Dialog,
+        Button
     },
     data() {
         return {
