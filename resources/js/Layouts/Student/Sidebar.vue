@@ -12,12 +12,12 @@
                     <span class="ms-2 sidebar-item">Dashboard</span>
                 </Link>
             </li>
-            <li class="nav-item mb-3">
-                <a href="#" class="nav-link">
-                    <i class="fa-solid fa-book sidebar-icon"></i>
-                    <span class="ms-2 sidebar-item">Agenda</span>
-                </a>
-            </li>
+<!--            <li class="nav-item mb-3">-->
+<!--                <a href="#" class="nav-link">-->
+<!--                    <i class="fa-solid fa-book sidebar-icon"></i>-->
+<!--                    <span class="ms-2 sidebar-item">Agenda</span>-->
+<!--                </a>-->
+<!--            </li>-->
             <li class="nav-item mb-3">
                 <Link :href="route('student.schedule')" :class="{'nav-link': true, 'active': route().current('student.schedule')}">
                     <i class="fa-solid fa-calendar sidebar-icon"></i>
@@ -28,6 +28,12 @@
                 <Link :href="route('student.grades')" :class="{'nav-link': true, 'active': route().current('student.grades')}">
                     <i class="fa-solid fa-list-ol sidebar-icon"></i>
                     <span class="ms-2 sidebar-item">Cijfers</span>
+                </Link>
+            </li>
+            <li class="nav-item mb-3">
+                <Link :href="route('student.attendance')" :class="{'nav-link': true, 'active': route().current('student.attendance')}">
+                    <i class="fa-solid fa-check sidebar-icon"></i>
+                    <span class="ms-2 sidebar-item">Presentie</span>
                 </Link>
             </li>
         </ul>

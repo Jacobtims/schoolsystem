@@ -48,6 +48,6 @@ class Attendance extends Model
      */
     public function type(): BelongsTo
     {
-        return $this->belongsTo(Lesson::class, 'type', 'name');
+        return $this->belongsTo(AttendanceType::class, 'type', 'id');
     }
 }

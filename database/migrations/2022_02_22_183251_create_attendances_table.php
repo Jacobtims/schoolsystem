@@ -18,7 +18,7 @@ class CreateAttendancesTable extends Migration
             $table->foreignId('student_id')->constrained();
             $table->foreignId('teacher_id')->constrained();
             $table->foreignId('lesson_id')->constrained();
-            $table->foreignId('type')->constrained('attendance_types', 'name');
+            $table->foreignId('type')->constrained('attendance_types');
             $table->text('reason')->nullable();
             $table->timestamps();
         });

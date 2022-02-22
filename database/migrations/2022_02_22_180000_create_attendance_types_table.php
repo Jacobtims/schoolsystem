@@ -14,6 +14,7 @@ class CreateAttendanceTypesTable extends Migration
     public function up()
     {
         Schema::create('attendance_types', function (Blueprint $table) {
+            $table->id();
             $table->string('name')->unique();
         });
     }
