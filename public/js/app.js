@@ -21322,32 +21322,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _Layouts_StudentLayout__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/Layouts/StudentLayout */ "./resources/js/Layouts/StudentLayout.vue");
+/* harmony import */ var primevue_dialog__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! primevue/dialog */ "./node_modules/primevue/dialog/dialog.esm.js");
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: {
-    lessons: Object,
-    standardLessons: Object,
-    dates: Array
-  },
-  components: {
-    StudentLayout: _Layouts_StudentLayout__WEBPACK_IMPORTED_MODULE_0__["default"]
-  }
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Student/Schedule2.vue?vue&type=script&lang=js":
-/*!******************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Student/Schedule2.vue?vue&type=script&lang=js ***!
-  \******************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _Layouts_StudentLayout__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/Layouts/StudentLayout */ "./resources/js/Layouts/StudentLayout.vue");
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
@@ -21356,10 +21332,14 @@ __webpack_require__.r(__webpack_exports__);
     week: String
   },
   components: {
-    StudentLayout: _Layouts_StudentLayout__WEBPACK_IMPORTED_MODULE_0__["default"]
+    StudentLayout: _Layouts_StudentLayout__WEBPACK_IMPORTED_MODULE_0__["default"],
+    Dialog: primevue_dialog__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   data: function data() {
-    return {};
+    return {
+      openModal: false,
+      activeLesson: null
+    };
   },
   methods: {
     getScheduleTimestamp: function getScheduleTimestamp(time) {
@@ -21368,21 +21348,21 @@ __webpack_require__.r(__webpack_exports__);
       var timeStamp = parseInt(timeArray[0]) * 60 + parseInt(timeArray[1]);
       return timeStamp;
     },
-    eventTop: function eventTop(startDate) {
+    singleLessonTop: function singleLessonTop(startDate) {
       this.start = this.getScheduleTimestamp(startDate);
       var eventSlotHeight = 50;
       var timelineStart = 420;
       var timelineDuration = 30; // eventSlotHeight * (start - timelineStart) / timelineUnitDuration
 
       var start = eventSlotHeight * (this.start - timelineStart) / timelineDuration;
-      return start - 1;
+      return start - 2;
     },
-    eventHeight: function eventHeight(endDate) {
+    singleLessonHeight: function singleLessonHeight(endDate) {
       this.duration = this.getScheduleTimestamp(endDate) - this.start;
       var eventSlotHeight = 50;
       var timelineDuration = 30;
       var end = eventSlotHeight * this.duration / timelineDuration;
-      return end - 1; // eventSlotHeight * duration / timeLineUnitDuration
+      return end - 2; // eventSlotHeight * duration / timeLineUnitDuration
     },
     nextWeek: function nextWeek() {
       var weekNumber = this.week.split('-')[1];
@@ -21407,6 +21387,13 @@ __webpack_require__.r(__webpack_exports__);
         preserveState: true,
         preserveScroll: true
       });
+    },
+    openLessonModal: function openLessonModal(lesson) {
+      this.activeLesson = lesson;
+      this.openModal = true;
+    },
+    closeLessonModal: function closeLessonModal() {
+      this.activeLesson = null;
     }
   }
 });
@@ -26439,7 +26426,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         )])]);
       }), 128
       /* KEYED_FRAGMENT */
-      )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Dialog, {
+      )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Modal "), $data.activeGrade ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Dialog, {
+        key: 0,
         visible: $data.openModal,
         "onUpdate:visible": _cache[0] || (_cache[0] = function ($event) {
           return $data.openModal = $event;
@@ -26482,7 +26470,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
       }, 8
       /* PROPS */
-      , ["visible", "onHide"])];
+      , ["visible", "onHide"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
     }),
     _: 1
     /* STABLE */
@@ -26496,113 +26484,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 /*!*********************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Student/Schedule.vue?vue&type=template&id=331f5f98 ***!
   \*********************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* binding */ render)
-/* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-
-var _hoisted_1 = {
-  "class": "card mb-3",
-  id: "schedule-navigator"
-};
-var _hoisted_2 = {
-  "class": "card-body d-flex justify-content-center"
-};
-
-var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-  "class": "navigator"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-  "class": "fa-solid fa-arrow-left"
-})], -1
-/* HOISTED */
-);
-
-var _hoisted_4 = {
-  "class": "date mx-4"
-};
-
-var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-  "class": "navigator"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-  "class": "fa-solid fa-arrow-right"
-})], -1
-/* HOISTED */
-);
-
-var _hoisted_6 = {
-  "class": "card"
-};
-var _hoisted_7 = {
-  "class": "row"
-};
-var _hoisted_8 = {
-  "class": "col-2"
-};
-
-var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, "-", -1
-/* HOISTED */
-);
-
-var _hoisted_10 = {
-  key: 0
-};
-var _hoisted_11 = {
-  key: 1
-};
-function render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _this = this;
-
-  var _component_student_layout = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("student-layout");
-
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_student_layout, null, {
-    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", null, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_this.$moment($props.dates[0]).format('LL')) + " - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_this.$moment($props.dates[$props.dates.length - 1]).format('LL')), 1
-      /* TEXT */
-      ), _hoisted_5])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" https://codepen.io/JacobTimmer/pen/eYeGwVw "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" https://drive.google.com/file/d/1BLSbjaFuFEkEBap1taeQBfYL5Tgsp8J2/view?usp=sharing "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" https://www.geeksforgeeks.org/how-to-convert-jquery-to-javascript/ "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" https://drive.google.com/file/d/1I-Ckq3yBQ4X7f4VuQO3LlhO3nR9DYHWX/view?usp=sharing "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_hoisted_9, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.standardLessons, function (hour, index) {
-        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-          key: 'hour' + index
-        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(hour.from) + " - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(hour.to), 1
-        /* TEXT */
-        )]);
-      }), 128
-      /* KEYED_FRAGMENT */
-      ))]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.dates, function (day, index) {
-        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-          "class": "col-2",
-          key: index
-        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_this.$moment(day).format('L')), 1
-        /* TEXT */
-        ), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.standardLessons, function (hour) {
-          return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [$props.lessons[_this.$moment(day).format('YYYY-MM-DD')] && $props.lessons[_this.$moment(day).format('YYYY-MM-DD')][hour.id] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.lessons[_this.$moment(day).format('YYYY-MM-DD')][hour.id], function (les) {
-            return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(les.subject.name) + ", ", 1
-            /* TEXT */
-            );
-          }), 256
-          /* UNKEYED_FRAGMENT */
-          ))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, "   "))]);
-        }), 256
-        /* UNKEYED_FRAGMENT */
-        ))]);
-      }), 128
-      /* KEYED_FRAGMENT */
-      ))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loop through dates -> loop through standard hours -> get hours ")];
-    }),
-    _: 1
-    /* STABLE */
-
-  });
-}
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Student/Schedule2.vue?vue&type=template&id=309d40a4":
-/*!**********************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Student/Schedule2.vue?vue&type=template&id=309d40a4 ***!
-  \**********************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -26650,18 +26531,18 @@ var _hoisted_9 = {
 
 var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "timeline"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "07:00")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "07:30")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "08:00")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "08:30")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "09:00")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "09:30")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "10:00")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "10:30")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "11:00")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "11:30")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "12:00")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "12:30")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "13:00")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "13:30")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "14:00")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "14:30")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "15:00")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "15:30")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "16:00")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("<li><span>16:30</span></li>"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("<li><span>17:00</span></li>"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("<li><span>17:30</span></li>"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("<li><span>18:00</span></li>")])], -1
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "07:00")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "07:30")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "08:00")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "08:30")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "09:00")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "09:30")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "10:00")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "10:30")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "11:00")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "11:30")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "12:00")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "12:30")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "13:00")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "13:30")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "14:00")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "14:30")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "15:00")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "15:30")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "16:00")])])], -1
 /* HOISTED */
 );
 
 var _hoisted_11 = {
-  "class": "events"
+  "class": "lessons"
 };
 var _hoisted_12 = {
   "class": "wrap"
 };
 var _hoisted_13 = {
-  "class": "events-group"
+  "class": "lessons-group"
 };
 var _hoisted_14 = {
   "class": "top-info"
@@ -26669,27 +26550,52 @@ var _hoisted_14 = {
 var _hoisted_15 = {
   id: "day"
 };
-var _hoisted_16 = {
-  href: "#0"
-};
+var _hoisted_16 = ["onClick"];
 var _hoisted_17 = {
-  "class": "event-name"
+  "class": "lesson-name"
 };
 
 var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-  "class": "event-abbreviation"
+  "class": "lesson-abbreviation"
 }, "NONE", -1
 /* HOISTED */
 );
 
 var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-  "class": "event-classroom"
+  "class": "lesson-classroom"
 }, "E404", -1
+/* HOISTED */
+);
+
+var _hoisted_20 = {
+  "class": "table table-borderless",
+  id: "table-grades"
+};
+
+var _hoisted_21 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Vak:")], -1
+/* HOISTED */
+);
+
+var _hoisted_22 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Datum:")], -1
+/* HOISTED */
+);
+
+var _hoisted_23 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Tijd:")], -1
+/* HOISTED */
+);
+
+var _hoisted_24 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Docent:")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, "NONE")], -1
+/* HOISTED */
+);
+
+var _hoisted_25 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Lokaal:")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, "E404")], -1
 /* HOISTED */
 );
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _this = this;
+
+  var _component_Dialog = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Dialog");
 
   var _component_student_layout = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("student-layout");
 
@@ -26707,7 +26613,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         onClick: _cache[1] || (_cache[1] = function () {
           return $options.nextWeek && $options.nextWeek.apply($options, arguments);
         })
-      }, _hoisted_7)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" loading "), _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_12, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.dates, function (date) {
+      }, _hoisted_7)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_12, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.dates, function (date) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_this.$moment(date).format('dddd')), 1
         /* TEXT */
         ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_this.$moment(date).format('DD/MM')), 1
@@ -26715,16 +26621,23 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.lessons[_this.$moment(date).format('YYYY-MM-DD')], function (lesson) {
           return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(lesson, function (les, index) {
             return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
-              "class": "single-event",
+              "class": "single-lesson",
               style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-                'top': _this.eventTop(les.time.from) + 'px',
-                'height': _this.eventHeight(les.time.to) + 'px',
+                'top': _this.singleLessonTop(les.time.from) + 'px',
+                'height': _this.singleLessonHeight(les.time.to) + 'px',
                 'width': 100 / lesson.length + '%',
                 'left': index * (100 / lesson.length) + '%'
               })
-            }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(les.subject.name), 1
+            }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+              "class": "clickable",
+              onClick: function onClick($event) {
+                return $options.openLessonModal(les);
+              }
+            }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(les.subject.name), 1
             /* TEXT */
-            ), _hoisted_18, _hoisted_19])], 4
+            ), _hoisted_18, _hoisted_19], 8
+            /* PROPS */
+            , _hoisted_16)], 4
             /* STYLE */
             );
           }), 256
@@ -26737,7 +26650,40 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         ))])]);
       }), 256
       /* UNKEYED_FRAGMENT */
-      ))])])])])];
+      ))])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Modal "), $data.activeLesson ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Dialog, {
+        key: 0,
+        visible: $data.openModal,
+        "onUpdate:visible": _cache[2] || (_cache[2] = function ($event) {
+          return $data.openModal = $event;
+        }),
+        breakpoints: {
+          '1200px': '50vw',
+          '992px': '65vw'
+        },
+        style: {
+          width: '40vw'
+        },
+        header: $data.activeLesson.subject.name,
+        draggable: false,
+        modal: true,
+        dismissableMask: true,
+        onHide: $options.closeLessonModal
+      }, {
+        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [_hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.activeLesson.subject.name), 1
+          /* TEXT */
+          )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [_hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_this.$moment($data.activeLesson.date).format('LL')), 1
+          /* TEXT */
+          )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [_hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.activeLesson.time.from) + " - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.activeLesson.time.to), 1
+          /* TEXT */
+          )]), _hoisted_24, _hoisted_25])];
+        }),
+        _: 1
+        /* STABLE */
+
+      }, 8
+      /* PROPS */
+      , ["visible", "header", "onHide"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
     }),
     _: 1
     /* STABLE */
@@ -34100,31 +34046,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "#schedule-navigator .date {\n  font-size: 18px;\n}\n#schedule-navigator .navigator {\n  border: 0;\n  background: none;\n  font-size: 20px;\n}", ""]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-13.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-13.use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-13.use[3]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Student/Schedule2.vue?vue&type=style&index=0&id=309d40a4&lang=scss":
-/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-13.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-13.use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-13.use[3]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Student/Schedule2.vue?vue&type=style&index=0&id=309d40a4&lang=scss ***!
-  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
-// Imports
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, "#schedule-navigator .date {\n  font-size: 18px;\n}\n#schedule-navigator .navigator {\n  border: 0;\n  background: none;\n  font-size: 20px;\n}\n#schedule-table {\n  /* Reset */\n  /* style css */\n  /* Main Components */\n  /* Timeline */\n  /* Events */\n  /* Single event */\n}\n#schedule-table ol, #schedule-table ul {\n  list-style: none;\n}\n#schedule-table table {\n  border-collapse: collapse;\n  border-spacing: 0;\n}\n#schedule-table a {\n  color: #A2B9B2;\n  text-decoration: none;\n}\n#schedule-table .cd-schedule {\n  position: relative;\n}\n#schedule-table .cd-schedule {\n  width: 100%;\n  max-width: 1600px;\n}\n#schedule-table .cd-schedule::after {\n  clear: both;\n  content: \"\";\n  display: block;\n}\n#schedule-table .cd-schedule .timeline {\n  display: block;\n  position: absolute;\n  top: 0;\n  left: 0;\n  height: 100%;\n  width: 100%;\n  padding-top: 50px;\n}\n#schedule-table .cd-schedule .timeline ul {\n  padding-left: 0 !important;\n}\n#schedule-table .cd-schedule .timeline li {\n  position: relative;\n  height: 50px;\n}\n#schedule-table .cd-schedule .timeline li::after {\n  /* this is used to create the table horizontal lines */\n  content: \"\";\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  height: 1px;\n  background: #EAEAEA;\n}\n#schedule-table .cd-schedule .timeline li::after {\n  width: calc(100% - 48px);\n  left: 48px;\n}\n#schedule-table .cd-schedule .timeline li span {\n  display: inline-block;\n  color: #575757;\n  transform: translateY(-50%);\n}\n#schedule-table .cd-schedule .timeline li:nth-of-type(2n) span {\n  display: none;\n}\n#schedule-table .cd-schedule .events {\n  position: relative;\n  z-index: 1;\n}\n#schedule-table .cd-schedule .events .events-group {\n  margin-bottom: 30px;\n}\n#schedule-table .cd-schedule .events .top-info {\n  width: 100%;\n  padding: 0 5%;\n}\n#schedule-table .cd-schedule .events .events-group > ul {\n  position: relative;\n  padding: 0 5%;\n  /* force its children to stay on one line */\n  /* Standard blue background */\n}\n#schedule-table .cd-schedule .events .single-event a {\n  display: block;\n  height: 100%;\n}\n#schedule-table .cd-schedule .events {\n  float: left;\n  width: 100%;\n}\n#schedule-table .cd-schedule .events .events-group {\n  width: 20%;\n  float: left;\n  border: 1px solid #EAEAEA;\n  border-top: 0;\n  border-bottom: 0;\n  /* reset style */\n  margin-bottom: 0;\n}\n#schedule-table .cd-schedule .events .events-group:last-child {\n  border-right: 0;\n}\n#schedule-table .cd-schedule .events .events-group:not(:first-of-type) {\n  border-left-width: 0;\n}\n#schedule-table .cd-schedule .events .top-info {\n  /* vertically center its content */\n  display: table;\n  height: 50px;\n  border-bottom: 1px solid #EAEAEA;\n  /* reset style */\n  padding: 0;\n}\n#schedule-table .cd-schedule .events .top-info span {\n  display: inline-block;\n  width: 100%;\n  vertical-align: middle;\n  text-align: center;\n}\n#schedule-table .cd-schedule .events .top-info span#day {\n  font-size: 18px;\n  font-weight: bold;\n  margin-bottom: -8px;\n  text-transform: lowercase;\n}\n#schedule-table .cd-schedule .events .top-info span#day:first-letter {\n  text-transform: uppercase;\n}\n#schedule-table .cd-schedule .events .events-group > ul {\n  height: 950px;\n  /* reset style */\n  display: block;\n  overflow: visible;\n  padding: 0;\n}\n#schedule-table .cd-schedule .events .events-group > ul::after {\n  clear: both;\n  content: \"\";\n  display: block;\n}\n#schedule-table .cd-schedule .events .events-group > ul::after {\n  /* reset style */\n  display: none;\n}\n#schedule-table .cd-schedule .events .single-event {\n  position: absolute;\n  z-index: 3;\n  /* top position and height will be set using vue */\n  width: 100%;\n  /* reset style */\n  flex-shrink: 1;\n  height: auto;\n  max-width: none;\n  margin-right: 0;\n  overflow: hidden;\n  white-space: nowrap;\n  background-color: #fff;\n  border-radius: 8px;\n  border: 1px solid #f6f6f6;\n}\n#schedule-table .cd-schedule .events .single-event a {\n  padding: 8px;\n}\n#schedule-table .cd-schedule .events .single-event:last-of-type {\n  /* reset style */\n  margin-right: 0;\n}\n#schedule-table .cd-schedule .events .single-event.selected-event {\n  /* the .selected-event class is added when an user select the event */\n  visibility: hidden;\n}\n#schedule-table .cd-schedule .events {\n  /* 60px is the .timeline element width */\n  width: calc(100% - 16px);\n  margin-left: 16px;\n}\n#schedule-table .cd-schedule.loading .events .single-event {\n  /* the class .loading is added by default to the .cd-schedule element\n       it is removed as soon as the single events are placed in the schedule plan (using javascript) */\n  opacity: 0;\n}\n#schedule-table .cd-schedule .event-name {\n  display: block;\n  color: #000;\n  font-weight: bold;\n  font-size: 17px;\n  line-height: 1.2rem;\n}\n#schedule-table .cd-schedule .event-abbreviation,\n#schedule-table .cd-schedule .event-classroom {\n  display: block;\n  color: #575757;\n  line-height: 1.2rem;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "#schedule-navigator .date {\n  font-size: 18px;\n}\n#schedule-navigator .navigator {\n  border: 0;\n  background: none;\n  font-size: 20px;\n}\n#schedule-table {\n  /* Reset */\n  /* style css */\n  /* Main Components */\n  /* Timeline */\n  /* Events */\n  /* Single event */\n}\n#schedule-table ol, #schedule-table ul {\n  list-style: none;\n}\n#schedule-table table {\n  border-collapse: collapse;\n  border-spacing: 0;\n}\n#schedule-table a {\n  color: #A2B9B2;\n  text-decoration: none;\n}\n#schedule-table .cd-schedule {\n  position: relative;\n}\n#schedule-table .cd-schedule {\n  width: 100%;\n  max-width: 1600px;\n}\n#schedule-table .cd-schedule::after {\n  clear: both;\n  content: \"\";\n  display: block;\n}\n#schedule-table .cd-schedule .timeline {\n  display: block;\n  position: absolute;\n  top: 0;\n  left: 0;\n  height: 100%;\n  width: 100%;\n  padding-top: 50px;\n}\n#schedule-table .cd-schedule .timeline ul {\n  padding-left: 0 !important;\n}\n#schedule-table .cd-schedule .timeline li {\n  position: relative;\n  height: 50px;\n  z-index: 2;\n}\n#schedule-table .cd-schedule .timeline li::after {\n  /* this is used to create the table horizontal lines */\n  content: \"\";\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  height: 1px;\n  background: #EAEAEA;\n}\n#schedule-table .cd-schedule .timeline li::after {\n  width: calc(100% - 48px);\n  left: 48px;\n}\n#schedule-table .cd-schedule .timeline li span {\n  display: inline-block;\n  color: #575757;\n  transform: translateY(-50%);\n}\n#schedule-table .cd-schedule .timeline li:nth-of-type(2n) span {\n  display: none;\n}\n#schedule-table .cd-schedule .lessons {\n  position: relative;\n}\n#schedule-table .cd-schedule .lessons .lessons-group {\n  margin-bottom: 30px;\n  /* Standard blue background */\n  background-color: #F4F9FF;\n}\n#schedule-table .cd-schedule .lessons .top-info {\n  width: 100%;\n  padding: 0 5%;\n  background-color: #fff;\n}\n#schedule-table .cd-schedule .lessons .lessons-group > ul {\n  position: relative;\n  padding: 0 5%;\n  z-index: 3;\n}\n#schedule-table .cd-schedule .lessons .single-lesson a {\n  display: block;\n  height: 100%;\n}\n#schedule-table .cd-schedule .lessons {\n  float: left;\n  width: 100%;\n}\n#schedule-table .cd-schedule .lessons .lessons-group {\n  width: 20%;\n  float: left;\n  border: 1px solid #EAEAEA;\n  border-top: 0;\n  border-bottom: 0;\n  /* reset style */\n  margin-bottom: 0;\n}\n#schedule-table .cd-schedule .lessons .lessons-group:last-child {\n  border-right: 0;\n}\n#schedule-table .cd-schedule .lessons .lessons-group:not(:first-of-type) {\n  border-left-width: 0;\n}\n#schedule-table .cd-schedule .lessons .top-info {\n  /* vertically center its content */\n  display: table;\n  height: 50px;\n  border-bottom: 1px solid #EAEAEA;\n  /* reset style */\n  padding: 0;\n}\n#schedule-table .cd-schedule .lessons .top-info span {\n  display: inline-block;\n  width: 100%;\n  vertical-align: middle;\n  text-align: center;\n}\n#schedule-table .cd-schedule .lessons .top-info span#day {\n  font-size: 18px;\n  font-weight: bold;\n  margin-bottom: -8px;\n  text-transform: lowercase;\n}\n#schedule-table .cd-schedule .lessons .top-info span#day:first-letter {\n  text-transform: uppercase;\n}\n#schedule-table .cd-schedule .lessons .lessons-group > ul {\n  height: 950px;\n  /* reset style */\n  display: block;\n  overflow: visible;\n  padding: 0;\n}\n#schedule-table .cd-schedule .lessons .lessons-group > ul::after {\n  clear: both;\n  content: \"\";\n  display: block;\n}\n#schedule-table .cd-schedule .lessons .lessons-group > ul::after {\n  /* reset style */\n  display: none;\n}\n#schedule-table .cd-schedule .lessons .single-lesson {\n  position: absolute;\n  z-index: 3;\n  /* top position and height will be set using vue */\n  width: 100%;\n  /* reset style */\n  flex-shrink: 1;\n  height: auto;\n  max-width: none;\n  margin-right: 0;\n  overflow: hidden;\n  white-space: nowrap;\n  background-color: #fff;\n  border-radius: 8px;\n  border: 1px solid #f6f6f6;\n}\n#schedule-table .cd-schedule .lessons .single-lesson a {\n  padding: 8px;\n}\n#schedule-table .cd-schedule .lessons .single-lesson:last-of-type {\n  /* reset style */\n  margin-right: 0;\n}\n#schedule-table .cd-schedule .lessons {\n  /* 60px is the .timeline element width */\n  width: calc(100% - 16px);\n  margin-left: 16px;\n}\n#schedule-table .cd-schedule .lesson-name {\n  display: block;\n  color: #000;\n  font-weight: bold;\n  font-size: 17px;\n  line-height: 1.2rem;\n}\n#schedule-table .cd-schedule .lesson-abbreviation,\n#schedule-table .cd-schedule .lesson-classroom {\n  display: block;\n  color: #575757;\n  line-height: 1.2rem;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -82086,36 +82008,6 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
-/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-13.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-13.use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-13.use[3]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Student/Schedule2.vue?vue&type=style&index=0&id=309d40a4&lang=scss":
-/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-13.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-13.use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-13.use[3]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Student/Schedule2.vue?vue&type=style&index=0&id=309d40a4&lang=scss ***!
-  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_13_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_13_use_2_node_modules_sass_loader_dist_cjs_js_clonedRuleSet_13_use_3_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Schedule2_vue_vue_type_style_index_0_id_309d40a4_lang_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-13.use[1]!../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-13.use[2]!../../../../node_modules/sass-loader/dist/cjs.js??clonedRuleSet-13.use[3]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Schedule2.vue?vue&type=style&index=0&id=309d40a4&lang=scss */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-13.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-13.use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-13.use[3]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Student/Schedule2.vue?vue&type=style&index=0&id=309d40a4&lang=scss");
-
-            
-
-var options = {};
-
-options.insert = "head";
-options.singleton = false;
-
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_13_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_13_use_2_node_modules_sass_loader_dist_cjs_js_clonedRuleSet_13_use_3_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Schedule2_vue_vue_type_style_index_0_id_309d40a4_lang_scss__WEBPACK_IMPORTED_MODULE_1__["default"], options);
-
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_13_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_13_use_2_node_modules_sass_loader_dist_cjs_js_clonedRuleSet_13_use_3_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Schedule2_vue_vue_type_style_index_0_id_309d40a4_lang_scss__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
-
-/***/ }),
-
 /***/ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js":
 /*!****************************************************************************!*\
   !*** ./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js ***!
@@ -83946,37 +83838,6 @@ if (false) {}
 
 /***/ }),
 
-/***/ "./resources/js/Pages/Student/Schedule2.vue":
-/*!**************************************************!*\
-  !*** ./resources/js/Pages/Student/Schedule2.vue ***!
-  \**************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _Schedule2_vue_vue_type_template_id_309d40a4__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Schedule2.vue?vue&type=template&id=309d40a4 */ "./resources/js/Pages/Student/Schedule2.vue?vue&type=template&id=309d40a4");
-/* harmony import */ var _Schedule2_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Schedule2.vue?vue&type=script&lang=js */ "./resources/js/Pages/Student/Schedule2.vue?vue&type=script&lang=js");
-/* harmony import */ var _Schedule2_vue_vue_type_style_index_0_id_309d40a4_lang_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Schedule2.vue?vue&type=style&index=0&id=309d40a4&lang=scss */ "./resources/js/Pages/Student/Schedule2.vue?vue&type=style&index=0&id=309d40a4&lang=scss");
-/* harmony import */ var C_Users_Jacob14_schoolsystem_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
-
-
-
-
-;
-
-
-const __exports__ = /*#__PURE__*/(0,C_Users_Jacob14_schoolsystem_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_Schedule2_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_Schedule2_vue_vue_type_template_id_309d40a4__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/Pages/Student/Schedule2.vue"]])
-/* hot reload */
-if (false) {}
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
-
-/***/ }),
-
 /***/ "./resources/js/Pages/TermsOfService.vue":
 /*!***********************************************!*\
   !*** ./resources/js/Pages/TermsOfService.vue ***!
@@ -84785,22 +84646,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Schedule_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Schedule_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Schedule.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Student/Schedule.vue?vue&type=script&lang=js");
- 
-
-/***/ }),
-
-/***/ "./resources/js/Pages/Student/Schedule2.vue?vue&type=script&lang=js":
-/*!**************************************************************************!*\
-  !*** ./resources/js/Pages/Student/Schedule2.vue?vue&type=script&lang=js ***!
-  \**************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Schedule2_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Schedule2_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Schedule2.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Student/Schedule2.vue?vue&type=script&lang=js");
  
 
 /***/ }),
@@ -85685,22 +85530,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/Pages/Student/Schedule2.vue?vue&type=template&id=309d40a4":
-/*!********************************************************************************!*\
-  !*** ./resources/js/Pages/Student/Schedule2.vue?vue&type=template&id=309d40a4 ***!
-  \********************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Schedule2_vue_vue_type_template_id_309d40a4__WEBPACK_IMPORTED_MODULE_0__.render)
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Schedule2_vue_vue_type_template_id_309d40a4__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Schedule2.vue?vue&type=template&id=309d40a4 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Student/Schedule2.vue?vue&type=template&id=309d40a4");
-
-
-/***/ }),
-
 /***/ "./resources/js/Pages/TermsOfService.vue?vue&type=template&id=63d45180":
 /*!*****************************************************************************!*\
   !*** ./resources/js/Pages/TermsOfService.vue?vue&type=template&id=63d45180 ***!
@@ -85830,19 +85659,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_13_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_13_use_2_node_modules_sass_loader_dist_cjs_js_clonedRuleSet_13_use_3_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Schedule_vue_vue_type_style_index_0_id_331f5f98_lang_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-13.use[1]!../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-13.use[2]!../../../../node_modules/sass-loader/dist/cjs.js??clonedRuleSet-13.use[3]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Schedule.vue?vue&type=style&index=0&id=331f5f98&lang=scss */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-13.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-13.use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-13.use[3]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Student/Schedule.vue?vue&type=style&index=0&id=331f5f98&lang=scss");
-
-
-/***/ }),
-
-/***/ "./resources/js/Pages/Student/Schedule2.vue?vue&type=style&index=0&id=309d40a4&lang=scss":
-/*!***********************************************************************************************!*\
-  !*** ./resources/js/Pages/Student/Schedule2.vue?vue&type=style&index=0&id=309d40a4&lang=scss ***!
-  \***********************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_13_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_13_use_2_node_modules_sass_loader_dist_cjs_js_clonedRuleSet_13_use_3_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Schedule2_vue_vue_type_style_index_0_id_309d40a4_lang_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-13.use[1]!../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-13.use[2]!../../../../node_modules/sass-loader/dist/cjs.js??clonedRuleSet-13.use[3]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Schedule2.vue?vue&type=style&index=0&id=309d40a4&lang=scss */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-13.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-13.use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-13.use[3]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Student/Schedule2.vue?vue&type=style&index=0&id=309d40a4&lang=scss");
 
 
 /***/ }),
@@ -86104,7 +85920,6 @@ var map = {
 	"./Student/Dashboard.vue": "./resources/js/Pages/Student/Dashboard.vue",
 	"./Student/Grades.vue": "./resources/js/Pages/Student/Grades.vue",
 	"./Student/Schedule.vue": "./resources/js/Pages/Student/Schedule.vue",
-	"./Student/Schedule2.vue": "./resources/js/Pages/Student/Schedule2.vue",
 	"./TermsOfService.vue": "./resources/js/Pages/TermsOfService.vue"
 };
 

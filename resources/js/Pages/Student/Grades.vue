@@ -18,7 +18,7 @@
 
         <!-- Modal -->
         <Dialog v-model:visible="openModal" :breakpoints="{'1200px': '50vw', '992px': '65vw'}" :style="{width: '40vw'}" header="&nbsp;"
-                :draggable="false" :modal="true" :dismissableMask="true" @hide="closeGradeModal">
+                :draggable="false" :modal="true" :dismissableMask="true" @hide="closeGradeModal" v-if="activeGrade">
             <table class="table table-borderless" id="table-grades">
                 <tr>
                     <td><strong>Vak:</strong></td>
