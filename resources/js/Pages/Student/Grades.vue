@@ -17,7 +17,7 @@
         </div>
 
         <!-- Modal -->
-        <Dialog v-model:visible="openModal" :breakpoints="{'960px': '75vw'}" :style="{width: '50vw'}" header="&nbsp;"
+        <Dialog v-model:visible="openModal" :breakpoints="{'1200px': '50vw', '992px': '65vw'}" :style="{width: '40vw'}" header="&nbsp;"
                 :draggable="false" :modal="true" :dismissableMask="true" @hide="closeGradeModal">
             <table class="table table-borderless" id="table-grades">
                 <tr>
