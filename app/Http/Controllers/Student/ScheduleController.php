@@ -42,7 +42,7 @@ class ScheduleController extends Controller
         }, 'time']);
 
         // Return
-        return Inertia::render('Student/Schedule2', [
+        return Inertia::render('Student/Schedule', [
             'dates' => $dates,
             'lessons' => $lessons,
             'week' => $week

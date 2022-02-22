@@ -3,58 +3,172 @@
         <div class="card mb-3" id="schedule-navigator">
             <div class="card-body d-flex justify-content-center">
                 <section>
-                    <button class="navigator"><i class="fa-solid fa-arrow-left"></i></button>
-                    <span class="date mx-4">{{ this.$moment(dates[0]).format('LL') }} - {{ this.$moment(dates[dates.length - 1]).format('LL') }}</span>
-                    <button class="navigator"><i class="fa-solid fa-arrow-right"></i></button>
+                    <button class="navigator" @click="previousWeek"><i class="fa-solid fa-arrow-left" title="<"></i>
+                    </button>
+                    <span class="date mx-4">{{ this.$moment(dates[0]).format('LL') }} -
+                        {{ this.$moment(dates[dates.length - 1]).format('LL') }}</span>
+                    <button class="navigator" @click="nextWeek"><i class="fa-solid fa-arrow-right" title=">"></i>
+                    </button>
                 </section>
             </div>
         </div>
 
-        <!-- https://codepen.io/JacobTimmer/pen/eYeGwVw -->
-        <!-- https://drive.google.com/file/d/1BLSbjaFuFEkEBap1taeQBfYL5Tgsp8J2/view?usp=sharing -->
-        <!-- https://www.geeksforgeeks.org/how-to-convert-jquery-to-javascript/ -->
-        <!-- https://drive.google.com/file/d/1I-Ckq3yBQ4X7f4VuQO3LlhO3nR9DYHWX/view?usp=sharing -->
-
-        <div class="card">
-            <div class="row">
-                <div class="col-2">
-                    <div>-</div>
-                    <div v-for="(hour, index) in standardLessons" :key="'hour'+index">
-                        <h5>{{ hour.from }} - {{ hour.to }}</h5>
-                    </div>
+        <div class="card card-body py-0 pe-0 w-100" id="schedule-table">
+            <div class="cd-schedule js-full">
+                <div class="timeline">
+                    <ul>
+                        <li><span>07:00</span></li>
+                        <li><span>07:30</span></li>
+                        <li><span>08:00</span></li>
+                        <li><span>08:30</span></li>
+                        <li><span>09:00</span></li>
+                        <li><span>09:30</span></li>
+                        <li><span>10:00</span></li>
+                        <li><span>10:30</span></li>
+                        <li><span>11:00</span></li>
+                        <li><span>11:30</span></li>
+                        <li><span>12:00</span></li>
+                        <li><span>12:30</span></li>
+                        <li><span>13:00</span></li>
+                        <li><span>13:30</span></li>
+                        <li><span>14:00</span></li>
+                        <li><span>14:30</span></li>
+                        <li><span>15:00</span></li>
+                        <li><span>15:30</span></li>
+                        <li><span>16:00</span></li>
+                    </ul>
                 </div>
-                <div class="col-2" v-for="(day, index) in dates" :key="index">
-                    <h5>{{ this.$moment(day).format('L') }}</h5>
 
-                    <div v-for="hour in standardLessons">
-                        <div v-if="lessons[this.$moment(day).format('YYYY-MM-DD')] && lessons[this.$moment(day).format('YYYY-MM-DD')][hour.id]">
-                            <span v-for="les in lessons[this.$moment(day).format('YYYY-MM-DD')][hour.id]">
-                                {{ les.subject.name }},
-                            </span>
-                        </div>
-                        <div v-else>
-                            &nbsp;
-                        </div>
-                    </div>
+                <div class="lessons">
+                    <ul class="wrap">
+                        <li class="lessons-group" v-for="date in dates">
+                            <div class="top-info">
+                                <span id="day">{{ this.$moment(date).format('dddd') }}</span>
+                                <span>{{ this.$moment(date).format('DD/MM') }}</span>
+                            </div>
+                            <ul>
+                                <template v-for="lesson in lessons[this.$moment(date).format('YYYY-MM-DD')]" style="position: relative; z-index: 10;">
+                                    <li class="single-lesson" v-for="(les, index) in lesson"
+                                        :style="{'top': this.singleLessonTop(les.time.from)+'px', 'height': this.singleLessonHeight(les.time.to)+'px', 'width': (100 / lesson.length)+'%', 'left': (index * (100 / lesson.length))+'%'}">
+                                        <a class="clickable" @click="openLessonModal(les)">
+                                            <span class="lesson-name">{{ les.subject.name }}</span>
+                                            <span class="lesson-abbreviation">NONE</span>
+                                            <span class="lesson-classroom">E404</span>
+                                        </a>
+                                    </li>
+                                </template>
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
 
-        <!-- Loop through dates -> loop through standard hours -> get hours -->
+        <!-- Modal -->
+        <Dialog v-model:visible="openModal" :breakpoints="{'1200px': '50vw', '992px': '65vw'}" :style="{width: '40vw'}"
+                :header="activeLesson.subject.name" :draggable="false" :modal="true" :dismissableMask="true"
+                @hide="closeLessonModal" v-if="activeLesson">
+            <table class="table table-borderless" id="table-grades">
+                <tr>
+                    <td><strong>Vak:</strong></td>
+                    <td>{{ activeLesson.subject.name }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Datum:</strong></td>
+                    <td>{{ this.$moment(activeLesson.date).format('LL') }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Tijd:</strong></td>
+                    <td>{{ activeLesson.time.from }} - {{ activeLesson.time.to }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Docent:</strong></td>
+                    <td>NONE</td>
+                </tr>
+                <tr>
+                    <td><strong>Lokaal:</strong></td>
+                    <td>E404</td>
+                </tr>
+            </table>
+        </Dialog>
     </student-layout>
 </template>
 <script>
 import StudentLayout from "@/Layouts/StudentLayout";
+import Dialog from "primevue/dialog";
 
 export default {
     props: {
+        dates: Array,
         lessons: Object,
-        standardLessons: Object,
-        dates: Array
+        week: String
     },
     components: {
-        StudentLayout
+        StudentLayout,
+        Dialog
     },
+    data() {
+        return {
+            openModal: false,
+            activeLesson: null
+        }
+    },
+    methods: {
+        getScheduleTimestamp(time) {
+            time = time.replace(/ /g, '');
+            let timeArray = time.split(':');
+            let timeStamp = parseInt(timeArray[0]) * 60 + parseInt(timeArray[1]);
+            return timeStamp;
+        },
+        singleLessonTop(startDate) {
+            this.start = this.getScheduleTimestamp(startDate);
+            let eventSlotHeight = 50;
+            let timelineStart = 420;
+            let timelineDuration = 30;
+
+            // eventSlotHeight * (start - timelineStart) / timelineUnitDuration
+            let start = eventSlotHeight * (this.start - timelineStart) / timelineDuration;
+            return (start - 2);
+        },
+        singleLessonHeight(endDate) {
+            this.duration = this.getScheduleTimestamp(endDate) - this.start;
+            let eventSlotHeight = 50;
+            let timelineDuration = 30;
+
+            let end = eventSlotHeight * this.duration / timelineDuration;
+            return (end - 2);
+            // eventSlotHeight * duration / timeLineUnitDuration
+        },
+        nextWeek() {
+            let weekNumber = this.week.split('-')[1];
+            weekNumber++;
+            let week = this.week.split('-')[0] + '-' + weekNumber;
+
+            this.$inertia.get(this.route('student.schedule'), {'week': week}, {
+                replace: true,
+                preserveState: true,
+                preserveScroll: true
+            })
+        },
+        previousWeek() {
+            let weekNumber = this.week.split('-')[1];
+            weekNumber--;
+            let week = this.week.split('-')[0] + '-' + weekNumber;
+
+            this.$inertia.get(this.route('student.schedule'), {'week': week}, {
+                replace: true,
+                preserveState: true,
+                preserveScroll: true
+            })
+        },
+        openLessonModal(lesson) {
+            this.activeLesson = lesson;
+            this.openModal = true;
+        },
+        closeLessonModal() {
+            this.activeLesson = null;
+        }
+    }
 }
 </script>
 <style lang="scss">
@@ -62,10 +176,247 @@ export default {
     .date {
         font-size: 18px;
     }
+
     .navigator {
         border: 0;
         background: none;
         font-size: 20px;
+    }
+}
+
+#schedule-table {
+    /* Reset */
+    ol, ul {
+        list-style: none;
+    }
+
+    table {
+        border-collapse: collapse;
+        border-spacing: 0;
+    }
+
+    /* style css */
+    a {
+        color: #A2B9B2;
+        text-decoration: none;
+    }
+
+    /* Main Components */
+    .cd-schedule {
+        position: relative;
+        //margin: 2em 0;
+    }
+
+    .cd-schedule {
+        width: 100%;
+        max-width: 1600px;
+        //margin: 2em auto;
+    }
+
+    .cd-schedule::after {
+        clear: both;
+        content: "";
+        display: block;
+    }
+
+    /* Timeline */
+    .cd-schedule .timeline {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        padding-top: 50px;
+    }
+
+    .cd-schedule .timeline ul {
+        padding-left: 0 !important;
+    }
+
+    .cd-schedule .timeline li {
+        position: relative;
+        height: 50px;
+        z-index: 2;
+    }
+
+    .cd-schedule .timeline li::after {
+        /* this is used to create the table horizontal lines */
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background: #EAEAEA;
+    }
+
+    .cd-schedule .timeline li::after {
+        width: calc(100% - 48px);
+        left: 48px;
+    }
+
+    .cd-schedule .timeline li span {
+        display: inline-block;
+        color: #575757;
+        -webkit-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+    }
+
+    .cd-schedule .timeline li:nth-of-type(2n) span {
+        display: none;
+    }
+
+    /* Events */
+    .cd-schedule .lessons {
+        position: relative;
+    }
+
+    .cd-schedule .lessons .lessons-group {
+        margin-bottom: 30px;
+        /* Standard blue background */
+        background-color: #F4F9FF;
+    }
+
+    .cd-schedule .lessons .top-info {
+        width: 100%;
+        padding: 0 5%;
+        background-color: #fff;
+    }
+
+    .cd-schedule .lessons .lessons-group > ul {
+        position: relative;
+        padding: 0 5%;
+        z-index: 3;
+
+    }
+
+    .cd-schedule .lessons .single-lesson a {
+        display: block;
+        height: 100%;
+        //padding: .8em;
+    }
+
+    .cd-schedule .lessons {
+        float: left;
+        width: 100%;
+    }
+
+    .cd-schedule .lessons .lessons-group {
+        width: 20%;
+        float: left;
+        border: 1px solid #EAEAEA;
+        border-top: 0;
+        border-bottom: 0;
+        /* reset style */
+        margin-bottom: 0;
+
+        &:last-child {
+            border-right: 0;
+        }
+    }
+
+    .cd-schedule .lessons .lessons-group:not(:first-of-type) {
+        border-left-width: 0;
+    }
+
+    .cd-schedule .lessons .top-info {
+        /* vertically center its content */
+        display: table;
+        height: 50px;
+        border-bottom: 1px solid #EAEAEA;
+        /* reset style */
+        padding: 0;
+    }
+
+    .cd-schedule .lessons .top-info span {
+        display: inline-block;
+        width: 100%;
+        vertical-align: middle;
+        text-align: center;
+
+        &#day {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: -8px;
+            text-transform: lowercase;
+
+            &:first-letter {
+                text-transform: uppercase;
+            }
+        }
+    }
+
+    .cd-schedule .lessons .lessons-group > ul {
+        height: 950px;
+        /* reset style */
+        display: block;
+        overflow: visible;
+        padding: 0;
+    }
+
+    .cd-schedule .lessons .lessons-group > ul::after {
+        clear: both;
+        content: "";
+        display: block;
+    }
+
+    .cd-schedule .lessons .lessons-group > ul::after {
+        /* reset style */
+        display: none;
+    }
+
+    .cd-schedule .lessons .single-lesson {
+        position: absolute;
+        z-index: 3;
+        /* top position and height will be set using vue */
+        width: 100%;
+        /* reset style */
+        -ms-flex-negative: 1;
+        flex-shrink: 1;
+        height: auto;
+        max-width: none;
+        margin-right: 0;
+        overflow: hidden;
+        white-space: nowrap;
+
+        background-color: #fff;
+        border-radius: 8px;
+        border: 1px solid #f6f6f6;
+    }
+
+    .cd-schedule .lessons .single-lesson a {
+        padding: 8px;
+    }
+
+    .cd-schedule .lessons .single-lesson:last-of-type {
+        /* reset style */
+        margin-right: 0;
+    }
+
+    .cd-schedule .lessons {
+        /* 60px is the .timeline element width */
+        //width: calc(100% - 60px);
+        //margin-left: 60px;
+        width: calc(100% - 16px);
+        margin-left: 16px;
+    }
+
+    /* Single event */
+    .cd-schedule .lesson-name {
+        display: block;
+        color: #000;
+        font-weight: bold;
+        font-size: 17px;
+        line-height: 1.2rem;
+    }
+
+    .cd-schedule .lesson-abbreviation,
+    .cd-schedule .lesson-classroom {
+        display: block;
+        color: #575757;
+        line-height: 1.2rem;
     }
 }
 </style>
