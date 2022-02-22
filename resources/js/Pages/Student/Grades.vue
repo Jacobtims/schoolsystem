@@ -6,7 +6,7 @@
                 <div class="col-9 row" id="grades">
                     <div v-for="grade in subject"
                          :class="{'grade': true, 'clickable': true, 'grade-plus': grade.number > 5.4, 'grade-min': grade.number < 5.5}"
-                          @click="openGradeModal(grade)">
+                         data-bs-toggle="modal" data-bs-target="#exampleModal" @click="openGradeModal(grade)">
                         {{ grade.number }}
                     </div>
                 </div>
@@ -17,63 +17,44 @@
         </div>
 
         <!-- Modal -->
-        <DialogModal :show="openModal" @close="close">
-            <template #title>
-                Test
-            </template>
-
-            <template #content>
-                Test
-            </template>
-
-            <template #footer>
-                Test
-            </template>
-        </DialogModal>
-
-<!--        <DialogModal :show="openModal" @close="close">-->
-<!--            Test123Modal-Modal-->
-<!--        </DialogModal>-->
-<!--        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">-->
-<!--            <div class="modal-dialog modal-dialog-centered">-->
-<!--                <div class="modal-content">-->
-<!--                    <div class="modal-body" v-if="activeGrade">-->
-<!--                        <table class="table table-borderless" id="table-grades">-->
-<!--                            <tr>-->
-<!--                                <td><strong>Vak:</strong></td>-->
-<!--                                <td>{{ activeGrade.subject.name }}</td>-->
-<!--                            </tr>-->
-<!--                            <tr>-->
-<!--                                <td><strong>Cijfer:</strong></td>-->
-<!--                                <td :class="{'grade-plus': activeGrade.number > 5.4, 'grade-min': activeGrade.number < 5.5}">{{ activeGrade.number }}</td>-->
-<!--                            </tr>-->
-<!--                            <tr>-->
-<!--                                <td><strong>Omschrijving:</strong></td>-->
-<!--                                <td>{{ activeGrade.description }}</td>-->
-<!--                            </tr>-->
-<!--                            <tr>-->
-<!--                                <td><strong>Weging:</strong></td>-->
-<!--                                <td>{{ activeGrade.weighting }}&times;</td>-->
-<!--                            </tr>-->
-<!--                            <tr>-->
-<!--                                <td><strong>Datum:</strong></td>-->
-<!--                                <td>{{ activeGrade.date }}</td>-->
-<!--                            </tr>-->
-<!--                            <tr>-->
-<!--                                <td><strong>Docent:</strong></td>-->
-<!--                                <td>{{ activeGrade.teacher.student_name }}</td>-->
-<!--                            </tr>-->
-<!--                        </table>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body" v-if="activeGrade">
+                        <table class="table table-borderless" id="table-grades">
+                            <tr>
+                                <td><strong>Vak:</strong></td>
+                                <td>{{ activeGrade.subject.name }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Cijfer:</strong></td>
+                                <td :class="{'grade-plus': activeGrade.number > 5.4, 'grade-min': activeGrade.number < 5.5}">{{ activeGrade.number }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Omschrijving:</strong></td>
+                                <td>{{ activeGrade.description }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Weging:</strong></td>
+                                <td>{{ activeGrade.weighting }}&times;</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Datum:</strong></td>
+                                <td>{{ activeGrade.date }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Docent:</strong></td>
+                                <td>{{ activeGrade.teacher.student_name }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </student-layout>
 </template>
 <script>
 import StudentLayout from "@/Layouts/StudentLayout";
-import Modal from "@/Components/Modal"
-import DialogModal from "@/Jetstream/DialogModal";
 
 export default {
     props: {
@@ -81,25 +62,17 @@ export default {
         averages: Object
     },
     components: {
-        DialogModal,
-        StudentLayout,
-        Modal
+        StudentLayout
     },
     data() {
         return {
-            activeGrade: null,
-            openModal: false
+            activeGrade: null
         }
     },
     methods: {
         openGradeModal(grade) {
             this.activeGrade = grade;
             this.activeGrade.date = this.$moment(grade.created_at).format('LL');
-            this.openModal = true;
-        },
-        close() {
-            this.openModal = false;
-            console.log('close');
         }
     }
 }

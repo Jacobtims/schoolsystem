@@ -29,7 +29,7 @@
 
 <script>
     import { defineComponent } from 'vue'
-    import Modal from '@/Components/Modal'
+    import Modal from './Modal.vue'
 
     export default defineComponent({
         emits: ['close'],
