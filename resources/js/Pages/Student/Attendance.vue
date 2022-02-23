@@ -6,7 +6,7 @@
                     <div class="card-body text-center">
                         <h3 class="card-title">Aanwezig</h3>
                         <small>Aantal lesuren</small>
-                        <h3 class="fw-bold">{{ present }} uur</h3>
+                        <h3 class="fw-bold">{{ counts.present }} uur</h3>
                     </div>
                 </div>
             </div>
@@ -15,7 +15,7 @@
                     <div class="card-body text-center">
                         <h3 class="card-title">Geoorloofd afwezig</h3>
                         <small>Aantal lesuren</small>
-                        <h3 class="fw-bold">{{ authorizedAbsent }} uur</h3>
+                        <h3 class="fw-bold">{{ counts.authorizedAbsent }} uur</h3>
                     </div>
                 </div>
             </div>
@@ -24,7 +24,7 @@
                     <div class="card-body text-center">
                         <h3 class="card-title">Ongeoorloofd afwezig</h3>
                         <small>Aantal lesuren</small>
-                        <h3 class="fw-bold text-danger">{{ unauthorizedAbsence }} uur</h3>
+                        <h3 class="fw-bold text-danger">{{ counts.unauthorizedAbsence }} uur</h3>
                     </div>
                 </div>
             </div>
@@ -37,7 +37,25 @@
                     </div>
                 </div>
             </div>
-
+        </div>
+        <div class="card mt-3">
+            <div class="card-body">
+                <table class="table table-borderless m-0" id="table-absent">
+                    <tr>
+                        <th>Datum</th>
+                        <th>Les</th>
+                        <th>Status</th>
+                        <th>Reden</th>
+                    </tr>
+                    <tr v-for="(abs, index) in absent" :key="'absent'+index">
+                        <td>{{ this.$moment(abs.lesson.date).format('LL') }}</td>
+                        <td>{{ abs.lesson.time.from }} - {{ abs.lesson.time.to }}</td>
+                        <td v-if="abs.verified === 1">Geoorloofd</td>
+                        <td v-else-if="abs.verified === 0 || abs.verified === null" class="text-danger">Ongeoorloofd</td>
+                        <td>{{ abs.reason ?? 'Onbekend' }}</td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </student-layout>
 </template>
@@ -45,12 +63,16 @@
 import StudentLayout from "@/Layouts/StudentLayout";
 export default {
     props: {
-        present: Number,
-        authorizedAbsent: Number,
-        unauthorizedAbsence: Number
+        counts: Object,
+        absent: Object
     },
     components: {
         StudentLayout
     }
 }
 </script>
+<style lang="scss">
+#table-absent {
+    font-size: 18px;
+}
+</style>
