@@ -22,7 +22,8 @@ class DatabaseSeeder extends Seeder
             PermissionRoleSeeder::class,
             SettingSeeder::class,
             StandardLessonSeeder::class,
-            SubjectSeeder::class
+            SubjectSeeder::class,
+            AttendanceTypeSeeder::class
         ]);
     }
 }

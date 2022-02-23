@@ -27,6 +27,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property-read int|null $lessons_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\SchoolClass[] $schoolClasses
  * @property-read int|null $school_classes_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Attendance[] $attendances
+ * @property-read int|null $attendances_count
  */
 class Student extends Model
 {
@@ -62,5 +64,13 @@ class Student extends Model
     public function lessons(): HasMany
     {
         return $this->hasMany(Lesson::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function attendances(): HasMany
+    {
+        return $this->hasMany(Attendance::class);
     }
 }
