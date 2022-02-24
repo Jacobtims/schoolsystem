@@ -1,35 +1,46 @@
 <template>
-    <div class="col-lg-3 col-xl-2 d-flex flex-column vh-100 flex-shrink-0 p-3 bg-white" id="admin-sidebar">
-        <a class="text-decoration-none w-100 text-center text-dark">
-            <h2 class="sidebar-title">Admin panel</h2>
-        </a>
-        <hr>
-        <ul class="nav nav-pills flex-column mb-auto">
-            <li class="nav-item">
-                <Link :href="route('admin.dashboard')" :class="{'nav-link': true, 'active': route().current('admin.dashboard')}">
-                    <i class="fa fa-home sidebar-icon"></i>
-                    <span class="ms-2 sidebar-item">Dashboard</span>
+    <div id="admin-sidebar">
+        <nav class="nav">
+            <div>
+                <Link :href="route('admin.dashboard')" class="sidebar-logo">
+                    <i class="fa-solid fa-s sidebar-logo-icon"></i>
+                    <span class="sidebar-logo-name" id="sidebar-name">Admin Panel</span>
                 </Link>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="fa fa-first-order sidebar-icon"></i>
-                    <span class="ms-2 sidebar-item">My Orders</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="fa fa-cog sidebar-icon"></i>
-                    <span class="ms-2 sidebar-item">Settings</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="fa fa-bookmark sidebar-icon"></i>
-                    <span class="ms-2 sidebar-item">Bookmarks</span>
-                </a>
-            </li>
-        </ul>
+
+                <div class="sidebar-list" style="margin-top: 5rem;">
+                    <Link :href="route('admin.dashboard')" :class="{'sidebar-link': true, 'active': route().current('admin.dashboard')}">
+                        <i class="fa fa-home sidebar-icon"></i>
+                        <span class="sidebar-name">Dashboard</span>
+                    </Link>
+                    <a href="#" class="sidebar-link">
+                        <i class="fa-solid fa-archway sidebar-icon"></i><span class="sidebar-name">Users</span>
+                    </a>
+                    <a href="#" class="sidebar-link">
+                        <i class="fa-solid fa-archway sidebar-icon"></i><span class="sidebar-name">Messages</span>
+                    </a>
+                    <a href="#" class="sidebar-link">
+                        <i class="fa-solid fa-archway sidebar-icon"></i><span class="sidebar-name">Bookmark</span>
+                    </a>
+                </div>
+                <div class="sidebar-list mt-3">
+                    <p class="sidebar-list-title">Personeel</p>
+                    <a href="#collapseExample" class="sidebar-link" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseExample">
+                        <i class="fa-solid fa-archway sidebar-icon"></i><span class="sidebar-name">Files</span><i class="fa-solid fa-angle-down collapse-icon"></i>
+                    </a>
+                    <div class="collapse" id="collapseExample">
+                        <a href="#" class="sidebar-link sidebar-collapse-link">
+                            <i class="fa-solid fa-archway sidebar-icon"></i><span class="sidebar-name">Files1</span>
+                        </a>
+                        <a href="#" class="sidebar-link sidebar-collapse-link">
+                            <i class="fa-solid fa-archway sidebar-icon"></i><span class="sidebar-name">Files2</span>
+                        </a>
+                    </div>
+                    <a href="#" class="sidebar-link">
+                        <i class="fa-solid fa-archway sidebar-icon"></i><span class="sidebar-name">Stats</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
     </div>
 </template>
 <script>
@@ -42,43 +53,167 @@ export default {
 }
 </script>
 <style lang="scss">
-#admin-sidebar {
-    border-right: 1px solid #676565;
-
-    .sidebar-icon {
-        width: 18px;
-        color: #575757;
-    }
-    .sidebar-item {
-        font-size: 17px;
-        font-weight: 600;
-        color: #575757;
-    }
-    .nav-link.active {
-        background-color: #F4F9FF !important;
-    }
-    .nav-link.active .sidebar-item,
-    .nav-link.active .sidebar-icon {
-        color: #055CFC !important;
+/* Only visible when sidebar is unfolded */
+@media screen and (min-width: 768px) {
+    #admin-sidebar.show,
+    #admin-sidebar:hover {
+        .nav {
+            .sidebar-list {
+                .sidebar-list-title {
+                    display: block;
+                    padding-left: 1.4rem;
+                    text-transform: uppercase;
+                    color: #c4c4c4;
+                    font-size: 14px;
+                    font-weight: 600;
+                }
+                .sidebar-collapse-link {
+                    display: grid;
+                }
+                .collapse-icon {
+                    display: inline;
+                    font-size: 10px;
+                    position: absolute;
+                    right: 0;
+                }
+                .sidebar-name {
+                    display: inline;
+                }
+            }
+            .sidebar-logo {
+                .sidebar-logo-name {
+                    color: #fff;
+                    font-weight: 700;
+                    display: inline;
+                }
+            }
+        }
     }
 }
 
-@media (max-width: 991.98px) {
-    #admin-sidebar {
-        max-width: 94px;
+#admin-sidebar {
+    position: fixed;
+    top: 0;
+    left: -30%;
+    width: 68px;
+    height: 100vh;
+    background-color: #3B4B64;
+    padding: .5rem 1rem 0 0;
+    transition: .5s;
+    z-index: 500;
+    a {
+        text-decoration: none;
+    }
+    .nav {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        overflow: hidden;
 
-        .nav-link {
-            text-align: center;
+        .sidebar-list {
+            .sidebar-logo,
+            .sidebar-link {
+                display: grid;
+                grid-template-columns: max-content max-content;
+                align-items: center;
+                column-gap: 1rem;
+                padding: .2rem 0 .2rem 1.5rem;
+            }
+            .sidebar-list-title {
+                display: none;
+            }
+            .sidebar-name {
+                display: none;
+                font-size: 15px;
+            }
+            .sidebar-collapse-link .sidebar-icon {
+                visibility: hidden;
+            }
+            .sidebar-collapse-link {
+                display: none;
+            }
+            .collapse-icon {
+                display: none;
+            }
         }
-        .sidebar-icon {
-            width: max-content;
-            font-size: 25px;
+
+        .sidebar-logo {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            margin-bottom: 2rem;
+            font-size: 20px;
+            padding: 1rem 1rem 1rem 1.5rem;
+            background-color: #303C54;
+            white-space: nowrap;
+            overflow: hidden;
+
+            .sidebar-logo-icon {
+                font-size: 1.25rem;
+                color: #fff;
+                margin-right: 1rem;
+            }
+            .sidebar-logo-name {
+                display: none;
+            }
         }
-        .sidebar-item {
-            display: none;
+
+        .sidebar-link {
+            position: relative;
+            color: #c4c4c4;
+            margin-bottom: 1.5rem;
+            transition: .3s;
+
+            &:hover {
+                transition: 0s;
+                color: #fff;
+            }
+
+            &:hover::before {
+                content: '';
+                position: absolute;
+                left: 0;
+                width: 2px;
+                height: 32px;
+                background-color: #fff;
+            }
+
+            .sidebar-icon {
+                font-size: 16px;
+            }
+
+            &.active {
+                color: #fff;
+            }
+            &.active::before {
+                content: '';
+                position: absolute;
+                left: 0;
+                width: 2px;
+                height: 32px;
+                background-color: #fff;
+            }
         }
-        .sidebar-title {
-            font-size: 18px;
+    }
+    &.show,
+    &:hover{
+        left: 0;
+    }
+    #sidebar-toggle {
+        transition: .5s;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    #admin-sidebar {
+        left: 0;
+        padding: 1rem 1rem 0 0;
+
+        &.show,
+        &:hover {
+            width: calc(68px + 192px) !important;
         }
     }
 }

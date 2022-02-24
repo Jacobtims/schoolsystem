@@ -1,6 +1,9 @@
 <template>
     <nav class="navbar navbar-expand-sm navbar-light bg-white" id="admin-navbar">
         <div class="container-fluid">
+            <div id="sidebar-toggle">
+                <i class="fa-solid fa-bars" id="sidebar-toggle-icon" @click="showSidebar"></i>
+            </div>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
@@ -39,15 +42,28 @@ export default {
     methods: {
         logout() {
             this.$inertia.post(route('logout'));
+        },
+        showSidebar() {
+            const nav = document.getElementById("admin-sidebar"),
+                  bodypd = document.getElementById("admin-main"),
+                  headerpd = document.getElementById("sidebar-toggle"),
+                  toggleicon = document.getElementById("sidebar-toggle-icon");
+            if(nav && bodypd && headerpd){
+                // Show navbar
+                nav.classList.toggle('show');
+                // Add padding to body
+                bodypd.classList.toggle('body-pd');
+                // Add padding to header
+                headerpd.classList.toggle('header-pd');
+                // Change icon
+                toggleicon.classList.toggle('fa-xmark');
+            }
         }
     }
 }
 </script>
 <style lang="scss">
 #admin-navbar {
-    border-bottom: 1px solid #676565;
-    margin: 0 -12px;
-
     .nav-link {
         font-size: 17px;
         font-weight: 500;
@@ -62,6 +78,29 @@ export default {
     }
     .dropdown-toggle::after {
         vertical-align: middle;
+    }
+    #sidebar-toggle-icon {
+        color: #4C4C4C;
+        font-size: 1.5rem;
+        cursor: pointer;
+    }
+    .header-pd {
+        padding-left: calc(68px + 16px);
+    }
+    #sidebar-toggle {
+        transition: .5s;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    #admin-navbar {
+        #sidebar-toggle {
+            //height: calc(3rem + 1rem);
+            padding: 0 2rem 0 72px;
+        }
+        .header-pd {
+            padding-left: calc(260px /* Width of sidebar */ + 16px - 12px /* Navbar padding */) !important;
+        }
     }
 }
 </style>
