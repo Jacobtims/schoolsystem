@@ -1,14 +1,12 @@
 <template>
-    <admin-layout>
-        Admin dashboard
-    </admin-layout>
+    Admin dashboard
 </template>
 <script>
 
 import AdminLayout from "@/Layouts/AdminLayout";
 export default {
+    layout: AdminLayout,
     components: {
-        AdminLayout
     }
 }
 </script>

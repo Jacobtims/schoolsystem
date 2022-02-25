@@ -1,66 +1,64 @@
 <template>
-    <student-layout>
-        <div class="card mb-3" v-for="(subject, index) in grades" :key="index">
-            <div class="card-body row">
-                <h3 class="d-inline col-2">{{ subject[0]['subject']['name'] }}</h3>
-                <div class="col-9 row" id="grades">
-                    <div v-for="grade in subject"
-                         :class="{'grade': true, 'clickable': true, 'grade-plus': grade.number > 5.4, 'grade-min': grade.number < 5.5}"
-                         @click="openGradeModal(grade)">
-                        {{ grade.number }}
-                    </div>
-                </div>
-                <div :class="{'col-1': true, 'average': true, 'grade-plus': averages[index] > 5.4, 'grade-min': averages[index] < 5.5}">
-                    {{ averages[index] }}
+    <div class="card mb-3" v-for="(subject, index) in grades" :key="index">
+        <div class="card-body row">
+            <h3 class="d-inline col-2">{{ subject[0]['subject']['name'] }}</h3>
+            <div class="col-9 row" id="grades">
+                <div v-for="grade in subject"
+                     :class="{'grade': true, 'clickable': true, 'grade-plus': grade.number > 5.4, 'grade-min': grade.number < 5.5}"
+                     @click="openGradeModal(grade)">
+                    {{ grade.number }}
                 </div>
             </div>
+            <div :class="{'col-1': true, 'average': true, 'grade-plus': averages[index] > 5.4, 'grade-min': averages[index] < 5.5}">
+                {{ averages[index] }}
+            </div>
         </div>
+    </div>
 
-        <!-- Modal -->
-        <Dialog v-model:visible="openModal" :breakpoints="{'1200px': '50vw', '992px': '65vw'}" :style="{width: '40vw'}" header="&nbsp;"
-                :draggable="false" :modal="true" :dismissableMask="true" @hide="closeGradeModal" v-if="activeGrade">
-            <table class="table table-borderless" id="table-grades">
-                <tr>
-                    <td><strong>Vak:</strong></td>
-                    <td>{{ activeGrade.subject.name }}</td>
-                </tr>
-                <tr>
-                    <td><strong>Cijfer:</strong></td>
-                    <td :class="{'grade-plus': activeGrade.number > 5.4, 'grade-min': activeGrade.number < 5.5}">
-                        {{ activeGrade.number }}
-                    </td>
-                </tr>
-                <tr>
-                    <td><strong>Omschrijving:</strong></td>
-                    <td>{{ activeGrade.description }}</td>
-                </tr>
-                <tr>
-                    <td><strong>Weging:</strong></td>
-                    <td>{{ activeGrade.weighting }}&times;</td>
-                </tr>
-                <tr>
-                    <td><strong>Datum:</strong></td>
-                    <td>{{ activeGrade.date }}</td>
-                </tr>
-                <tr>
-                    <td><strong>Docent:</strong></td>
-                    <td>{{ activeGrade.teacher.student_name }}</td>
-                </tr>
-            </table>
-        </Dialog>
-    </student-layout>
+    <!-- Modal -->
+    <Dialog v-model:visible="openModal" :breakpoints="{'1200px': '50vw', '992px': '65vw'}" :style="{width: '40vw'}" header="&nbsp;"
+            :draggable="false" :modal="true" :dismissableMask="true" @hide="closeGradeModal" v-if="activeGrade">
+        <table class="table table-borderless" id="table-grades">
+            <tr>
+                <td><strong>Vak:</strong></td>
+                <td>{{ activeGrade.subject.name }}</td>
+            </tr>
+            <tr>
+                <td><strong>Cijfer:</strong></td>
+                <td :class="{'grade-plus': activeGrade.number > 5.4, 'grade-min': activeGrade.number < 5.5}">
+                    {{ activeGrade.number }}
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Omschrijving:</strong></td>
+                <td>{{ activeGrade.description }}</td>
+            </tr>
+            <tr>
+                <td><strong>Weging:</strong></td>
+                <td>{{ activeGrade.weighting }}&times;</td>
+            </tr>
+            <tr>
+                <td><strong>Datum:</strong></td>
+                <td>{{ activeGrade.date }}</td>
+            </tr>
+            <tr>
+                <td><strong>Docent:</strong></td>
+                <td>{{ activeGrade.teacher.student_name }}</td>
+            </tr>
+        </table>
+    </Dialog>
 </template>
 <script>
 import StudentLayout from "@/Layouts/StudentLayout";
 import Dialog from 'primevue/dialog';
 
 export default {
+    layout: StudentLayout,
     props: {
         grades: Object,
         averages: Object
     },
     components: {
-        StudentLayout,
         Dialog
     },
     data() {
