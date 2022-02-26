@@ -2,42 +2,47 @@
     <div id="admin-sidebar">
         <nav class="nav">
             <div>
+                <!-- Sidebar logo -->
                 <Link :href="route('admin.dashboard')" class="sidebar-logo">
                     <i class="fa-solid fa-s sidebar-logo-icon"></i>
                     <span class="sidebar-logo-name" id="sidebar-name">Admin Panel</span>
                 </Link>
 
+                <!-- Dashboard link -->
                 <div class="sidebar-list" style="margin-top: 5rem;">
-                    <Link :href="route('admin.dashboard')" :class="{'sidebar-link': true, 'active': route().current('admin.dashboard')}">
+                    <Link :href="route('admin.dashboard')" :class="{'sidebar-link': true, 'active': this.route().current('admin.dashboard')}">
                         <i class="fa fa-home sidebar-icon"></i>
                         <span class="sidebar-name">Dashboard</span>
                     </Link>
-                    <a href="#" class="sidebar-link">
-                        <i class="fa-solid fa-archway sidebar-icon"></i><span class="sidebar-name">Users</span>
-                    </a>
-                    <a href="#" class="sidebar-link">
-                        <i class="fa-solid fa-archway sidebar-icon"></i><span class="sidebar-name">Messages</span>
-                    </a>
-                    <a href="#" class="sidebar-link">
-                        <i class="fa-solid fa-archway sidebar-icon"></i><span class="sidebar-name">Bookmark</span>
-                    </a>
                 </div>
-                <div class="sidebar-list mt-3">
-                    <p class="sidebar-list-title">Personeel</p>
-                    <a href="#collapseExample" class="sidebar-link" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseExample">
-                        <i class="fa-solid fa-archway sidebar-icon"></i><span class="sidebar-name">Files</span><i class="fa-solid fa-angle-down collapse-icon"></i>
+                <!-- Gebruikers sidebar list -->
+                <div class="sidebar-list mt-4">
+                    <p class="sidebar-list-title">Gebruikers</p>
+                    <!-- Studenten collapse -->
+                    <a href="#collapseStudents" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseStudents" :class="{'sidebar-link': true, 'active': this.route().current('admin.students.*')}">
+                        <i class="fa-solid fa-user-graduate sidebar-icon"></i><span class="sidebar-name">Studenten</span><i class="fa-solid fa-angle-down collapse-icon"></i>
                     </a>
-                    <div class="collapse" id="collapseExample">
+                    <div class="collapse" id="collapseStudents">
+                        <Link :href="route('admin.students.index')" :class="{'sidebar-link': true, 'sidebar-collapse-link': true, 'active': this.route().current('admin.students.index')}">
+                            <i class="fa-solid fa-user-graduate sidebar-icon"></i>
+                            <span class="sidebar-name">Overzicht</span>
+                        </Link>
                         <a href="#" class="sidebar-link sidebar-collapse-link">
-                            <i class="fa-solid fa-archway sidebar-icon"></i><span class="sidebar-name">Files1</span>
-                        </a>
-                        <a href="#" class="sidebar-link sidebar-collapse-link">
-                            <i class="fa-solid fa-archway sidebar-icon"></i><span class="sidebar-name">Files2</span>
+                            <i class="fa-solid fa-user-graduate sidebar-icon"></i><span class="sidebar-name">Nieuwe toevoegen</span>
                         </a>
                     </div>
-                    <a href="#" class="sidebar-link">
-                        <i class="fa-solid fa-archway sidebar-icon"></i><span class="sidebar-name">Stats</span>
+                    <!-- Docenten collapse -->
+                    <a href="#collapseTeachers" class="sidebar-link" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseTeachers">
+                        <i class="fa-solid fa-chalkboard-user sidebar-icon"></i><span class="sidebar-name">Docenten</span><i class="fa-solid fa-angle-down collapse-icon"></i>
                     </a>
+                    <div class="collapse" id="collapseTeachers">
+                        <a href="#" class="sidebar-link sidebar-collapse-link">
+                            <i class="fa-solid fa-chalkboard-user sidebar-icon"></i><span class="sidebar-name">Overzicht</span>
+                        </a>
+                        <a href="#" class="sidebar-link sidebar-collapse-link">
+                            <i class="fa-solid fa-chalkboard-user sidebar-icon"></i><span class="sidebar-name">Nieuwe toevoegen</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -68,7 +73,14 @@ export default {
                     font-weight: 600;
                 }
                 .sidebar-collapse-link {
+                    margin-bottom: 1rem;
                     display: grid;
+                    &:first-child {
+                        margin-top: -.5rem !important;
+                    }
+                    &:last-child {
+                        margin-bottom: 1.5rem !important;
+                    }
                 }
                 .collapse-icon {
                     display: inline;

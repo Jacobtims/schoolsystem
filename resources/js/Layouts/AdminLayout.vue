@@ -22,6 +22,7 @@ export default {
     #admin-main {
         transition: .5s;
         padding-left: calc(68px /* Width of sidebar */ + 16px);
+        padding-right: 16px;
     }
     .body-pd {
         padding-left: calc(68px /* Width of sidebar */ + 16px);
