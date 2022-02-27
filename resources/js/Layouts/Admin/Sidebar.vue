@@ -10,7 +10,7 @@
 
                 <!-- Dashboard link -->
                 <div class="sidebar-list" style="margin-top: 5rem;">
-                    <Link :href="route('admin.dashboard')" :class="{'sidebar-link': true, 'active': this.route().current('admin.dashboard')}">
+                    <Link :href="route('admin.dashboard')" :class="{'sidebar-link': true, 'active': isRoute('admin.dashboard')}">
                         <i class="fa fa-home sidebar-icon"></i>
                         <span class="sidebar-name">Dashboard</span>
                     </Link>
@@ -19,11 +19,11 @@
                 <div class="sidebar-list mt-4">
                     <p class="sidebar-list-title">Gebruikers</p>
                     <!-- Studenten collapse -->
-                    <a href="#collapseStudents" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseStudents" :class="{'sidebar-link': true, 'active': this.route().current('admin.students.*')}">
+                    <a href="#collapseStudents" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseStudents" :class="{'sidebar-link': true, 'active': isRoute('admin.students.')}">
                         <i class="fa-solid fa-user-graduate sidebar-icon"></i><span class="sidebar-name">Studenten</span><i class="fa-solid fa-angle-down collapse-icon"></i>
                     </a>
                     <div class="collapse" id="collapseStudents">
-                        <Link :href="route('admin.students.index')" :class="{'sidebar-link': true, 'sidebar-collapse-link': true, 'active': this.route().current('admin.students.index')}">
+                        <Link :href="route('admin.students.index')" :class="{'sidebar-link': true, 'sidebar-collapse-link': true, 'active': isRoute('admin.students.index')}">
                             <i class="fa-solid fa-user-graduate sidebar-icon"></i>
                             <span class="sidebar-name">Overzicht</span>
                         </Link>
@@ -54,6 +54,16 @@ import {Link} from "@inertiajs/inertia-vue3";
 export default {
     components: {
         Link
+    },
+    computed: {
+        currentRoute() {
+            return this.$page.props.current_route;
+        },
+    },
+    methods: {
+        isRoute(route) {
+            return this.currentRoute.startsWith(route);
+        },
     }
 }
 </script>

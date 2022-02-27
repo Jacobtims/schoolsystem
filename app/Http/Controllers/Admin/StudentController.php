@@ -29,7 +29,7 @@ class StudentController extends Controller
                             $query->orderBy($request->get('field'), $request->get('direction'));
                         })->with('student')->paginate(15);
 
-        return Inertia::render('Admin/Students', [
+        return Inertia::render('Admin/Students/Overview', [
             'students' => $students,
             'filters' => $request->all(['search', 'field', 'direction'])
         ]);
