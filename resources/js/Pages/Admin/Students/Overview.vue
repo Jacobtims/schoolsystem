@@ -2,7 +2,7 @@
     <div>
         <div class="card">
             <div class="card-body d-flex">
-                <button class="btn btn-success me-2"><i class="fa-solid fa-plus"></i> Nieuwe</button>
+                <button class="btn btn-success me-2" @click="createStudent"><i class="fa-solid fa-plus"></i> Nieuwe</button>
                 <button class="btn btn-danger"><i class="fa-solid fa-trash-can"></i> Verwijderen</button>
 
                 <button class="btn btn-info ms-auto me-2"><i class="fa-solid fa-file-import"></i> Importeren</button>
@@ -91,6 +91,7 @@
         </div>
     </div>
     <edit-student-modal :open-modal="openEditModal" :user="activeStudent"></edit-student-modal>
+    <create-student-modal :open-modal="openCreateModal"></create-student-modal>
 </template>
 <script>
 
@@ -98,9 +99,11 @@ import AdminLayout from "@/Layouts/AdminLayout";
 import Pagination from "@/components/Pagination";
 import {pickBy, throttle} from "lodash";
 import EditStudentModal from "@/Pages/Admin/Students/Modals/EditStudentModal";
+import CreateStudentModal from "@/Pages/Admin/Students/Modals/CreateStudentModal";
 export default {
     layout: AdminLayout,
     components: {
+        CreateStudentModal,
         EditStudentModal,
         Pagination
     },
@@ -116,7 +119,8 @@ export default {
                 direction: this.filters.direction
             },
             openEditModal: false,
-            activeStudent: null
+            activeStudent: null,
+            openCreateModal: false
         }
     },
     methods: {
@@ -127,6 +131,9 @@ export default {
         editStudent(student) {
             this.activeStudent = student;
             this.openEditModal = true;
+        },
+        createStudent() {
+            this.openCreateModal = true;
         }
     },
     watch: {

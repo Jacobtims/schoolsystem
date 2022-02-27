@@ -76,6 +76,12 @@ use Laravel\Sanctum\HasApiTokens;
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereZipcode($value)
  * @mixin \Eloquent
+ * @property string|null $country
+ * @property string|null $state
+ * @property string|null $city
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereCity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereCountry($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereState($value)
  */
 class User extends Authenticatable
 {
@@ -97,6 +103,9 @@ class User extends Authenticatable
         'lastname',
         'phone_number',
         'date_of_birth',
+        'country',
+        'state',
+        'city',
         'zipcode',
         'street',
         'role_id'

@@ -34,6 +34,17 @@ class Student extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var string[]
+     */
+    protected $fillable = [
+        'user_id'
+    ];
+
     /**
      * @return BelongsTo
      */

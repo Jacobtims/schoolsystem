@@ -27,6 +27,9 @@ class UserSeeder extends Seeder
                 'lastname' => 'Account',
                 'phone_number' => '0612345678',
                 'date_of_birth' => Carbon::now()->subYears(rand(1, 99)),
+                'country' => 'Nederland',
+                'state' => 'Zuid-Holland',
+                'city' => 'Rotterdam',
                 'zipcode' => '1234AB',
                 'street' => 'Weetnietstraat',
                 'role_id' => 1
@@ -40,6 +43,9 @@ class UserSeeder extends Seeder
                 'lastname' => 'Account',
                 'phone_number' => '0612345678',
                 'date_of_birth' => Carbon::now()->subYears(rand(1, 99)),
+                'country' => 'Nederland',
+                'state' => 'Zuid-Holland',
+                'city' => 'Rotterdam',
                 'zipcode' => '1234AB',
                 'street' => 'Weetnietstraat',
                 'role_id' => 2
@@ -53,6 +59,9 @@ class UserSeeder extends Seeder
                 'lastname' => 'Account',
                 'phone_number' => '0612345678',
                 'date_of_birth' => Carbon::now()->subYears(rand(1, 99)),
+                'country' => 'Nederland',
+                'state' => 'Zuid-Holland',
+                'city' => 'Rotterdam',
                 'zipcode' => '1234AB',
                 'street' => 'Weetnietstraat',
                 'role_id' => 3

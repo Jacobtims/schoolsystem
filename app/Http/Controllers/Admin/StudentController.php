@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreStudentRequest;
+use App\Models\Role;
+use App\Models\Student;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Redirect;
 
 class StudentController extends Controller
 {
@@ -48,12 +52,19 @@ class StudentController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreStudentRequest $request
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(StoreStudentRequest $request)
     {
-        //
+        $studentRole = Role::whereName('Student')->firstOrFail();
+
+        $request->merge(['password' => 'Please change', 'role_id' => $studentRole->id]);
+        $user = User::create($request->only(['email', 'firstname', 'lastname', 'phone_number', 'date_of_birth', 'country', 'state', 'city', 'zipcode', 'street', 'password', 'role_id']));
+
+        Student::create(['user_id' => $user->id]);
+
+        return Redirect::route('admin.students.index');
     }
 
     /**
@@ -81,7 +92,7 @@ class StudentController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

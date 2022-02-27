@@ -8,11 +8,11 @@
                     <label for="inputStudentId" class="form-label">Leerlingnummer</label>
                     <input type="number" class="form-control" id="inputStudentId" :value="user.student.id" readonly>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-5">
                     <label for="inputFirstname" class="form-label">Voornaam</label>
                     <input type="text" class="form-control" id="inputFirstname" :value="user.firstname">
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-7">
                     <label for="inputLastname" class="form-label">Achternaam</label>
                     <input type="text" class="form-control" id="inputLastname" :value="user.lastname">
                 </div>
@@ -42,7 +42,7 @@
                 </div>
                 <div class="col-md-6">
                     <label for="inputPhone" class="form-label">Telefoonnummer</label>
-                    <input type="text" class="form-control" id="inputPhone" :value="user.phone_number">
+                    <input type="tel" class="form-control" id="inputPhone" :value="user.phone_number">
                 </div>
                 <div class="col-md-6">
                     <label for="inputBirthday" class="form-label">Geboortedatum</label>
