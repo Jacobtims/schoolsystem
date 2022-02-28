@@ -22,16 +22,20 @@ class StudentController extends Controller
     public function index(Request $request): \Inertia\Response
     {
         $request->validate([
-            'field' => 'in:firstname,lastname,student.id,email,phone_number,street',
+            'field' => 'in:firstname,lastname,student_id,email,phone_number,street',
             'direction' => 'in:asc,desc'
         ]);
 
         $students = User::whereRoleId(3)
-                        ->when($request->has('search'), function ($query) use ($request) {
-                            $query->where('firstname', 'LIKE', '%'.$request->get('search').'%');
-                        })->when($request->has(['field', 'direction']), function ($query) use ($request) {
-                            $query->orderBy($request->get('field'), $request->get('direction'));
-                        })->with('student')->paginate(15);
+            ->join('students', 'users.id', '=', 'students.user_id')
+            ->selectRaw('users.*, students.id as student_id')
+            ->when($request->has('search'), function ($query) use ($request) {
+                $query->where('firstname', 'LIKE', '%'.$request->get('search').'%');
+            })
+            ->when($request->has(['field', 'direction']), function ($query) use ($request) {
+                $query->orderBy($request->get('field'), $request->get('direction'));
+            })
+            ->paginate(15);
 
         return Inertia::render('Admin/Students/Overview', [
             'students' => $students,

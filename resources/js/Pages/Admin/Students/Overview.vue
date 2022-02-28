@@ -33,10 +33,10 @@
                                 <i class="fa-solid fa-arrow-up-wide-short" v-else-if="params.field === 'lastname' && params.direction === 'asc'"></i>
                                 <i class="fa-solid fa-sort" v-else></i>
                             </th>
-                            <th @click="sort('student.id')" class="clickable">
+                            <th @click="sort('student_id')" class="clickable">
                                 <span class="me-2">Leerlingnummer</span>
-                                <i class="fa-solid fa-arrow-down-short-wide" v-if="params.field === 'student.id' && params.direction === 'desc'"></i>
-                                <i class="fa-solid fa-arrow-up-wide-short" v-else-if="params.field === 'student.id' && params.direction === 'asc'"></i>
+                                <i class="fa-solid fa-arrow-down-short-wide" v-if="params.field === 'student_id' && params.direction === 'desc'"></i>
+                                <i class="fa-solid fa-arrow-up-wide-short" v-else-if="params.field === 'student_id' && params.direction === 'asc'"></i>
                                 <i class="fa-solid fa-sort" v-else></i>
                             </th>
                             <th @click="sort('email')" class="clickable">
@@ -69,7 +69,7 @@
                             </td>
                             <td>{{ student.firstname }}</td>
                             <td>{{ student.lastname }}</td>
-                            <td>{{ student.student.id }}</td>
+                            <td>{{ student.student_id }}</td>
                             <td>{{ student.email }}</td>
                             <td>{{ student.phone_number }}</td>
                             <td>{{ student.street }}</td>
