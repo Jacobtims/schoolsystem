@@ -6,7 +6,7 @@
             <form class="row g-3">
                 <div class="col-md-12">
                     <label for="inputStudentId" class="form-label">Leerlingnummer</label>
-                    <input type="number" class="form-control" id="inputStudentId" :value="user.student.id" readonly>
+                    <input type="number" class="form-control" id="inputStudentId" :value="user.student_id" readonly>
                 </div>
                 <div class="col-md-5">
                     <label for="inputFirstname" class="form-label">Voornaam</label>

@@ -7,9 +7,11 @@ use App\Http\Requests\StoreStudentRequest;
 use App\Models\Role;
 use App\Models\Student;
 use App\Models\User;
+use Hash;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Redirect;
+use Str;
 
 class StudentController extends Controller
 {
@@ -35,7 +37,7 @@ class StudentController extends Controller
             ->when($request->has(['field', 'direction']), function ($query) use ($request) {
                 $query->orderBy($request->get('field'), $request->get('direction'));
             })
-            ->paginate(15);
+            ->paginate(10);
 
         return Inertia::render('Admin/Students/Overview', [
             'students' => $students,
@@ -63,10 +65,20 @@ class StudentController extends Controller
     {
         $studentRole = Role::whereName('Student')->firstOrFail();
 
-        $request->merge(['password' => 'Please change', 'role_id' => $studentRole->id]);
-        $user = User::create($request->only(['email', 'firstname', 'lastname', 'phone_number', 'date_of_birth', 'country', 'state', 'city', 'zipcode', 'street', 'password', 'role_id']));
+        if ($request->get('generatePassword') == true) {
+            $password = Str::random(8);
+        } else {
+            $password = $request->get('password');
+        }
+        $passwordHash = Hash::make($password);
 
+        $request->merge(['password' => $passwordHash, 'role_id' => $studentRole->id]);
+        $user = User::create($request->only(['email', 'firstname', 'lastname', 'phone_number', 'date_of_birth', 'country', 'state', 'city', 'zipcode', 'street', 'password', 'role_id']));
         Student::create(['user_id' => $user->id]);
+
+        if ($request->get('sendEmail') == true) {
+            //TODO: Send e-mail to email-address...
+        }
 
         return Redirect::route('admin.students.index');
     }

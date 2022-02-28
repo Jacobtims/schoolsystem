@@ -33,7 +33,10 @@ class StoreStudentRequest extends FormRequest
             'state' => 'required|string|max:255',
             'city' => 'required|string|max:255',
             'zipcode' => 'required|max:6',
-            'street' => 'required|max:255'
+            'street' => 'required|max:255',
+            'password' => 'nullable|required_if:generatePassword,0|min:8|max:255',
+            'generatePassword' => 'required|boolean',
+            'sendEmail' => 'required|boolean'
         ];
     }
 }

@@ -48,6 +48,19 @@
                     <label for="inputBirthday" class="form-label">Geboortedatum</label>
                     <input type="date" class="form-control" id="inputBirthday" v-model="studentForm.date_of_birth">
                 </div>
+                <div class="col-md-12">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="checkGeneratePassword" v-model="studentForm.generatePassword">
+                        <label class="form-check-label" for="checkGeneratePassword">Automatisch wachtwoord genereren</label>
+                    </div>
+                    <label for="inputPassword" class="form-label" v-if="!studentForm.generatePassword">Wachtwoord</label>
+                    <input type="password" class="form-control mb-3" id="inputPassword" v-model="studentForm.password" v-if="!studentForm.generatePassword">
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="checkSendEmail" v-model="studentForm.sendEmail">
+                        <label class="form-check-label" for="checkSendEmail">Verstuur e-mail naar <i>{{ studentForm.email ?? '{e-mailadres}' }}</i></label>
+                    </div>
+                </div>
             </form>
         </div>
         <template #footer>
@@ -79,7 +92,10 @@ export default {
                 state: null,
                 zipcode: null,
                 phone_number: null,
-                date_of_birth: null
+                date_of_birth: null,
+                password: null,
+                generatePassword: true,
+                sendEmail: true
             })
         }
     },

@@ -20458,7 +20458,10 @@ __webpack_require__.r(__webpack_exports__);
         state: null,
         zipcode: null,
         phone_number: null,
-        date_of_birth: null
+        date_of_birth: null,
+        password: null,
+        generatePassword: true,
+        sendEmail: true
       })
     };
   },
@@ -24751,34 +24754,63 @@ var _hoisted_21 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 /* HOISTED */
 );
 
-var _hoisted_22 = ["disabled"];
+var _hoisted_22 = {
+  "class": "col-md-12"
+};
+var _hoisted_23 = {
+  "class": "form-check"
+};
 
-var _hoisted_23 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+var _hoisted_24 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "class": "form-check-label",
+  "for": "checkGeneratePassword"
+}, "Automatisch wachtwoord genereren", -1
+/* HOISTED */
+);
+
+var _hoisted_25 = {
+  key: 0,
+  "for": "inputPassword",
+  "class": "form-label"
+};
+var _hoisted_26 = {
+  "class": "form-check"
+};
+var _hoisted_27 = {
+  "class": "form-check-label",
+  "for": "checkSendEmail"
+};
+
+var _hoisted_28 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Verstuur e-mail naar ");
+
+var _hoisted_29 = ["disabled"];
+
+var _hoisted_30 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
   "class": "fa-solid fa-check"
 }, null, -1
 /* HOISTED */
 );
 
-var _hoisted_24 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Aanmaken");
+var _hoisted_31 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Aanmaken");
 
-var _hoisted_25 = [_hoisted_23, _hoisted_24];
-var _hoisted_26 = ["disabled"];
+var _hoisted_32 = [_hoisted_30, _hoisted_31];
+var _hoisted_33 = ["disabled"];
 
-var _hoisted_27 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+var _hoisted_34 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
   "class": "fa-solid fa-xmark"
 }, null, -1
 /* HOISTED */
 );
 
-var _hoisted_28 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Annuleren");
+var _hoisted_35 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Annuleren");
 
-var _hoisted_29 = [_hoisted_27, _hoisted_28];
+var _hoisted_36 = [_hoisted_34, _hoisted_35];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Dialog = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Dialog");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Dialog, {
     visible: $props.openModal,
-    "onUpdate:visible": _cache[13] || (_cache[13] = function ($event) {
+    "onUpdate:visible": _cache[16] || (_cache[16] = function ($event) {
       return $props.openModal = $event;
     }),
     breakpoints: {
@@ -24797,27 +24829,29 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         "class": "btn btn-primary",
         type: "submit",
-        onClick: _cache[11] || (_cache[11] = function () {
+        onClick: _cache[14] || (_cache[14] = function () {
           return $options.createStudent && $options.createStudent.apply($options, arguments);
         }),
         autofocus: "",
         disabled: $data.studentForm.processing
-      }, _hoisted_25, 8
+      }, _hoisted_32, 8
       /* PROPS */
-      , _hoisted_22), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      , _hoisted_29), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         "class": "btn btn-secondary",
-        onClick: _cache[12] || (_cache[12] = function () {
+        onClick: _cache[15] || (_cache[15] = function () {
           return $options.close && $options.close.apply($options, arguments);
         }),
         disabled: $data.studentForm.processing
-      }, _hoisted_29, 8
+      }, _hoisted_36, 8
       /* PROPS */
-      , _hoisted_26)];
+      , _hoisted_33)];
     }),
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      var _$data$studentForm$em;
+
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
         "class": "row g-3",
-        onSubmit: _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
+        onSubmit: _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
           return $options.createStudent();
         }, ["prevent"]))
       }, [_hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
@@ -24910,7 +24944,37 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         })
       }, null, 512
       /* NEED_PATCH */
-      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.studentForm.date_of_birth]])])], 32
+      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.studentForm.date_of_birth]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+        "class": "form-check-input",
+        type: "checkbox",
+        id: "checkGeneratePassword",
+        "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
+          return $data.studentForm.generatePassword = $event;
+        })
+      }, null, 512
+      /* NEED_PATCH */
+      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.studentForm.generatePassword]]), _hoisted_24]), !$data.studentForm.generatePassword ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("label", _hoisted_25, "Wachtwoord")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !$data.studentForm.generatePassword ? (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", {
+        key: 1,
+        type: "password",
+        "class": "form-control mb-3",
+        id: "inputPassword",
+        "onUpdate:modelValue": _cache[11] || (_cache[11] = function ($event) {
+          return $data.studentForm.password = $event;
+        })
+      }, null, 512
+      /* NEED_PATCH */
+      )), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.studentForm.password]]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+        "class": "form-check-input",
+        type: "checkbox",
+        id: "checkSendEmail",
+        "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
+          return $data.studentForm.sendEmail = $event;
+        })
+      }, null, 512
+      /* NEED_PATCH */
+      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.studentForm.sendEmail]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_27, [_hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$studentForm$em = $data.studentForm.email) !== null && _$data$studentForm$em !== void 0 ? _$data$studentForm$em : '{e-mailadres}'), 1
+      /* TEXT */
+      )])])])], 32
       /* HYDRATE_EVENTS */
       )])];
     }),
@@ -25166,7 +25230,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         type: "number",
         "class": "form-control",
         id: "inputStudentId",
-        value: $props.user.student.id,
+        value: $props.user.student_id,
         readonly: ""
       }, null, 8
       /* PROPS */
