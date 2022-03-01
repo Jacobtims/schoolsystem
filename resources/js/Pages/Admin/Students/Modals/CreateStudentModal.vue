@@ -64,7 +64,7 @@
             </form>
         </div>
         <template #footer>
-            <button class="btn btn-primary" type="submit" @click="createStudent" autofocus :disabled="studentForm.processing"><i class="fa-solid fa-check"></i> Aanmaken</button>
+            <button class="btn btn-primary" type="submit" @click="createStudent()" autofocus :disabled="studentForm.processing"><i class="fa-solid fa-check"></i> Aanmaken</button>
             <button class="btn btn-secondary" @click="close" :disabled="studentForm.processing"><i class="fa-solid fa-xmark"></i> Annuleren</button>
         </template>
     </Dialog>

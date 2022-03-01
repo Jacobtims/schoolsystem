@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreStudentRequest;
+use App\Http\Requests\UpdateStudentRequest;
 use App\Models\Role;
 use App\Models\Student;
 use App\Models\User;
@@ -108,13 +109,17 @@ class StudentController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param UpdateStudentRequest $request
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(UpdateStudentRequest $request, int $id)
     {
-        //
+        $user = User::findOrFail($id);
+        $user->fill($request->only(['email', 'firstname', 'lastname', 'phone_number', 'date_of_birth', 'country', 'state', 'city', 'zipcode', 'street']));
+        $user->save();
+
+        return Redirect::route('admin.students.index');
     }
 
     /**
