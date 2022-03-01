@@ -20486,6 +20486,48 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Admin/Students/Modals/DeleteStudentConfirmationModal.vue?vue&type=script&lang=js":
+/*!*****************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Admin/Students/Modals/DeleteStudentConfirmationModal.vue?vue&type=script&lang=js ***!
+  \*****************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var primevue_dialog__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! primevue/dialog */ "./node_modules/primevue/dialog/dialog.esm.js");
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: 'DeleteStudentConfirmationModal',
+  props: {
+    openModal: Boolean,
+    userId: Number
+  },
+  components: {
+    Dialog: primevue_dialog__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  methods: {
+    close: function close() {
+      this.$parent.openDeleteModal = false;
+      this.$parent.deleteId = null;
+    },
+    deleteStudent: function deleteStudent() {
+      var _this = this;
+
+      this.$inertia["delete"](route('admin.students.destroy', this.userId), {
+        preserveScroll: true,
+        onSuccess: function onSuccess() {
+          _this.close();
+        }
+      });
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Admin/Students/Modals/EditStudentModal.vue?vue&type=script&lang=js":
 /*!***************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Admin/Students/Modals/EditStudentModal.vue?vue&type=script&lang=js ***!
@@ -20577,6 +20619,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _Pages_Admin_Students_Modals_EditStudentModal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/Pages/Admin/Students/Modals/EditStudentModal */ "./resources/js/Pages/Admin/Students/Modals/EditStudentModal.vue");
 /* harmony import */ var _Pages_Admin_Students_Modals_CreateStudentModal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/Pages/Admin/Students/Modals/CreateStudentModal */ "./resources/js/Pages/Admin/Students/Modals/CreateStudentModal.vue");
+/* harmony import */ var _Pages_Admin_Students_Modals_DeleteStudentConfirmationModal__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/Pages/Admin/Students/Modals/DeleteStudentConfirmationModal */ "./resources/js/Pages/Admin/Students/Modals/DeleteStudentConfirmationModal.vue");
+
 
 
 
@@ -20585,6 +20629,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   layout: _Layouts_AdminLayout__WEBPACK_IMPORTED_MODULE_0__["default"],
   components: {
+    DeleteStudentConfirmationModal: _Pages_Admin_Students_Modals_DeleteStudentConfirmationModal__WEBPACK_IMPORTED_MODULE_5__["default"],
     CreateStudentModal: _Pages_Admin_Students_Modals_CreateStudentModal__WEBPACK_IMPORTED_MODULE_4__["default"],
     EditStudentModal: _Pages_Admin_Students_Modals_EditStudentModal__WEBPACK_IMPORTED_MODULE_3__["default"],
     Pagination: _components_Pagination__WEBPACK_IMPORTED_MODULE_1__["default"]
@@ -20602,7 +20647,9 @@ __webpack_require__.r(__webpack_exports__);
       },
       openEditModal: false,
       activeStudent: null,
-      openCreateModal: false
+      openCreateModal: false,
+      openDeleteModal: false,
+      deleteId: null
     };
   },
   methods: {
@@ -20616,6 +20663,10 @@ __webpack_require__.r(__webpack_exports__);
     },
     createStudent: function createStudent() {
       this.openCreateModal = true;
+    },
+    deleteStudent: function deleteStudent(id) {
+      this.deleteId = id;
+      this.openDeleteModal = true;
     }
   },
   watch: {
@@ -25030,6 +25081,85 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Admin/Students/Modals/DeleteStudentConfirmationModal.vue?vue&type=template&id=3c11dee3":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Admin/Students/Modals/DeleteStudentConfirmationModal.vue?vue&type=template&id=3c11dee3 ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+
+var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Weet je zeker dat je deze student wilt verwijderen?", -1
+/* HOISTED */
+);
+
+var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  "class": "fa-solid fa-check"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Ja");
+
+var _hoisted_4 = [_hoisted_2, _hoisted_3];
+
+var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  "class": "fa-solid fa-xmark"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Annuleren");
+
+var _hoisted_7 = [_hoisted_5, _hoisted_6];
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_Dialog = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Dialog");
+
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Dialog, {
+    header: "Weet je het zeker?",
+    visible: $props.openModal,
+    "onUpdate:visible": _cache[2] || (_cache[2] = function ($event) {
+      return $props.openModal = $event;
+    }),
+    style: {
+      width: '400px'
+    },
+    modal: true,
+    draggable: false,
+    onHide: $options.close
+  }, {
+    footer: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+        "class": "btn btn-danger",
+        onClick: _cache[0] || (_cache[0] = function () {
+          return $options.deleteStudent && $options.deleteStudent.apply($options, arguments);
+        })
+      }, _hoisted_4), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+        "class": "btn btn-secondary",
+        onClick: _cache[1] || (_cache[1] = function () {
+          return $options.close && $options.close.apply($options, arguments);
+        })
+      }, _hoisted_7)];
+    }),
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [_hoisted_1];
+    }),
+    _: 1
+    /* STABLE */
+
+  }, 8
+  /* PROPS */
+  , ["visible", "onHide"]);
+}
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Admin/Students/Modals/EditStudentModal.vue?vue&type=template&id=126f9337":
 /*!*******************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Admin/Students/Modals/EditStudentModal.vue?vue&type=template&id=126f9337 ***!
@@ -25573,32 +25703,34 @@ var _hoisted_45 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 );
 
 var _hoisted_46 = [_hoisted_45];
+var _hoisted_47 = ["onClick"];
 
-var _hoisted_47 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-  "class": "btn btn-danger"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+var _hoisted_48 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
   "class": "fa-solid fa-trash-can"
-})], -1
+}, null, -1
 /* HOISTED */
 );
 
-var _hoisted_48 = {
+var _hoisted_49 = [_hoisted_48];
+var _hoisted_50 = {
   key: 1
 };
 
-var _hoisted_49 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
+var _hoisted_51 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
   colspan: "9"
 }, "Geen studenten gevonden!", -1
 /* HOISTED */
 );
 
-var _hoisted_50 = [_hoisted_49];
+var _hoisted_52 = [_hoisted_51];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_pagination = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("pagination");
 
   var _component_edit_student_modal = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("edit-student-modal");
 
   var _component_create_student_modal = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("create-student-modal");
+
+  var _component_delete_student_confirmation_modal = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("delete-student-confirmation-modal");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn btn-success me-2",
@@ -25679,15 +25811,22 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }
     }, _hoisted_46, 8
     /* PROPS */
-    , _hoisted_44), _hoisted_47])])]);
+    , _hoisted_44), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "btn btn-danger",
+      onClick: function onClick($event) {
+        return $options.deleteStudent(student.id);
+      }
+    }, _hoisted_49, 8
+    /* PROPS */
+    , _hoisted_47)])])]);
   }), 128
   /* KEYED_FRAGMENT */
-  )) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", _hoisted_48, _hoisted_50))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_pagination, {
+  )) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", _hoisted_50, _hoisted_52))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_pagination, {
     pagination: $props.students,
     "class": "mt-2"
   }, null, 8
   /* PROPS */
-  , ["pagination"])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_edit_student_modal, {
+  , ["pagination"])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Modals "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_edit_student_modal, {
     "open-modal": $data.openEditModal,
     user: $data.activeStudent
   }, null, 8
@@ -25696,7 +25835,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "open-modal": $data.openCreateModal
   }, null, 8
   /* PROPS */
-  , ["open-modal"])], 64
+  , ["open-modal"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_delete_student_confirmation_modal, {
+    "open-modal": $data.openDeleteModal,
+    "user-id": $data.deleteId
+  }, null, 8
+  /* PROPS */
+  , ["open-modal", "user-id"])], 64
   /* STABLE_FRAGMENT */
   );
 }
@@ -85280,6 +85424,34 @@ if (false) {}
 
 /***/ }),
 
+/***/ "./resources/js/Pages/Admin/Students/Modals/DeleteStudentConfirmationModal.vue":
+/*!*************************************************************************************!*\
+  !*** ./resources/js/Pages/Admin/Students/Modals/DeleteStudentConfirmationModal.vue ***!
+  \*************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _DeleteStudentConfirmationModal_vue_vue_type_template_id_3c11dee3__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DeleteStudentConfirmationModal.vue?vue&type=template&id=3c11dee3 */ "./resources/js/Pages/Admin/Students/Modals/DeleteStudentConfirmationModal.vue?vue&type=template&id=3c11dee3");
+/* harmony import */ var _DeleteStudentConfirmationModal_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DeleteStudentConfirmationModal.vue?vue&type=script&lang=js */ "./resources/js/Pages/Admin/Students/Modals/DeleteStudentConfirmationModal.vue?vue&type=script&lang=js");
+/* harmony import */ var C_Users_Jacob14_schoolsystem_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+
+
+
+
+;
+const __exports__ = /*#__PURE__*/(0,C_Users_Jacob14_schoolsystem_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_DeleteStudentConfirmationModal_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_DeleteStudentConfirmationModal_vue_vue_type_template_id_3c11dee3__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/Pages/Admin/Students/Modals/DeleteStudentConfirmationModal.vue"]])
+/* hot reload */
+if (false) {}
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
+
+/***/ }),
+
 /***/ "./resources/js/Pages/Admin/Students/Modals/EditStudentModal.vue":
 /*!***********************************************************************!*\
   !*** ./resources/js/Pages/Admin/Students/Modals/EditStudentModal.vue ***!
@@ -86448,6 +86620,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/Pages/Admin/Students/Modals/DeleteStudentConfirmationModal.vue?vue&type=script&lang=js":
+/*!*************************************************************************************************************!*\
+  !*** ./resources/js/Pages/Admin/Students/Modals/DeleteStudentConfirmationModal.vue?vue&type=script&lang=js ***!
+  \*************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_DeleteStudentConfirmationModal_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_DeleteStudentConfirmationModal_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./DeleteStudentConfirmationModal.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Admin/Students/Modals/DeleteStudentConfirmationModal.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
 /***/ "./resources/js/Pages/Admin/Students/Modals/EditStudentModal.vue?vue&type=script&lang=js":
 /*!***********************************************************************************************!*\
   !*** ./resources/js/Pages/Admin/Students/Modals/EditStudentModal.vue?vue&type=script&lang=js ***!
@@ -87408,6 +87596,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/Pages/Admin/Students/Modals/DeleteStudentConfirmationModal.vue?vue&type=template&id=3c11dee3":
+/*!*******************************************************************************************************************!*\
+  !*** ./resources/js/Pages/Admin/Students/Modals/DeleteStudentConfirmationModal.vue?vue&type=template&id=3c11dee3 ***!
+  \*******************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_DeleteStudentConfirmationModal_vue_vue_type_template_id_3c11dee3__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_DeleteStudentConfirmationModal_vue_vue_type_template_id_3c11dee3__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./DeleteStudentConfirmationModal.vue?vue&type=template&id=3c11dee3 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Admin/Students/Modals/DeleteStudentConfirmationModal.vue?vue&type=template&id=3c11dee3");
+
+
+/***/ }),
+
 /***/ "./resources/js/Pages/Admin/Students/Modals/EditStudentModal.vue?vue&type=template&id=126f9337":
 /*!*****************************************************************************************************!*\
   !*** ./resources/js/Pages/Admin/Students/Modals/EditStudentModal.vue?vue&type=template&id=126f9337 ***!
@@ -88170,6 +88374,7 @@ var map = {
 	"./API/Partials/ApiTokenManager.vue": "./resources/js/Pages/API/Partials/ApiTokenManager.vue",
 	"./Admin/Dashboard.vue": "./resources/js/Pages/Admin/Dashboard.vue",
 	"./Admin/Students/Modals/CreateStudentModal.vue": "./resources/js/Pages/Admin/Students/Modals/CreateStudentModal.vue",
+	"./Admin/Students/Modals/DeleteStudentConfirmationModal.vue": "./resources/js/Pages/Admin/Students/Modals/DeleteStudentConfirmationModal.vue",
 	"./Admin/Students/Modals/EditStudentModal.vue": "./resources/js/Pages/Admin/Students/Modals/EditStudentModal.vue",
 	"./Admin/Students/Overview.vue": "./resources/js/Pages/Admin/Students/Overview.vue",
 	"./Auth/ConfirmPassword.vue": "./resources/js/Pages/Auth/ConfirmPassword.vue",

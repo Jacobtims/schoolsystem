@@ -76,7 +76,7 @@
                             <td>
                                 <div class="float-end">
                                     <button class="btn btn-success me-2" @click="editStudent(student)"><i class="fa-solid fa-pen-to-square"></i></button>
-                                    <button class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
+                                    <button class="btn btn-danger" @click="deleteStudent(student.id)"><i class="fa-solid fa-trash-can"></i></button>
                                 </div>
                             </td>
                         </tr>
@@ -90,8 +90,11 @@
             </div>
         </div>
     </div>
+
+    <!-- Modals -->
     <edit-student-modal :open-modal="openEditModal" :user="activeStudent"></edit-student-modal>
     <create-student-modal :open-modal="openCreateModal"></create-student-modal>
+    <delete-student-confirmation-modal :open-modal="openDeleteModal" :user-id="deleteId"></delete-student-confirmation-modal>
 </template>
 <script>
 
@@ -100,9 +103,11 @@ import Pagination from "@/components/Pagination";
 import {pickBy, throttle} from "lodash";
 import EditStudentModal from "@/Pages/Admin/Students/Modals/EditStudentModal";
 import CreateStudentModal from "@/Pages/Admin/Students/Modals/CreateStudentModal";
+import DeleteStudentConfirmationModal from "@/Pages/Admin/Students/Modals/DeleteStudentConfirmationModal";
 export default {
     layout: AdminLayout,
     components: {
+        DeleteStudentConfirmationModal,
         CreateStudentModal,
         EditStudentModal,
         Pagination
@@ -120,7 +125,9 @@ export default {
             },
             openEditModal: false,
             activeStudent: null,
-            openCreateModal: false
+            openCreateModal: false,
+            openDeleteModal: false,
+            deleteId: null
         }
     },
     methods: {
@@ -134,6 +141,10 @@ export default {
         },
         createStudent() {
             this.openCreateModal = true;
+        },
+        deleteStudent(id) {
+            this.deleteId = id;
+            this.openDeleteModal = true;
         }
     },
     watch: {

@@ -9,6 +9,7 @@ use App\Models\Role;
 use App\Models\Student;
 use App\Models\User;
 use Hash;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Redirect;
@@ -60,9 +61,9 @@ class StudentController extends Controller
      * Store a newly created resource in storage.
      *
      * @param StoreStudentRequest $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function store(StoreStudentRequest $request)
+    public function store(StoreStudentRequest $request): RedirectResponse
     {
         $studentRole = Role::whereName('Student')->firstOrFail();
 
@@ -111,9 +112,9 @@ class StudentController extends Controller
      *
      * @param UpdateStudentRequest $request
      * @param int $id
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function update(UpdateStudentRequest $request, int $id)
+    public function update(UpdateStudentRequest $request, int $id): RedirectResponse
     {
         $user = User::findOrFail($id);
         $user->fill($request->only(['email', 'firstname', 'lastname', 'phone_number', 'date_of_birth', 'country', 'state', 'city', 'zipcode', 'street']));
@@ -125,11 +126,14 @@ class StudentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return RedirectResponse
      */
-    public function destroy($id)
+    public function destroy(int $id): RedirectResponse
     {
-        //
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return Redirect::route('admin.students.index');
     }
 }
