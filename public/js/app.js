@@ -20675,7 +20675,8 @@ __webpack_require__.r(__webpack_exports__);
         var params = (0,lodash__WEBPACK_IMPORTED_MODULE_2__.pickBy)(this.params);
         this.$inertia.get(this.route('admin.students.index'), params, {
           replace: true,
-          preserveState: true
+          preserveState: true,
+          preserveScroll: true
         });
       }, 150),
       deep: true

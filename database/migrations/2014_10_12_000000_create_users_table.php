@@ -29,6 +29,7 @@ class CreateUsersTable extends Migration
             $table->string('city');
             $table->string('zipcode');
             $table->string('street');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

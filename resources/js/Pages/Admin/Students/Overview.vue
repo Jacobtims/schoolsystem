@@ -152,7 +152,7 @@ export default {
             handler: throttle(function () {
                 let params = pickBy(this.params);
 
-                this.$inertia.get(this.route('admin.students.index'), params, { replace: true, preserveState: true });
+                this.$inertia.get(this.route('admin.students.index'), params, { replace: true, preserveState: true, preserveScroll: true });
             }, 150),
             deep: true
         }
