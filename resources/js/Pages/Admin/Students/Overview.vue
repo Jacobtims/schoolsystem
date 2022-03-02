@@ -51,12 +51,6 @@
                                 <i class="fa-solid fa-arrow-up-wide-short" v-else-if="params.field === 'phone_number' && params.direction === 'asc'"></i>
                                 <i class="fa-solid fa-sort" v-else></i>
                             </th>
-                            <th @click="sort('street')" class="clickable">
-                                <span class="me-2">Adres</span>
-                                <i class="fa-solid fa-arrow-down-short-wide" v-if="params.field === 'street' && params.direction === 'desc'"></i>
-                                <i class="fa-solid fa-arrow-up-wide-short" v-else-if="params.field === 'street' && params.direction === 'asc'"></i>
-                                <i class="fa-solid fa-sort" v-else></i>
-                            </th>
                             <th></th>
                         </tr>
                     </thead>
@@ -72,10 +66,9 @@
                             <td>{{ student.student_id }}</td>
                             <td>{{ student.email }}</td>
                             <td>{{ student.phone_number }}</td>
-                            <td>{{ student.street }}</td>
                             <td>
                                 <div class="float-end">
-                                    <button class="btn btn-warning me-2"><i class="fa-solid fa-eye"></i></button>
+                                    <button class="btn btn-warning me-2" @click="showStudent(student)"><i class="fa-solid fa-eye"></i></button>
                                     <button class="btn btn-success me-2" @click="editStudent(student)"><i class="fa-solid fa-pen-to-square"></i></button>
                                     <button class="btn btn-danger" @click="deleteStudent(student.id)"><i class="fa-solid fa-trash-can"></i></button>
                                 </div>
@@ -97,6 +90,7 @@
     <create-student-modal :open-modal="openCreateModal"></create-student-modal>
     <delete-student-confirmation-modal :open-modal="openDeleteModal" :user-id="deleteId"></delete-student-confirmation-modal>
     <delete-selected-student-confirmation-modal :open-modal="openSelectedDeleteModal" :user-ids="selectedRows"></delete-selected-student-confirmation-modal>
+    <show-student-modal :open-modal="openShowModal" :user="activeStudent"></show-student-modal>
 </template>
 <script>
 
@@ -108,10 +102,12 @@ import CreateStudentModal from "@/Pages/Admin/Students/Modals/CreateStudentModal
 import DeleteStudentConfirmationModal from "@/Pages/Admin/Students/Modals/DeleteStudentConfirmationModal";
 import DeleteSelectedStudentConfirmationModal
     from "@/Pages/Admin/Students/Modals/DeleteSelectedStudentsConfirmationModal";
+import ShowStudentModal from "@/Pages/Admin/Students/Modals/ShowStudentModal";
 
 export default {
     layout: AdminLayout,
     components: {
+        ShowStudentModal,
         DeleteSelectedStudentConfirmationModal,
         DeleteStudentConfirmationModal,
         CreateStudentModal,
@@ -135,7 +131,8 @@ export default {
             openDeleteModal: false,
             deleteId: null,
             selectedRows: [],
-            openSelectedDeleteModal: false
+            openSelectedDeleteModal: false,
+            openShowModal: false
         }
     },
     methods: {
@@ -167,6 +164,10 @@ export default {
             if (this.selectedRows.length > 0) {
                 this.openSelectedDeleteModal = true;
             }
+        },
+        showStudent(student) {
+            this.activeStudent = student;
+            this.openShowModal = true;
         }
     },
     watch: {

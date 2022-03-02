@@ -26,7 +26,7 @@ class StudentController extends Controller
     public function index(Request $request): \Inertia\Response
     {
         $request->validate([
-            'field' => 'in:firstname,lastname,student_id,email,phone_number,street',
+            'field' => 'in:firstname,lastname,student_id,email,phone_number',
             'direction' => 'in:asc,desc'
         ]);
 

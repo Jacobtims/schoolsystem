@@ -10,43 +10,73 @@
                 </div>
                 <div class="col-md-5">
                     <label for="inputFirstname" class="form-label">Voornaam</label>
-                    <input type="text" class="form-control" id="inputFirstname" v-model="studentForm.firstname">
+                    <input type="text" class="form-control" :class="{'is-invalid': studentForm.errors.firstname}" id="inputFirstname" v-model="studentForm.firstname" aria-describedby="feedbackFirstname" required min="2">
+                    <div id="feedbackFirstname" class="invalid-feedback" v-if="studentForm.errors.firstname">
+                        {{ studentForm.errors.firstname }}
+                    </div>
                 </div>
                 <div class="col-md-7">
                     <label for="inputLastname" class="form-label">Achternaam</label>
-                    <input type="text" class="form-control" id="inputLastname" v-model="studentForm.lastname">
+                    <input type="text" class="form-control" :class="{'is-invalid': studentForm.errors.lastname}" id="inputLastname" v-model="studentForm.lastname" aria-describedby="feedbackLastname" required min="2">
+                    <div id="feedbackLastname" class="invalid-feedback" v-if="studentForm.errors.lastname">
+                        {{ studentForm.errors.lastname }}
+                    </div>
                 </div>
                 <div class="col-md-12">
                     <label for="inputEmail" class="form-label">E-mailadres</label>
-                    <input type="text" class="form-control" id="inputEmail" v-model="studentForm.email">
+                    <input type="email" class="form-control" :class="{'is-invalid': studentForm.errors.email}" id="inputEmail" v-model="studentForm.email" aria-describedby="feedbackEmail" required>
+                    <div id="feedbackEmail" class="invalid-feedback" v-if="studentForm.errors.email">
+                        {{ studentForm.errors.email }}
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <label for="inputAddress" class="form-label">Straatnaam + huisnummer</label>
-                    <input type="text" class="form-control" id="inputAddress" v-model="studentForm.street">
+                    <input type="text" class="form-control" :class="{'is-invalid': studentForm.errors.street}" id="inputAddress" v-model="studentForm.street" aria-describedby="feedbackStreet" required>
+                    <div id="feedbackStreet" class="invalid-feedback" v-if="studentForm.errors.street">
+                        {{ studentForm.errors.street }}
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <label for="inputCity" class="form-label">Woonplaats</label>
-                    <input type="text" class="form-control" id="inputCity" v-model="studentForm.city">
+                    <input type="text" class="form-control" :class="{'is-invalid': studentForm.errors.city}" id="inputCity" v-model="studentForm.city" aria-describedby="feedbackCity" required>
+                    <div id="feedbackCity" class="invalid-feedback" v-if="studentForm.errors.city">
+                        {{ studentForm.errors.city }}
+                    </div>
                 </div>
                 <div class="col-md-5">
                     <label for="inputCountry" class="form-label">Land</label>
-                    <input type="text" class="form-control" id="inputCountry" v-model="studentForm.country">
+                    <input type="text" class="form-control" :class="{'is-invalid': studentForm.errors.country}" id="inputCountry" v-model="studentForm.country" aria-describedby="feedbackCountry" required>
+                    <div id="feedbackCountry" class="invalid-feedback" v-if="studentForm.errors.country">
+                        {{ studentForm.errors.country }}
+                    </div>
                 </div>
                 <div class="col-md-5">
                     <label for="inputState" class="form-label">Provincie</label>
-                    <input type="text" class="form-control" id="inputState" v-model="studentForm.state">
+                    <input type="text" class="form-control" :class="{'is-invalid': studentForm.errors.state}" id="inputState" v-model="studentForm.state" aria-describedby="feedbackState" required>
+                    <div id="feedbackState" class="invalid-feedback" v-if="studentForm.errors.state">
+                        {{ studentForm.errors.state }}
+                    </div>
                 </div>
                 <div class="col-md-2">
                     <label for="inputZip" class="form-label">Zip</label>
-                    <input type="text" class="form-control" id="inputZip" v-model="studentForm.zipcode">
+                    <input type="text" class="form-control" :class="{'is-invalid': studentForm.errors.zipcode}" id="inputZip" v-model="studentForm.zipcode" aria-describedby="feedbackZipcode" required>
+                    <div id="feedbackZipcode" class="invalid-feedback" v-if="studentForm.errors.zipcode">
+                        {{ studentForm.errors.zipcode }}
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <label for="inputPhone" class="form-label">Telefoonnummer</label>
-                    <input type="tel" class="form-control" id="inputPhone" v-model="studentForm.phone_number">
+                    <input type="tel" class="form-control" :class="{'is-invalid': studentForm.errors.phone_number}" id="inputPhone" v-model="studentForm.phone_number" aria-describedby="feedbackPhoneNumber" required>
+                    <div id="feedbackPhoneNumber" class="invalid-feedback" v-if="studentForm.errors.phone_number">
+                        {{ studentForm.errors.phone_number }}
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <label for="inputBirthday" class="form-label">Geboortedatum</label>
-                    <input type="date" class="form-control" id="inputBirthday" v-model="studentForm.date_of_birth">
+                    <input type="date" class="form-control" :class="{'is-invalid': studentForm.errors.date_of_birth}" id="inputBirthday" v-model="studentForm.date_of_birth" aria-describedby="feedbackDateOfBirth" required>
+                    <div id="feedbackDateOfBirth" class="invalid-feedback" v-if="studentForm.errors.date_of_birth">
+                        {{ studentForm.errors.date_of_birth }}
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <label for="inputBirthday" class="form-label">Wachtwoord reset</label><br/>
