@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-body d-flex">
                 <button class="btn btn-success me-2" @click="createStudent"><i class="fa-solid fa-plus"></i> Nieuwe</button>
-                <button class="btn btn-danger"><i class="fa-solid fa-trash-can"></i> Verwijderen</button>
+                <button class="btn btn-danger" :disabled="!selectedRows || selectedRows.length <= 0" @click="deleteSelectedStudents"><i class="fa-solid fa-trash-can"></i> Verwijderen</button>
 
                 <button class="btn btn-info ms-auto me-2"><i class="fa-solid fa-file-import"></i> Importeren</button>
                 <button class="btn btn-dark"><i class="fa-solid fa-file-export"></i> Exporteren</button>
@@ -19,7 +19,7 @@
                 <table class="table table-borderless" id="student-table">
                     <thead>
                         <tr>
-                            <th><input class="form-check-input" type="checkbox"></th>
+                            <th></th>
                             <th style="width: 50px"></th>
                             <th @click="sort('firstname')" class="clickable">
                                 <span class="me-2">Voornaam</span>
@@ -62,7 +62,7 @@
                     </thead>
                     <tbody>
                         <tr v-for="(student, index) in students.data" :key="'student'+index" v-if="students.data.length > 0">
-                            <td><input class="form-check-input" type="checkbox"></td>
+                            <td><input class="form-check-input" type="checkbox" @click="selectRow(student.id)" :checked="selectedRows.indexOf(student.id) > -1"></td>
                             <td>
                                 <img :src="'https://eu.ui-avatars.com/api/?size=50&name='+student.firstname+'+'+student.lastname" alt="Profile picture"
                                      class="rounded-circle" width="50" height="50"/>
@@ -75,6 +75,7 @@
                             <td>{{ student.street }}</td>
                             <td>
                                 <div class="float-end">
+                                    <button class="btn btn-warning me-2"><i class="fa-solid fa-eye"></i></button>
                                     <button class="btn btn-success me-2" @click="editStudent(student)"><i class="fa-solid fa-pen-to-square"></i></button>
                                     <button class="btn btn-danger" @click="deleteStudent(student.id)"><i class="fa-solid fa-trash-can"></i></button>
                                 </div>
@@ -95,6 +96,7 @@
     <edit-student-modal :open-modal="openEditModal" :user="activeStudent"></edit-student-modal>
     <create-student-modal :open-modal="openCreateModal"></create-student-modal>
     <delete-student-confirmation-modal :open-modal="openDeleteModal" :user-id="deleteId"></delete-student-confirmation-modal>
+    <delete-selected-student-confirmation-modal :open-modal="openSelectedDeleteModal" :user-ids="selectedRows"></delete-selected-student-confirmation-modal>
 </template>
 <script>
 
@@ -104,9 +106,13 @@ import {pickBy, throttle} from "lodash";
 import EditStudentModal from "@/Pages/Admin/Students/Modals/EditStudentModal";
 import CreateStudentModal from "@/Pages/Admin/Students/Modals/CreateStudentModal";
 import DeleteStudentConfirmationModal from "@/Pages/Admin/Students/Modals/DeleteStudentConfirmationModal";
+import DeleteSelectedStudentConfirmationModal
+    from "@/Pages/Admin/Students/Modals/DeleteSelectedStudentsConfirmationModal";
+
 export default {
     layout: AdminLayout,
     components: {
+        DeleteSelectedStudentConfirmationModal,
         DeleteStudentConfirmationModal,
         CreateStudentModal,
         EditStudentModal,
@@ -127,7 +133,9 @@ export default {
             activeStudent: null,
             openCreateModal: false,
             openDeleteModal: false,
-            deleteId: null
+            deleteId: null,
+            selectedRows: [],
+            openSelectedDeleteModal: false
         }
     },
     methods: {
@@ -145,6 +153,20 @@ export default {
         deleteStudent(id) {
             this.deleteId = id;
             this.openDeleteModal = true;
+        },
+        selectRow(id) {
+            if (this.selectedRows.includes(id)) {
+                this.selectedRows = this.selectedRows.filter(
+                    selectedKeyID => selectedKeyID !== id
+                );
+            } else {
+                this.selectedRows.push(id);
+            }
+        },
+        deleteSelectedStudents() {
+            if (this.selectedRows.length > 0) {
+                this.openSelectedDeleteModal = true;
+            }
         }
     },
     watch: {
