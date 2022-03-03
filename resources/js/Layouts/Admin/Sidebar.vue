@@ -27,21 +27,22 @@
                             <i class="fa-solid fa-user-graduate sidebar-icon"></i>
                             <span class="sidebar-name">Overzicht</span>
                         </Link>
-                        <a href="#" class="sidebar-link sidebar-collapse-link">
-                            <i class="fa-solid fa-user-graduate sidebar-icon"></i><span class="sidebar-name">Nieuwe toevoegen</span>
-                        </a>
+<!--                        <a href="#" class="sidebar-link sidebar-collapse-link">-->
+<!--                            <i class="fa-solid fa-user-graduate sidebar-icon"></i><span class="sidebar-name">Nieuwe toevoegen</span>-->
+<!--                        </a>-->
                     </div>
                     <!-- Docenten collapse -->
-                    <a href="#collapseTeachers" class="sidebar-link" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseTeachers">
+                    <a href="#collapseTeachers" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseTeachers" :class="{'sidebar-link': true, 'active': isRoute('admin.teachers.')}">
                         <i class="fa-solid fa-chalkboard-user sidebar-icon"></i><span class="sidebar-name">Docenten</span><i class="fa-solid fa-angle-down collapse-icon"></i>
                     </a>
                     <div class="collapse" id="collapseTeachers">
-                        <a href="#" class="sidebar-link sidebar-collapse-link">
-                            <i class="fa-solid fa-chalkboard-user sidebar-icon"></i><span class="sidebar-name">Overzicht</span>
-                        </a>
-                        <a href="#" class="sidebar-link sidebar-collapse-link">
-                            <i class="fa-solid fa-chalkboard-user sidebar-icon"></i><span class="sidebar-name">Nieuwe toevoegen</span>
-                        </a>
+                        <Link :href="route('admin.teachers.index')" :class="{'sidebar-link': true, 'sidebar-collapse-link': true, 'active': isRoute('admin.teachers.index')}">
+                            <i class="fa-solid fa-chalkboard-user sidebar-icon"></i>
+                            <span class="sidebar-name">Overzicht</span>
+                        </Link>
+<!--                        <a href="#" class="sidebar-link sidebar-collapse-link">-->
+<!--                            <i class="fa-solid fa-chalkboard-user sidebar-icon"></i><span class="sidebar-name">Nieuwe toevoegen</span>-->
+<!--                        </a>-->
                     </div>
                 </div>
             </div>

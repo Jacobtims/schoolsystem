@@ -65,6 +65,10 @@ export default {
 <style lang="scss">
 #admin-navbar {
     border-bottom: 1px solid #D3D3D3;
+    position: sticky;
+    top: 0;
+    z-index: 450;
+
     .nav-link {
         font-size: 17px;
         font-weight: 500;

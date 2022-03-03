@@ -16,8 +16,9 @@
                     <h3>Leerlingen overzicht</h3>
                     <input type="text" class="form-control ms-auto" placeholder="Zoeken..." v-model="params.search" style="max-width: 400px;"/>
                 </div>
-                <table class="table table-borderless" id="student-table">
-                    <thead>
+                <div class="table-responsive">
+                    <table class="table table-borderless" id="student-table">
+                        <thead>
                         <tr>
                             <th></th>
                             <th style="width: 50px"></th>
@@ -53,8 +54,8 @@
                             </th>
                             <th></th>
                         </tr>
-                    </thead>
-                    <tbody>
+                        </thead>
+                        <tbody>
                         <tr v-for="(student, index) in students.data" :key="'student'+index" v-if="students.data.length > 0">
                             <td><input class="form-check-input" type="checkbox" @click="selectRow(student.id)" :checked="selectedRows.indexOf(student.id) > -1"></td>
                             <td>
@@ -67,7 +68,7 @@
                             <td>{{ student.email }}</td>
                             <td>{{ student.phone_number }}</td>
                             <td>
-                                <div class="float-end">
+                                <div class="float-end d-flex">
                                     <button class="btn btn-warning me-2" @click="showStudent(student)"><i class="fa-solid fa-eye"></i></button>
                                     <button class="btn btn-success me-2" @click="editStudent(student)"><i class="fa-solid fa-pen-to-square"></i></button>
                                     <button class="btn btn-danger" @click="deleteStudent(student.id)"><i class="fa-solid fa-trash-can"></i></button>
@@ -77,8 +78,9 @@
                         <tr v-else>
                             <td colspan="9">Geen studenten gevonden!</td>
                         </tr>
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
 
                 <pagination :pagination="students" class="mt-2"></pagination>
             </div>
