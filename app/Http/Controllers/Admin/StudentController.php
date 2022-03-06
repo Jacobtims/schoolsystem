@@ -30,7 +30,8 @@ class StudentController extends Controller
             'direction' => 'in:asc,desc'
         ]);
 
-        $students = User::whereRoleId(3)
+        $studentRole = Role::whereName('Student')->firstOrFail();
+        $students = User::whereRoleId($studentRole->id)
             ->join('students', 'users.id', '=', 'students.user_id')
             ->selectRaw('users.*, students.id as student_id')
             ->when($request->has('search'), function ($query) use ($request) {

@@ -2,8 +2,8 @@
     <div>
         <div class="card">
             <div class="card-body d-flex">
-                <button class="btn btn-success me-2" @click="createStudent"><i class="fa-solid fa-plus"></i> Nieuwe</button>
-                <button class="btn btn-danger" :disabled="!selectedRows || selectedRows.length <= 0" @click="deleteSelectedStudents"><i class="fa-solid fa-trash-can"></i> Verwijderen</button>
+                <button class="btn btn-success me-2" @click="createTeacher"><i class="fa-solid fa-plus"></i> Nieuwe</button>
+                <button class="btn btn-danger" :disabled="!selectedRows || selectedRows.length <= 0" @click="deleteSelectedTeachers"><i class="fa-solid fa-trash-can"></i> Verwijderen</button>
 
                 <button class="btn btn-info ms-auto me-2"><i class="fa-solid fa-file-import"></i> Importeren</button>
                 <button class="btn btn-dark"><i class="fa-solid fa-file-export"></i> Exporteren</button>
@@ -13,11 +13,11 @@
         <div class="card mt-3">
             <div class="card-body">
                 <div class="d-flex mb-3 px-1">
-                    <h3>Leerlingen overzicht</h3>
+                    <h3>Docenten overzicht</h3>
                     <input type="text" class="form-control ms-auto" placeholder="Zoeken..." v-model="params.search" style="max-width: 400px;"/>
                 </div>
                 <div class="table-responsive">
-                    <table class="table table-borderless" id="student-table">
+                    <table class="table table-borderless" id="teacher-table">
                         <thead>
                         <tr>
                             <th></th>
@@ -34,10 +34,16 @@
                                 <i class="fa-solid fa-arrow-up-wide-short" v-else-if="params.field === 'lastname' && params.direction === 'asc'"></i>
                                 <i class="fa-solid fa-sort" v-else></i>
                             </th>
-                            <th @click="sort('student_id')" class="clickable">
-                                <span class="me-2">Leerlingnummer</span>
-                                <i class="fa-solid fa-arrow-down-short-wide" v-if="params.field === 'student_id' && params.direction === 'desc'"></i>
-                                <i class="fa-solid fa-arrow-up-wide-short" v-else-if="params.field === 'student_id' && params.direction === 'asc'"></i>
+                            <th @click="sort('abbreviation')" class="clickable">
+                                <span class="me-2">Afkorting</span>
+                                <i class="fa-solid fa-arrow-down-short-wide" v-if="params.field === 'abbreviation' && params.direction === 'desc'"></i>
+                                <i class="fa-solid fa-arrow-up-wide-short" v-else-if="params.field === 'abbreviation' && params.direction === 'asc'"></i>
+                                <i class="fa-solid fa-sort" v-else></i>
+                            </th>
+                            <th @click="sort('student_name')" class="clickable">
+                                <span class="me-2">Studenten naam</span>
+                                <i class="fa-solid fa-arrow-down-short-wide" v-if="params.field === 'student_name' && params.direction === 'desc'"></i>
+                                <i class="fa-solid fa-arrow-up-wide-short" v-else-if="params.field === 'student_name' && params.direction === 'asc'"></i>
                                 <i class="fa-solid fa-sort" v-else></i>
                             </th>
                             <th @click="sort('email')" class="clickable">
@@ -56,68 +62,68 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr v-for="(student, index) in students.data" :key="'student'+index" v-if="students.data.length > 0">
-                            <td><input class="form-check-input" type="checkbox" @click="selectRow(student.id)" :checked="selectedRows.indexOf(student.id) > -1"></td>
+                        <tr v-for="(teacher, index) in teachers.data" :key="'teacher'+index" v-if="teachers.data.length > 0">
+                            <td><input class="form-check-input" type="checkbox" @click="selectRow(teacher.id)" :checked="selectedRows.indexOf(teacher.id) > -1"></td>
                             <td>
-                                <img :src="'https://eu.ui-avatars.com/api/?size=50&name='+student.firstname+'+'+student.lastname" alt="Profile picture"
+                                <img :src="'https://eu.ui-avatars.com/api/?size=50&name='+teacher.firstname+'+'+teacher.lastname" alt="Profile picture"
                                      class="rounded-circle" width="50" height="50"/>
                             </td>
-                            <td>{{ student.firstname }}</td>
-                            <td>{{ student.lastname }}</td>
-                            <td>{{ student.student_id }}</td>
-                            <td>{{ student.email }}</td>
-                            <td>{{ student.phone_number }}</td>
+                            <td>{{ teacher.firstname }}</td>
+                            <td>{{ teacher.lastname }}</td>
+                            <td>{{ teacher.abbreviation }}</td>
+                            <td>{{ teacher.student_name }}</td>
+                            <td>{{ teacher.email }}</td>
+                            <td>{{ teacher.phone_number }}</td>
                             <td>
                                 <div class="float-end d-flex">
-                                    <button class="btn btn-warning me-2" @click="showStudent(student)"><i class="fa-solid fa-eye"></i></button>
-                                    <button class="btn btn-success me-2" @click="editStudent(student)"><i class="fa-solid fa-pen-to-square"></i></button>
-                                    <button class="btn btn-danger" @click="deleteStudent(student.id)"><i class="fa-solid fa-trash-can"></i></button>
+                                    <button class="btn btn-warning me-2" @click="showTeacher(teacher)"><i class="fa-solid fa-eye"></i></button>
+                                    <button class="btn btn-success me-2" @click="editTeacher(teacher)"><i class="fa-solid fa-pen-to-square"></i></button>
+                                    <button class="btn btn-danger" @click="deleteTeacher(teacher.id)"><i class="fa-solid fa-trash-can"></i></button>
                                 </div>
                             </td>
                         </tr>
                         <tr v-else>
-                            <td colspan="9">Geen studenten gevonden!</td>
+                            <td colspan="9">Geen docenten gevonden!</td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
 
-                <pagination :pagination="students" class="mt-2"></pagination>
+                <pagination :pagination="teachers" class="mt-2"></pagination>
             </div>
         </div>
     </div>
 
     <!-- Modals -->
-    <edit-student-modal :open-modal="openEditModal" :user="activeStudent"></edit-student-modal>
-    <create-student-modal :open-modal="openCreateModal"></create-student-modal>
-    <delete-student-confirmation-modal :open-modal="openDeleteModal" :user-id="deleteId"></delete-student-confirmation-modal>
-    <delete-selected-students-confirmation-modal :open-modal="openSelectedDeleteModal" :user-ids="selectedRows"></delete-selected-students-confirmation-modal>
-    <show-student-modal :open-modal="openShowModal" :user="activeStudent"></show-student-modal>
+    <edit-teacher-modal :open-modal="openEditModal" :teacher="activeTeacher"></edit-teacher-modal>
+    <create-teacher-modal :open-modal="openCreateModal"></create-teacher-modal>
+    <delete-teacher-confirmation-modal :open-modal="openDeleteModal" :user-id="deleteId"></delete-teacher-confirmation-modal>
+    <delete-selected-teachers-confirmation-modal :open-modal="openSelectedDeleteModal" :user-ids="selectedRows"></delete-selected-teachers-confirmation-modal>
+    <show-teacher-modal :open-modal="openShowModal" :teacher="activeTeacher"></show-teacher-modal>
 </template>
 <script>
 
 import AdminLayout from "@/Layouts/AdminLayout";
 import Pagination from "@/components/Pagination";
 import {pickBy, throttle} from "lodash";
-import EditStudentModal from "@/Pages/Admin/Students/Modals/EditStudentModal";
-import CreateStudentModal from "@/Pages/Admin/Students/Modals/CreateStudentModal";
-import DeleteStudentConfirmationModal from "@/Pages/Admin/Students/Modals/DeleteStudentConfirmationModal";
-import DeleteSelectedStudentsConfirmationModal
-    from "@/Pages/Admin/Students/Modals/DeleteSelectedStudentsConfirmationModal";
-import ShowStudentModal from "@/Pages/Admin/Students/Modals/ShowStudentModal";
+import EditTeacherModal from "@/Pages/Admin/Teachers/Modals/EditTeacherModal";
+import CreateTeacherModal from "@/Pages/Admin/Teachers/Modals/CreateTeacherModal";
+import DeleteTeacherConfirmationModal from "@/Pages/Admin/Teachers/Modals/DeleteTeacherConfirmationModal";
+import DeleteSelectedTeachersConfirmationModal from "@/Pages/Admin/Teachers/Modals/DeleteSelectedTeachersConfirmationModal";
+import ShowTeacherModal from "@/Pages/Admin/Teachers/Modals/ShowTeacherModal";
 
 export default {
     layout: AdminLayout,
     components: {
-        ShowStudentModal,
-        DeleteSelectedStudentsConfirmationModal,
-        DeleteStudentConfirmationModal,
-        CreateStudentModal,
-        EditStudentModal,
+        ShowTeacherModal,
+        DeleteSelectedTeachersConfirmationModal,
+        DeleteTeacherConfirmationModal,
+        CreateTeacherModal,
+        EditTeacherModal,
         Pagination
     },
     props: {
-        students: Object,
+        teachers: Object,
         filters: Object
     },
     data() {
@@ -128,7 +134,7 @@ export default {
                 direction: this.filters.direction
             },
             openEditModal: false,
-            activeStudent: null,
+            activeTeacher: null,
             openCreateModal: false,
             openDeleteModal: false,
             deleteId: null,
@@ -142,14 +148,14 @@ export default {
             this.params.field = field;
             this.params.direction = this.params.direction === 'asc' ? 'desc' : 'asc';
         },
-        editStudent(student) {
-            this.activeStudent = student;
+        editTeacher(teacher) {
+            this.activeTeacher = teacher;
             this.openEditModal = true;
         },
-        createStudent() {
+        createTeacher() {
             this.openCreateModal = true;
         },
-        deleteStudent(id) {
+        deleteTeacher(id) {
             this.deleteId = id;
             this.openDeleteModal = true;
         },
@@ -162,13 +168,13 @@ export default {
                 this.selectedRows.push(id);
             }
         },
-        deleteSelectedStudents() {
+        deleteSelectedTeachers() {
             if (this.selectedRows.length > 0) {
                 this.openSelectedDeleteModal = true;
             }
         },
-        showStudent(student) {
-            this.activeStudent = student;
+        showTeacher(teacher) {
+            this.activeTeacher = teacher;
             this.openShowModal = true;
         }
     },
@@ -177,7 +183,7 @@ export default {
             handler: throttle(function () {
                 let params = pickBy(this.params);
 
-                this.$inertia.get(this.route('admin.students.index'), params, { replace: true, preserveState: true, preserveScroll: true });
+                this.$inertia.get(this.route('admin.teachers.index'), params, { replace: true, preserveState: true, preserveScroll: true });
             }, 150),
             deep: true
         }
@@ -185,18 +191,18 @@ export default {
 }
 </script>
 <style lang="scss">
-#student-table {
+#teacher-table {
     tbody tr td {
         vertical-align: middle;
     }
 }
 
-#student-table > tbody > tr > td,
-#student-table > tbody > tr > th,
-#student-table > tfoot > tr > td,
-#student-table > tfoot > tr > th,
-#student-table > thead > tr > td,
-#student-table > thead > tr > th {
+#teacher-table > tbody > tr > td,
+#teacher-table > tbody > tr > th,
+#teacher-table > tfoot > tr > td,
+#teacher-table > tfoot > tr > th,
+#teacher-table > thead > tr > td,
+#teacher-table > thead > tr > th {
     border-top: 1px solid #E5E5E5;
     border-bottom: 1px solid #E5E5E5;
 }

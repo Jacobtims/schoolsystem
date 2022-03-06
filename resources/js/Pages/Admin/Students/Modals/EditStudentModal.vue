@@ -1,6 +1,6 @@
 <template>
     <Dialog v-model:visible="openModal" :breakpoints="{'1200px': '50vw', '992px': '65vw'}" :style="{width: '40vw'}"
-            header="Student gegevens" :draggable="false" :modal="true"
+            header="Student bewerken" :draggable="false" :modal="true"
             @hide="close" v-if="user">
         <div>
             <form class="row g-3" @submit.prevent="editStudent()">
