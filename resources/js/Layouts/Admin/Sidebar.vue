@@ -27,6 +27,10 @@
                             <i class="fa-solid fa-user-graduate sidebar-icon"></i>
                             <span class="sidebar-name">Overzicht</span>
                         </Link>
+                        <Link :href="route('admin.classes.index')" :class="{'sidebar-link': true, 'sidebar-collapse-link': true, 'active': isRoute('admin.classes.index')}">
+                            <i class="fa-solid fa-user-graduate sidebar-icon"></i>
+                            <span class="sidebar-name">Klassen</span>
+                        </Link>
 <!--                        <a href="#" class="sidebar-link sidebar-collapse-link">-->
 <!--                            <i class="fa-solid fa-user-graduate sidebar-icon"></i><span class="sidebar-name">Nieuwe toevoegen</span>-->
 <!--                        </a>-->

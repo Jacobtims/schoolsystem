@@ -6,4 +6,5 @@ Route::middleware(['auth:sanctum', 'verified', 'role:admin'])->prefix('admin')->
     Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
     Route::resource('students', \App\Http\Controllers\Admin\StudentController::class);
     Route::resource('teachers', \App\Http\Controllers\Admin\TeacherController::class);
+    Route::resource('classes', \App\Http\Controllers\Admin\SchoolClassController::class);
 });
