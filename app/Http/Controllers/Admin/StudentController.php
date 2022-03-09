@@ -83,7 +83,7 @@ class StudentController extends Controller
             //TODO: Send e-mail to email-address...
         }
 
-        return Redirect::route('admin.students.index');
+        return Redirect::back();
     }
 
     /**
@@ -121,7 +121,7 @@ class StudentController extends Controller
         $user->fill($request->only(['email', 'firstname', 'lastname', 'phone_number', 'date_of_birth', 'country', 'state', 'city', 'zipcode', 'street']));
         $user->save();
 
-        return Redirect::route('admin.students.index');
+        return Redirect::back();
     }
 
     /**
@@ -135,6 +135,6 @@ class StudentController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
 
-        return Redirect::route('admin.students.index');
+        return Redirect::back();
     }
 }

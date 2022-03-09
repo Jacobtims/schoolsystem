@@ -41,6 +41,7 @@ class SchoolClass extends Model
      * @var string[]
      */
     protected $fillable = [
+        'mentor_id',
         'name'
     ];
 

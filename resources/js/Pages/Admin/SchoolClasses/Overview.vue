@@ -1,7 +1,7 @@
 <template>
     <div class="card">
         <div class="card-body d-flex">
-            <select class="form-select w-50" v-model="selectedClass">
+            <select class="form-select w-50" v-model="params.class">
                 <option disabled selected value="0">Selecteer een klas</option>
                 <option v-for="sClass in schoolClasses" :value="sClass.id">
                     {{ sClass.name }}
@@ -15,9 +15,10 @@
     <div class="card mt-3">
         <div class="card-body">
             <div class="mb-3 d-flex">
-                <h3 class="d-inline">Leerlingen</h3>
-                <button class="btn btn-success ms-auto" @click="createSchoolClass" :disabled="!selectedClass || (students.length > 0 && students[0].length === 0)">
-                    <i class="fa-solid fa-plus"></i> Leerling toevoegen</button>
+                <h3 class="d-inline">Studenten</h3>
+                <button class="btn btn-success ms-auto" @click="addStudentsToSchoolClass"
+                        :disabled="!schoolClass">
+                    <i class="fa-solid fa-plus"></i> Studenten toevoegen</button>
             </div>
 
             <div class="spinner-border ms-3" role="status" v-if="loading">
@@ -34,7 +35,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(student, index) in students[0]" :key="'student'+index" v-if="selectedClass && students.length > 0 && students[0].length > 0">
+                        <tr v-for="(student, index) in schoolClass.students" :key="'student'+index" v-if="schoolClass && schoolClass.students.length > 0">
                             <td>
                                 <img :src="'https://eu.ui-avatars.com/api/?size=50&name='+student.user.firstname+'+'+student.user.lastname" alt="Profile picture"
                                      class="rounded-circle" width="50" height="50"/>
@@ -50,7 +51,7 @@
                                 </div>
                             </td>
                         </tr>
-                        <tr v-else-if="selectedClass">
+                        <tr v-else-if="schoolClass">
                             <td colspan="4">Deze klas heeft geen leerlingen!</td>
                         </tr>
                         <tr v-else>
@@ -61,40 +62,60 @@
             </div>
         </div>
     </div>
+
+    <!-- Modals -->
+    <add-students-modal :open-modal="openAddStudentsModal" :school-class="schoolClass"></add-students-modal>
+    <delete-student-from-class-confirmation-modal :open-modal="openDeleteModal" :school-class="schoolClass" :student-id="selectedStudent"></delete-student-from-class-confirmation-modal>
+    <create-school-class-modal :open-modal="openCreateModal"></create-school-class-modal>
 </template>
 <script>
 import AdminLayout from "@/Layouts/AdminLayout";
+import AddStudentsModal from "@/Pages/Admin/SchoolClasses/Modals/AddStudentsModal";
+import {pickBy, throttle} from "lodash";
+import DeleteStudentFromClassConfirmationModal
+    from "@/Pages/Admin/SchoolClasses/Modals/DeleteStudentFromClassConfirmationModal";
+import CreateSchoolClassModal from "@/Pages/Admin/SchoolClasses/Modals/CreateSchoolClassModal";
 
 export default {
+    components: {CreateSchoolClassModal, DeleteStudentFromClassConfirmationModal, AddStudentsModal},
     layout: AdminLayout,
     props: {
-        schoolClasses: Object
+        schoolClasses: Object,
+        schoolClass: Object,
+        oldParams: Object
     },
     data() {
         return {
-            selectedClass: 0,
-            students: {},
-            loading: false
+            params: {
+                class: this.oldParams.class ?? 0
+            },
+            loading: false,
+            openAddStudentsModal: false,
+            selectedStudent: null,
+            openDeleteModal: false,
+            openCreateModal: false
         }
     },
     methods: {
         createSchoolClass() {
-
+            this.openCreateModal = true;
         },
         deleteStudent(id) {
-
+            this.selectedStudent = id;
+            this.openDeleteModal = true;
+        },
+        addStudentsToSchoolClass() {
+            this.openAddStudentsModal = true;
         }
     },
     watch: {
-        selectedClass: function (newClass) {
-            this.loading = true;
-            axios.get(route('admin.classes.show', newClass))
-                .then((response) => {
-                    this.students = response.data.students;
-                })
-                .finally(() => {
-                    this.loading = false;
-                });
+        params: {
+            handler: throttle(function () {
+                let params = pickBy(this.params);
+
+                this.$inertia.get(this.route('admin.classes.index'), params, { replace: true, preserveState: true, preserveScroll: true });
+            }, 150),
+            deep: true
         }
     }
 }
