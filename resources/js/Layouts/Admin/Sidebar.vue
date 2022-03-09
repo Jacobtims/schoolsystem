@@ -14,6 +14,10 @@
                         <i class="fa fa-home sidebar-icon"></i>
                         <span class="sidebar-name">Dashboard</span>
                     </Link>
+                    <Link :href="'#'" :class="{'sidebar-link': true, 'active': false}">
+                        <i class="fa fa-gear sidebar-icon"></i>
+                        <span class="sidebar-name">Instellingen</span>
+                    </Link>
                 </div>
                 <!-- Gebruikers sidebar list -->
                 <div class="sidebar-list mt-4">
@@ -45,9 +49,16 @@
                             <i class="fa-solid fa-chalkboard-user sidebar-icon"></i>
                             <span class="sidebar-name">Overzicht</span>
                         </Link>
-<!--                        <a href="#" class="sidebar-link sidebar-collapse-link">-->
-<!--                            <i class="fa-solid fa-chalkboard-user sidebar-icon"></i><span class="sidebar-name">Nieuwe toevoegen</span>-->
-<!--                        </a>-->
+                    </div>
+                    <!-- Ouders collapse -->
+                    <a href="#collapseParents" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseParents" :class="{'sidebar-link': true, 'active': isRoute('admin.teachers.')}">
+                        <i class="fa-solid fa-user-group sidebar-icon"></i><span class="sidebar-name">Ouders</span><i class="fa-solid fa-angle-down collapse-icon"></i>
+                    </a>
+                    <div class="collapse" id="collapseParents">
+                        <Link :href="route('admin.teachers.index')" :class="{'sidebar-link': true, 'sidebar-collapse-link': true, 'active': isRoute('admin.teachers.index')}">
+                            <i class="fa-solid fa-user-group sidebar-icon"></i>
+                            <span class="sidebar-name">Overzicht</span>
+                        </Link>
                     </div>
                 </div>
             </div>
