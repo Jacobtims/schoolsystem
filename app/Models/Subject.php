@@ -46,7 +46,7 @@ class Subject extends Model
      * @var array
      */
     protected $hidden = [
-        'id', //TODO: Remove timestamps from database
+//        'id', //TODO: Remove timestamps from database
         'created_at',
         'updated_at'
     ];

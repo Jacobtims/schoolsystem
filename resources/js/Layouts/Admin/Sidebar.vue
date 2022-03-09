@@ -31,9 +31,10 @@
                             <i class="fa-solid fa-user-graduate sidebar-icon"></i>
                             <span class="sidebar-name">Klassen</span>
                         </Link>
-<!--                        <a href="#" class="sidebar-link sidebar-collapse-link">-->
-<!--                            <i class="fa-solid fa-user-graduate sidebar-icon"></i><span class="sidebar-name">Nieuwe toevoegen</span>-->
-<!--                        </a>-->
+                        <Link :href="route('admin.subjects.index')" :class="{'sidebar-link': true, 'sidebar-collapse-link': true, 'active': isRoute('admin.subjects.index')}">
+                            <i class="fa-solid fa-user-graduate sidebar-icon"></i>
+                            <span class="sidebar-name">Vakken</span>
+                        </Link>
                     </div>
                     <!-- Docenten collapse -->
                     <a href="#collapseTeachers" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseTeachers" :class="{'sidebar-link': true, 'active': isRoute('admin.teachers.')}">
