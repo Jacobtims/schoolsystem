@@ -79,7 +79,7 @@ export default {
     },
     methods: {
         isRoute(route) {
-            return this.currentRoute.startsWith(route);
+            return this.currentRoute == route;
         },
     }
 }
