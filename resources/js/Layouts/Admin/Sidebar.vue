@@ -8,7 +8,7 @@
                 </Link>
 
                 <div class="sidebar-list" style="margin-top: 5rem;">
-                    <Link :href="route('admin.dashboard')" :class="{'sidebar-link': true, 'active': route().current('admin.dashboard')}">
+                    <Link :href="route('admin.dashboard')" :class="{'sidebar-link': true, 'active': isRoute('admin.dashboard')}">
                         <i class="fa fa-home sidebar-icon"></i>
                         <span class="sidebar-name">Dashboard</span>
                     </Link>
@@ -49,6 +49,16 @@ import {Link} from "@inertiajs/inertia-vue3";
 export default {
     components: {
         Link
+    },
+    computed: {
+        currentRoute() {
+            return this.$page.props.current_route;
+        },
+    },
+    methods: {
+        isRoute(route) {
+            return this.currentRoute == route;
+        },
     }
 }
 </script>

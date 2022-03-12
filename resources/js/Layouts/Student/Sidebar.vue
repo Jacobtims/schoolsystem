@@ -7,7 +7,7 @@
         </a>
         <ul class="nav nav-pills flex-column mb-auto mt-4">
             <li class="nav-item mb-3">
-                <Link :href="route('student.dashboard')" :class="{'nav-link': true, 'active': route().current('student.dashboard')}">
+                <Link :href="route('student.dashboard')" :class="{'nav-link': true, 'active': isRoute('student.dashboard')}">
                     <i class="fa fa-home sidebar-icon"></i>
                     <span class="ms-2 sidebar-item">Dashboard</span>
                 </Link>
@@ -19,19 +19,19 @@
 <!--                </a>-->
 <!--            </li>-->
             <li class="nav-item mb-3">
-                <Link :href="route('student.schedule')" :class="{'nav-link': true, 'active': route().current('student.schedule')}">
+                <Link :href="route('student.schedule')" :class="{'nav-link': true, 'active': isRoute('student.schedule')}">
                     <i class="fa-solid fa-calendar sidebar-icon"></i>
                     <span class="ms-2 sidebar-item">Rooster</span>
                 </Link>
             </li>
             <li class="nav-item mb-3">
-                <Link :href="route('student.grades')" :class="{'nav-link': true, 'active': route().current('student.grades')}">
+                <Link :href="route('student.grades')" :class="{'nav-link': true, 'active': isRoute('student.grades')}">
                     <i class="fa-solid fa-list-ol sidebar-icon"></i>
                     <span class="ms-2 sidebar-item">Cijfers</span>
                 </Link>
             </li>
             <li class="nav-item mb-3">
-                <Link :href="route('student.attendance')" :class="{'nav-link': true, 'active': route().current('student.attendance')}">
+                <Link :href="route('student.attendance')" :class="{'nav-link': true, 'active': isRoute('student.attendance')}">
                     <i class="fa-solid fa-check sidebar-icon"></i>
                     <span class="ms-2 sidebar-item">Presentie</span>
                 </Link>
@@ -45,6 +45,16 @@ import {Link} from "@inertiajs/inertia-vue3";
 export default {
     components: {
         Link
+    },
+    computed: {
+        currentRoute() {
+            return this.$page.props.current_route;
+        },
+    },
+    methods: {
+        isRoute(route) {
+            return this.currentRoute == route;
+        },
     }
 }
 </script>

@@ -20115,6 +20115,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     Link: _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_0__.Link
+  },
+  computed: {
+    currentRoute: function currentRoute() {
+      return this.$page.props.current_route;
+    }
+  },
+  methods: {
+    isRoute: function isRoute(route) {
+      return this.currentRoute == route;
+    }
   }
 });
 
@@ -20243,6 +20253,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     Link: _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_0__.Link
+  },
+  computed: {
+    currentRoute: function currentRoute() {
+      return this.$page.props.current_route;
+    }
+  },
+  methods: {
+    isRoute: function isRoute(route) {
+      return this.currentRoute == route;
+    }
   }
 });
 
@@ -22918,7 +22938,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     href: _ctx.route('admin.dashboard'),
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)({
       'sidebar-link': true,
-      'active': _ctx.route().current('admin.dashboard')
+      'active': $options.isRoute('admin.dashboard')
     })
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -23775,7 +23795,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     href: _ctx.route('student.dashboard'),
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)({
       'nav-link': true,
-      'active': _ctx.route().current('student.dashboard')
+      'active': $options.isRoute('student.dashboard')
     })
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -23790,7 +23810,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     href: _ctx.route('student.schedule'),
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)({
       'nav-link': true,
-      'active': _ctx.route().current('student.schedule')
+      'active': $options.isRoute('student.schedule')
     })
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -23805,7 +23825,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     href: _ctx.route('student.grades'),
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)({
       'nav-link': true,
-      'active': _ctx.route().current('student.grades')
+      'active': $options.isRoute('student.grades')
     })
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -23820,7 +23840,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     href: _ctx.route('student.attendance'),
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)({
       'nav-link': true,
-      'active': _ctx.route().current('student.attendance')
+      'active': $options.isRoute('student.attendance')
     })
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
