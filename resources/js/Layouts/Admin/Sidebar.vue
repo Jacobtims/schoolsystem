@@ -61,6 +61,25 @@
                         </Link>
                     </div>
                 </div>
+
+                <!-- Beheer sidebar list -->
+                <div class="sidebar-list mt-4">
+                    <p class="sidebar-list-title">Beheer</p>
+                    <!-- Rooster collapse -->
+                    <a href="#collapseSchedule" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseSchedule" :class="{'sidebar-link': true, 'active': isRoute('admin.schedules.index')}">
+                        <i class="fa-solid fa-calendar sidebar-icon ms-1 me-1"></i><span class="sidebar-name">Rooster</span><i class="fa-solid fa-angle-down collapse-icon"></i>
+                    </a>
+                    <div class="collapse" id="collapseSchedule">
+                        <Link :href="route('admin.schedules.index')" :class="{'sidebar-link': true, 'sidebar-collapse-link': true, 'active': isRoute('admin.schedules.index')}">
+                            <i class="fa-solid fa-calendar sidebar-icon ms-1 me-1"></i>
+                            <span class="sidebar-name">Bekijken</span>
+                        </Link>
+                        <Link :href="route('admin.schedules.create')" :class="{'sidebar-link': true, 'sidebar-collapse-link': true, 'active': isRoute('admin.schedules.create')}">
+                            <i class="fa-solid fa-calendar sidebar-icon ms-1 me-1"></i>
+                            <span class="sidebar-name">Uren toevoegen</span>
+                        </Link>
+                    </div>
+                </div>
             </div>
         </nav>
     </div>

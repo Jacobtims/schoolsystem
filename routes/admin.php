@@ -10,4 +10,8 @@ Route::middleware(['auth:sanctum', 'verified', 'role:admin'])->prefix('admin')->
     Route::post('/classes/add-students/{class}', [\App\Http\Controllers\Admin\SchoolClassController::class, 'addStudents'])->name('classes.addStudents');
     Route::post('/classes/remove-student/{class}/{id}', [\App\Http\Controllers\Admin\SchoolClassController::class, 'removeStudent'])->name('classes.removeStudent');
     Route::resource('subjects', \App\Http\Controllers\Admin\SubjectController::class);
+    Route::resource('schedules', \App\Http\Controllers\Admin\ScheduleController::class);
+    Route::get('/schedules/students/get', [\App\Http\Controllers\Admin\ScheduleController::class, 'getStudents'])->name('schedules.getStudents');
+    Route::get('/schedules/teachers/get', [\App\Http\Controllers\Admin\ScheduleController::class, 'getTeachers'])->name('schedules.getTeachers');
+    Route::get('/schedules/subjects/get', [\App\Http\Controllers\Admin\ScheduleController::class, 'getSubjects'])->name('schedules.getSubjects');
 });

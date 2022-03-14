@@ -46,7 +46,11 @@ class Lesson extends Model
      * @var string[]
      */
     protected $fillable = [
-        'date'
+        'student_id',
+        'teacher_id',
+        'subject_id',
+        'date',
+        'time'
     ];
 
     /**
