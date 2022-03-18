@@ -36,6 +36,7 @@ class Teacher extends Model
      * @var string[]
      */
     protected $fillable = [
+        'user_id',
         'abbreviation',
         'student_name'
     ];

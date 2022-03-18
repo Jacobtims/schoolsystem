@@ -3,10 +3,18 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreTeacherRequest;
+use App\Http\Requests\UpdateTeacherRequest;
 use App\Models\Role;
+use App\Models\Student;
+use App\Models\Teacher;
 use App\Models\User;
+use Hash;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Redirect;
+use Str;
 
 class TeacherController extends Controller
 {
@@ -54,12 +62,29 @@ class TeacherController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreTeacherRequest $request
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(StoreTeacherRequest $request): RedirectResponse
     {
-        //
+        $teacherRole = Role::whereName('Teacher')->firstOrFail();
+
+        if ($request->get('generatePassword') == true) {
+            $password = Str::random(8);
+        } else {
+            $password = $request->get('password');
+        }
+        $passwordHash = Hash::make($password);
+
+        $request->merge(['password' => $passwordHash, 'role_id' => $teacherRole->id]);
+        $user = User::create($request->only(['email', 'firstname', 'lastname', 'phone_number', 'date_of_birth', 'country', 'state', 'city', 'zipcode', 'street', 'password', 'role_id']));
+        Teacher::create(['user_id' => $user->id, 'abbreviation' => $request->get('abbreviation'), 'student_name' => $request->get('student_name')]);
+
+        if ($request->get('sendEmail') == true) {
+            //TODO: Send e-mail to email-address...
+        }
+
+        return Redirect::back();
     }
 
     /**
@@ -87,23 +112,34 @@ class TeacherController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param UpdateTeacherRequest $request
+     * @param int $id
+     * @return RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(UpdateTeacherRequest $request, int $id): RedirectResponse
     {
-        //
+        $user = User::findOrFail($id);
+        $user->fill($request->only(['email', 'firstname', 'lastname', 'phone_number', 'date_of_birth', 'country', 'state', 'city', 'zipcode', 'street']));
+        $user->save();
+
+        $teacher = Teacher::findOrFail($user->teacher->id);
+        $teacher->fill($request->only(['abbreviation', 'student_name']));
+        $teacher->save();
+
+        return Redirect::back();
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  int $id
+     * @return RedirectResponse
      */
-    public function destroy($id)
+    public function destroy(int $id): RedirectResponse
     {
-        //
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return Redirect::back();
     }
 }
