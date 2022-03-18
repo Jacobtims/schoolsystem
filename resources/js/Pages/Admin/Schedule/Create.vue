@@ -58,7 +58,7 @@
             <label for="multiselectLessons" class="form-label">Lesuren</label>
             <multiselect v-model="lessonForm.lessons" id="multiselectLessons" label="id" track-by="id"
                          placeholder="Selecteer lesuren" open-direction="bottom" :options="lessons" :multiple="true"
-                         :clear-on-select="false" :close-on-select="false" :options-limit="300" :show-no-results="true"
+                         :clear-on-select="true" :close-on-select="false" :options-limit="300" :show-no-results="true"
                          aria-describedby="feedbackMultiselectLessons" :class="{'is-invalid': lessonForm.errors.lessons}">
 
                 <template v-slot:noResult>Oops! Dit lesuur bestaat niet.</template>
@@ -74,10 +74,6 @@
             </button>
         </div>
     </form>
-    <div class="card card-body mt-3" v-if="createdRecords">
-        <h3>Succesvol toegevoegd!</h3>
-        <small>In totaal {{ createdRecords ?? 0 }} uren toegevoegd!</small>
-    </div>
 </template>
 
 <script>
@@ -112,6 +108,13 @@ export default {
             isLoadingSubjects: false
         }
     },
+    watch: {
+        createdRecords(newValue) {
+            if (newValue !== null) {
+                this.toast('success', 'Succesvol toegevoegd!', 'In totaal '+(newValue ?? 0)+' uren toegevoegd!');
+            }
+        }
+    },
     computed: {
         yesterday: () => {
             return moment().format('YYYY-MM-DD');
@@ -124,6 +127,9 @@ export default {
                 onSuccess: () => {
                     this.lessonForm.reset();
                 },
+                onError: () => {
+                    this.toast('error', 'Fout!', 'Er is iets fout gegegaan tijdens het toevoegen van de uren.')
+                }
             })
         },
         studentLabel(student) {

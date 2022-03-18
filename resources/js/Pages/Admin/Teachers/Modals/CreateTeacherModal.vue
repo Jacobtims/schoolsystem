@@ -179,7 +179,11 @@ export default {
                 onSuccess: () => {
                     this.studentForm.reset();
                     this.close();
+                    this.toast('success', 'Succesvol aangemaakt!', 'Docent is aangemaakt.')
                 },
+                onError: () => {
+                    this.toast('error', 'Fout!', 'Er is iets fout gegegaan tijdens het aanmaken van deze docent. Probeer het opnieuw.')
+                }
             })
         }
     }

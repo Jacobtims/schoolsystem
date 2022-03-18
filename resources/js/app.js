@@ -35,7 +35,7 @@ createInertiaApp({
             methods: {
                 route,
                 toast(type, title, message) {
-                    this.$toast.add({severity: type, summary: title, detail: message, life: 3000});
+                    this.$toast.add({severity: type, summary: title, detail: message, life: 5000});
                 }
             }
         });

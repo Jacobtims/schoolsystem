@@ -118,7 +118,11 @@ export default {
                 preserveScroll: true,
                 onSuccess: () => {
                     this.close();
+                    this.toast('success', 'Succesvol aangemaakt!', 'Klas is aangemaakt.')
                 },
+                onError: () => {
+                    this.toast('error', 'Fout!', 'Er is iets fout gegegaan tijdens het aanmaken van deze klas. Probeer het opnieuw.')
+                }
             })
         },
     }

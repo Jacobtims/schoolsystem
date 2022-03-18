@@ -28,7 +28,11 @@ export default {
                 preserveScroll: true,
                 onSuccess: () => {
                     this.close();
+                    this.toast('success', 'Succesvol verwijderd!', 'Student is verwijderd.')
                 },
+                onError: () => {
+                    this.toast('error', 'Fout!', 'Er is iets fout gegegaan tijdens het verwijderen van deze student. Probeer het opnieuw.')
+                }
             })
         }
     }
