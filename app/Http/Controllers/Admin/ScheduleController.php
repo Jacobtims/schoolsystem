@@ -69,7 +69,7 @@ class ScheduleController extends Controller
 
         return Inertia::render('Admin/Schedule/Create', [
             'lessons' => $standardLessons,
-            'newCreated' => session()->has('newCreated') ? session()->get('newCreated') : null
+            'createdRecords' => session()->has('createdRecords') ? session()->get('createdRecords') : null
         ]);
     }
 
@@ -83,7 +83,7 @@ class ScheduleController extends Controller
     {
         $students = $request->get('students');
         $lessons = $request->get('lessons');
-        $newCreated = [];
+        $createdRecords = 0;
         foreach ($students as $student){
             foreach ($lessons as $lesson) {
                 Lesson::create([
@@ -93,18 +93,12 @@ class ScheduleController extends Controller
                     'date'       => $request->get('date'),
                     'time'       => $lesson['id']
                 ]);
-                $newCreated[] = [
-                    'student' => $student['id'].' - '.$student['user']['firstname'].' '.$student['user']['lastname'],
-                    'teacher' => $request->get('teacher')['abbreviation'].' - '.$request->get('teacher')['user']['firstname'].' '.$request->get('teacher')['user']['lastname'],
-                    'subject' => $request->get('subject')['name'],
-                    'date'       => $request->get('date'),
-                    'time'       => $lesson['id']
-                ];
+                $createdRecords++;
             }
         }
 
         return Redirect::back()->with([
-            'newCreated' => $newCreated
+            'createdRecords' => $createdRecords
         ]);
     }
 

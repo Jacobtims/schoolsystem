@@ -74,19 +74,9 @@
             </button>
         </div>
     </form>
-    <div class="card card-body mt-3" v-if="newCreated">
+    <div class="card card-body mt-3" v-if="createdRecords">
         <h3>Succesvol toegevoegd!</h3>
-        <small>In totaal {{ newCreated.length ?? 0 }} uren toegevoegd!</small>
-        <div v-for="record in newCreated">
-            <br/>
-            <ul>
-                <li>Student: {{ record.student }}</li>
-                <li>Docent: {{ record.teacher }}</li>
-                <li>Vak: {{ record.subject }}</li>
-                <li>Datum: {{ record.date }}</li>
-                <li>Lesuur: {{ record.time }}</li>
-            </ul>
-        </div>
+        <small>In totaal {{ createdRecords ?? 0 }} uren toegevoegd!</small>
     </div>
 </template>
 
@@ -100,9 +90,9 @@ export default {
     layout: AdminLayout,
     props: {
         lessons: Object,
-        newCreated: {
+        createdRecords: {
             required: false,
-            type: Object
+            type: Number
         }
     },
     data() {
