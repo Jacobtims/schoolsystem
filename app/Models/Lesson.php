@@ -10,18 +10,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * App\Models\Lesson
  *
  * @property int $id
- * @property int|null $student_id
- * @property int|null $teacher_id
- * @property int|null $school_class_id
+ * @property int $school_class_id
+ * @property int $teacher_id
  * @property int $subject_id
  * @property string $date
- * @property \App\Models\StandardLesson|null $time
+ * @property \App\Models\StandardLesson $time
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\SchoolClass|null $schoolClass
- * @property-read \App\Models\Student|null $student
+ * @property-read \App\Models\SchoolClass $schoolClass
  * @property-read \App\Models\Subject $subject
- * @property-read \App\Models\Teacher|null $teacher
+ * @property-read \App\Models\Teacher $teacher
  * @method static \Illuminate\Database\Eloquent\Builder|Lesson newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Lesson newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Lesson query()
@@ -29,7 +27,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|Lesson whereDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Lesson whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Lesson whereSchoolClassId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Lesson whereStudentId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Lesson whereSubjectId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Lesson whereTeacherId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Lesson whereTime($value)
@@ -46,20 +43,12 @@ class Lesson extends Model
      * @var string[]
      */
     protected $fillable = [
-        'student_id',
+        'school_class_id',
         'teacher_id',
         'subject_id',
         'date',
         'time'
     ];
-
-    /**
-     * @return BelongsTo
-     */
-    public function student(): BelongsTo
-    {
-        return $this->belongsTo(Student::class);
-    }
 
     /**
      * @return BelongsTo

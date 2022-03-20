@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\SchoolClass;
 use App\Models\Student;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -22,7 +23,8 @@ class StudentFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => null
+            'user_id' => null,
+            'school_class_id' => SchoolClass::findOrFail(1)->id
         ];
     }
 }

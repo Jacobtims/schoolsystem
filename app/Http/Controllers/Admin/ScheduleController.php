@@ -67,7 +67,7 @@ class ScheduleController extends Controller
     {
         $standardLessons = StandardLesson::get();
 
-        return Inertia::render('Admin/Schedule/Create', [
+        return Inertia::render('Admin/Schedule/CRUDForms', [
             'lessons' => $standardLessons,
             'createdRecords' => session()->has('createdRecords') ? session()->get('createdRecords') : null
         ]);
