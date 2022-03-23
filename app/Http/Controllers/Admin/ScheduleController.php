@@ -5,18 +5,19 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreScheduleRequest;
 use App\Models\Lesson;
-use App\Models\Role;
+use App\Models\SchoolClass;
 use App\Models\StandardLesson;
-use App\Models\Student;
 use App\Models\Subject;
 use App\Models\Teacher;
-use App\Models\User;
-use Auth;
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
 use Carbon\CarbonPeriod;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Redirect;
 
 class ScheduleController extends Controller
@@ -24,9 +25,10 @@ class ScheduleController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return \Inertia\Response
      */
-    public function index(Request $request)
+    public function index(Request $request): \Inertia\Response
     {
         $now = Carbon::now();
         // Check for specific week
@@ -62,12 +64,13 @@ class ScheduleController extends Controller
      * Show the form for creating a new resource.
      *
      * @return \Inertia\Response
+     * @throws NotFoundExceptionInterface|ContainerExceptionInterface
      */
-    public function create()
+    public function create(): \Inertia\Response
     {
         $standardLessons = StandardLesson::get();
 
-        return Inertia::render('Admin/Schedule/CRUDForms', [
+        return Inertia::render('Admin/Schedule/Lessons', [
             'lessons' => $standardLessons,
             'createdRecords' => session()->has('createdRecords') ? session()->get('createdRecords') : null
         ]);
@@ -77,21 +80,21 @@ class ScheduleController extends Controller
      * Store a newly created resource in storage.
      *
      * @param StoreScheduleRequest $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function store(StoreScheduleRequest $request)
+    public function store(StoreScheduleRequest $request): RedirectResponse
     {
-        $students = $request->get('students');
+        $schoolClasses = $request->get('classes');
         $lessons = $request->get('lessons');
         $createdRecords = 0;
-        foreach ($students as $student){
+        foreach ($schoolClasses as $class) {
             foreach ($lessons as $lesson) {
                 Lesson::create([
-                    'student_id' => $student['id'],
+                    'school_class_id' => $class['id'],
                     'teacher_id' => $request->get('teacher')['id'],
                     'subject_id' => $request->get('subject')['id'],
-                    'date'       => $request->get('date'),
-                    'time'       => $lesson['id']
+                    'date' => $request->get('date'),
+                    'time' => $lesson['id']
                 ]);
                 $createdRecords++;
             }
@@ -105,7 +108,7 @@ class ScheduleController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -116,7 +119,7 @@ class ScheduleController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -128,7 +131,7 @@ class ScheduleController extends Controller
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -139,8 +142,8 @@ class ScheduleController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return void
      */
     public function destroy($id)
     {
@@ -148,42 +151,59 @@ class ScheduleController extends Controller
     }
 
     /**
-     * Get students for multiselect
+     * Remove the specified resource from storage.
      *
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return RedirectResponse
      */
-    public function getStudents(Request $request)
+    public function destroyMultiple(Request $request): RedirectResponse
     {
-        $students = Student::with('user')
-            ->when($request->has('query'), function ($query) use ($request) {
-            $query
-                ->whereHas('user', function ($q) use ($request) {
-                    $q->where('users.firstname', 'LIKE', '%'.$request->get('query').'%')
-                    ->orWhere('users.lastname', 'LIKE', '%'.$request->get('query').'%');
-                })
-                ->orWhere('id', 'LIKE', '%'.$request->get('query').'%');
+        if ($request->get('permanent') == true) {
+            foreach ($request->get('lessons') as $lesson) {
+                Lesson::whereId($lesson['id'])->delete();
+            }
+        } else {
+            foreach ($request->get('lessons') as $lesson) {
+                $lesson = Lesson::find($lesson['id']);
+                $lesson->deleted = true;
+                $lesson->save();
+            }
+        }
+
+        return Redirect::back();
+    }
+
+    /**
+     * Get school classes for multiselect
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getSchoolClasses(Request $request): JsonResponse
+    {
+        $schoolClasses = SchoolClass::when($request->has('query'), function ($query) use ($request) {
+            $query->where('name', 'LIKE', '%' . $request->get('query') . '%');
         })->limit(300)->get();
 
-        return response()->json($students);
+        return response()->json($schoolClasses);
     }
 
     /**
      * Get teachers for multiselect
      *
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function getTeachers(Request $request)
+    public function getTeachers(Request $request): JsonResponse
     {
         $teachers = Teacher::with('user')
             ->when($request->has('query'), function ($query) use ($request) {
                 $query
                     ->whereHas('user', function ($q) use ($request) {
-                        $q->where('users.firstname', 'LIKE', '%'.$request->get('query').'%')
-                        ->orWhere('users.lastname', 'LIKE', '%'.$request->get('query').'%');
+                        $q->where('users.firstname', 'LIKE', '%' . $request->get('query') . '%')
+                            ->orWhere('users.lastname', 'LIKE', '%' . $request->get('query') . '%');
                     })
-                    ->orWhere('id', 'LIKE', '%'.$request->get('query').'%');
+                    ->orWhere('id', 'LIKE', '%' . $request->get('query') . '%');
             })->limit(300)->get();
 
         return response()->json($teachers);
@@ -193,17 +213,30 @@ class ScheduleController extends Controller
      * Get subjects for multiselect
      *
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function getSubjects(Request $request)
+    public function getSubjects(Request $request): JsonResponse
     {
         $subjects = Subject::
             when($request->has('query'), function ($query) use ($request) {
                 $query
-                    ->where('name', 'LIKE', '%'.$request->get('query').'%')
-                    ->orWhere('abbreviation', 'LIKE', '%'.$request->get('query').'%');
+                    ->where('name', 'LIKE', '%' . $request->get('query') . '%')
+                    ->orWhere('abbreviation', 'LIKE', '%' . $request->get('query') . '%');
             })->limit(300)->get();
 
         return response()->json($subjects);
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getLessonsByClass(Request $request): JsonResponse
+    {
+        $lessons = Lesson::whereSchoolClassId($request->get('class'))
+            ->where('date', $request->get('date'))
+            ->with('subject')->limit(300)->get();
+
+        return response()->json($lessons);
     }
 }

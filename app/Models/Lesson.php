@@ -32,6 +32,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|Lesson whereTime($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Lesson whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string|null $deleted
+ * @method static \Illuminate\Database\Eloquent\Builder|Lesson whereDeleted($value)
  */
 class Lesson extends Model
 {
@@ -47,7 +49,8 @@ class Lesson extends Model
         'teacher_id',
         'subject_id',
         'date',
-        'time'
+        'time',
+        'deleted'
     ];
 
     /**

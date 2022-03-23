@@ -20,6 +20,7 @@ class CreateLessonsTable extends Migration
             $table->foreignId('subject_id')->constrained();
             $table->date('date');
             $table->foreignId('time')->constrained('standard_lessons');
+            $table->boolean('deleted')->nullable();
             $table->timestamps();
         });
     }

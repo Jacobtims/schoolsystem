@@ -2,18 +2,18 @@
     <h2 class="mb-3">Rooster uren aanmaken</h2>
     <form class="row g-3" @submit.prevent="createLessons()">
         <div class="col-md-12">
-            <label for="multiselectStudents" class="form-label">Student(en)</label>
-            <multiselect v-model="lessonForm.students" id="multiselectStudents" :custom-label="studentLabel" track-by="id"
-                         placeholder="Type om studenten te zoeken" open-direction="bottom" :options="students" :multiple="true"
-                         :searchable="true" :loading="isLoadingStudents" :internal-search="false" :clear-on-select="false" :close-on-select="false"
-                         :options-limit="300" :limit="5" :limit-text="limitTextStudent" :max-height="600" :show-no-results="true"
-                         @search-change="asyncFindStudents" aria-describedby="feedbackMultiselectStudents" :class="{'is-invalid': lessonForm.errors.students}">
+            <label for="multiselectClasses" class="form-label">Klas(sen)</label>
+            <multiselect v-model="lessonForm.classes" id="multiselectClasses" :custom-label="classLabel" track-by="id"
+                         placeholder="Type om klassen te zoeken" open-direction="bottom" :options="classes" :multiple="true"
+                         :searchable="true" :loading="isLoadingClasses" :internal-search="false" :clear-on-select="false" :close-on-select="false"
+                         :options-limit="300" :limit="5" :limit-text="limitTextClasses" :max-height="600" :show-no-results="true"
+                         @search-change="asyncFindClasses" aria-describedby="feedbackMultiselectClasses" :class="{'is-invalid': lessonForm.errors.classes}">
 
-                <template v-slot:noResult>Oops! Geen studenten gevonden. Verander je zoekopdracht.</template>
-                <template v-slot:noOptions>Oops! Geen studenten gevonden.</template>
+                <template v-slot:noResult>Oops! Geen klassen gevonden. Verander je zoekopdracht.</template>
+                <template v-slot:noOptions>Oops! Geen klassen gevonden.</template>
             </multiselect>
-            <div id="feedbackMultiselectStudents" class="invalid-feedback" v-if="lessonForm.errors.students">
-                {{ lessonForm.errors.students }}
+            <div id="feedbackMultiselectClasses" class="invalid-feedback" v-if="lessonForm.errors.classes">
+                {{ lessonForm.errors.classes }}
             </div>
         </div>
         <div class="col-md-12">
@@ -93,14 +93,14 @@ export default {
     data() {
         return {
             lessonForm: useForm({
-                students: [],
+                classes: [],
                 teacher: [],
                 subject: [],
                 date: null,
                 lessons: []
             }),
-            students: [],
-            isLoadingStudents: false,
+            classes: [],
+            isLoadingClasses: false,
             teachers: [],
             isLoadingTeachers: false,
             subjects: [],
@@ -131,20 +131,20 @@ export default {
                 }
             })
         },
-        studentLabel(student) {
-            return `${student.id} - ${student.user.firstname} ${student.user.lastname}`
+        classLabel(schoolClass) {
+            return `${schoolClass.name}`
         },
-        limitTextStudent(count) {
-            return `En ${count} andere student${(count === 1 ? '' : 'en')}`
+        limitTextClasses(count) {
+            return `En ${count} andere klas${(count === 1 ? '' : 'sen')}`
         },
-        asyncFindStudents: debounce(function (query) {
-            this.isLoadingStudents = true
-            axios.get(this.route('admin.schedules.getStudents', {
+        asyncFindClasses: debounce(function (query) {
+            this.isLoadingClasses = true
+            axios.get(this.route('admin.schedules.getSchoolClasses', {
                 query: query
             }))
                 .then((response) => {
-                    this.students = response.data
-                    this.isLoadingStudents = false
+                    this.classes = response.data
+                    this.isLoadingClasses = false
                 })
         }, 150),
         teacherLabel(teacher) {

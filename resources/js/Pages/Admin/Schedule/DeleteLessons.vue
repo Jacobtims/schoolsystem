@@ -2,19 +2,53 @@
     <h2 class="mb-3">Rooster uren uitplannen</h2>
     <form class="row g-3" @submit.prevent="deleteLessons()">
         <div class="col-md-12">
-            <label for="multiselectStudents" class="form-label">Student(en)</label>
-            <input type="text" class="form-control">
+            <label for="multiselectClasses" class="form-label">Klas(en)</label>
+            <multiselect v-model="deleteLessenForm.class" id="multiselectClasses" :custom-label="classLabel" track-by="id"
+                         placeholder="Type om klassen te zoeken" open-direction="bottom" :options="classes"
+                         :searchable="true" :loading="isLoadingClasses" :internal-search="false" :clear-on-select="false"
+                         :options-limit="300" :max-height="600" :show-no-results="true" @search-change="asyncFindClasses"
+                         aria-describedby="feedbackMultiselectClasses" :class="{'is-invalid': deleteLessenForm.errors.class}">
+
+                <template v-slot:noResult>Oops! Geen klassen gevonden. Verander je zoekopdracht.</template>
+                <template v-slot:noOptions>Oops! Geen klassen gevonden.</template>
+            </multiselect>
+            <div id="feedbackMultiselectClasses" class="invalid-feedback" v-if="deleteLessenForm.errors.class">
+                {{ deleteLessenForm.errors.class }}
+            </div>
+        </div>
+        <div class="col-md-12">
+            <label for="selectDate" class="form-label">Datum</label>
+            <input class="form-control" type="date" id="selectDate" v-model="deleteLessenForm.date" :class="{'is-invalid': deleteLessenForm.errors.date}"
+                   aria-describedby="feedbackSelectDate" :disabled="!deleteLessenForm.class" @change="getLessons"/>
+            <div id="feedbackSelectDate" class="invalid-feedback" v-if="deleteLessenForm.errors.date">
+                {{ deleteLessenForm.errors.date }}
+            </div>
+        </div>
+        <div class="col-md-12">
+            <label for="multiselectLessons" class="form-label">Lesuren</label>
+            <multiselect v-model="deleteLessenForm.lessons" id="multiselectLessons" :custom-label="lessonsLabel" track-by="id"
+                         placeholder="Selecteer lesuren" open-direction="bottom" :options="lessons" :multiple="true" :loading="isLoadingLessons"
+                         :clear-on-select="true" :close-on-select="false" :options-limit="300" :max-height="600" :show-no-results="true"
+                         aria-describedby="feedbackMultiselectLessons" :class="{'is-invalid': deleteLessenForm.errors.lessons}"
+                         :disabled="!deleteLessenForm.class || !deleteLessenForm.date">
+
+                <template v-slot:noResult>Oops! Dit lesuur bestaat niet.</template>
+                <template v-slot:noOptions>Oops! Geen lesuren gevonden.</template>
+            </multiselect>
+            <div id="feedbackMultiselectLessons" class="invalid-feedback" v-if="deleteLessenForm.errors.lessons">
+                {{ deleteLessenForm.errors.lessons }}
+            </div>
         </div>
         <div class="col-md-12">
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="check-permanent">
+                <input class="form-check-input" type="checkbox" id="check-permanent" v-model="deleteLessenForm.permanent">
                 <label class="form-check-label" for="check-permanent">
                     Permanent verwijderen
                 </label>
             </div>
         </div>
         <div class="col-md-12">
-            <button class="btn btn-danger" type="submit" :disabled="lessonForm.processing">
+            <button class="btn btn-danger" type="submit" :disabled="deleteLessenForm.processing">
                 <i class="fa-solid fa-trash"></i> Verwijderen
             </button>
         </div>
@@ -30,84 +64,63 @@ export default {
     name: "delete-lessons",
     data() {
         return {
-            lessonForm: useForm({
-                students: [],
-                teacher: [],
-                subject: [],
+            deleteLessenForm: useForm({
+                class: null,
                 date: null,
-                lessons: []
+                lessons: [],
+                permanent: false
             }),
-            students: [],
-            isLoadingStudents: false,
-            teachers: [],
-            isLoadingTeachers: false,
-            subjects: [],
-            isLoadingSubjects: false
-        }
-    },
-    watch: {
-        createdRecords(newValue) {
-            if (newValue !== null) {
-                this.toast('success', 'Succesvol toegevoegd!', 'In totaal '+(newValue ?? 0)+' uren toegevoegd!');
-            }
-        }
-    },
-    computed: {
-        yesterday: () => {
-            return moment().format('YYYY-MM-DD');
+            classes: [],
+            isLoadingClasses: false,
+            lessons: [],
+            isLoadingLessons: false
         }
     },
     methods: {
         deleteLessons() {
-            this.lessonForm.post(route('admin.schedules.store'), {
+            this.deleteLessenForm.post(route('admin.schedules.destroyMultiple'), {
                 preserveScroll: true,
                 onSuccess: () => {
-                    this.lessonForm.reset();
+                    this.deleteLessenForm.reset();
+                    this.toast('success', 'Succesvol verwijderd!');
                 },
                 onError: () => {
-                    this.toast('error', 'Fout!', 'Er is iets fout gegegaan tijdens het toevoegen van de uren.')
+                    this.toast('error', 'Fout!', 'Er is iets fout gegegaan tijdens het verwijderen van deze uren. Probeer het later opnieuw.')
                 }
             })
         },
-        studentLabel(student) {
-            return `${student.id} - ${student.user.firstname} ${student.user.lastname}`
+        classLabel(schoolClass) {
+            return `${schoolClass.name}`
         },
-        limitTextStudent(count) {
-            return `En ${count} andere student${(count === 1 ? '' : 'en')}`
+        limitTextClasses(count) {
+            return `En ${count} andere klas${(count === 1 ? '' : 'sen')}`
         },
-        asyncFindStudents: debounce(function (query) {
-            this.isLoadingStudents = true
-            axios.get(this.route('admin.schedules.getStudents', {
+        asyncFindClasses: debounce(function (query) {
+            this.isLoadingClasses = true
+            axios.get(this.route('admin.schedules.getSchoolClasses', {
                 query: query
             }))
                 .then((response) => {
-                    this.students = response.data
-                    this.isLoadingStudents = false
+                    this.classes = response.data
+                    this.isLoadingClasses = false
                 })
         }, 150),
-        teacherLabel(teacher) {
-            return `${teacher.abbreviation} - ${teacher.user.firstname} ${teacher.user.lastname}`
+        lessonsLabel(lesson) {
+            return `${lesson.time}ᵉ uur - ${lesson.subject.name}`
         },
-        asyncFindTeachers: debounce(function (query) {
-            this.isLoadingTeachers = true
-            axios.get(this.route('admin.schedules.getTeachers', {
-                query: query
-            }))
-                .then((response) => {
-                    this.teachers = response.data
-                    this.isLoadingTeachers = false
-                })
-        }, 150),
-        asyncFindSubjects: debounce(function (query) {
-            this.isLoadingSubjects = true
-            axios.get(this.route('admin.schedules.getSubjects', {
-                query: query
-            }))
-                .then((response) => {
-                    this.subjects = response.data
-                    this.isLoadingSubjects = false
-                })
-        }, 150)
+        getLessons() {
+            if (this.deleteLessenForm.class && this.deleteLessenForm.date) {
+                this.isLoadingLessons = true
+                axios.get(this.route('admin.schedules.getLessonsByClass', {
+                    class: this.deleteLessenForm.class,
+                    date: this.deleteLessenForm.date
+                }))
+                    .then((response) => {
+                        this.lessons = response.data
+                        this.isLoadingLessons = false
+                    })
+            }
+        }
     },
 }
 </script>
