@@ -21,6 +21,12 @@ class ScheduleController extends Controller
      */
     public function index(Request $request): \Inertia\Response
     {
+        // Validate
+        $request->validate([
+            'week' => ['regex:/^[0-9]+-[0-9]+$/i'],
+            'class' => 'string|max:255'
+        ]);
+
         $now = Carbon::now();
         // Check for specific week
         if ($request->filled('week')) {
@@ -46,8 +52,8 @@ class ScheduleController extends Controller
 
         // Get the lessons for the specific week
         $lessons = Auth::user()->student->lessons()->with(['time', 'subject'])->whereBetween('date', [$monday, $friday])
-            ->when($schoolClass, function ($request) use ($schoolClass) {
-                $request->where('school_class_id', $schoolClass->id);
+            ->when($schoolClass, function ($query) use ($schoolClass) {
+                $query->where('school_class_id', $schoolClass->id);
             })->get()
             ->groupBy([function ($data) {
                 return Carbon::parse($data->date)->format('Y-m-d');
@@ -69,6 +75,10 @@ class ScheduleController extends Controller
      */
     public function getSchoolClasses(Request $request): JsonResponse
     {
+        $request->validate([
+            'query' => 'string|max:255'
+        ]);
+
         $schoolClasses = SchoolClass::when($request->has('query'), function ($query) use ($request) {
             $query->where('name', 'LIKE', '%' . $request->get('query') . '%');
         })->limit(300)->get();

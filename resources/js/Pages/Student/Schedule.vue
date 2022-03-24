@@ -116,8 +116,7 @@ export default {
     props: {
         dates: Array,
         lessons: Object,
-        week: String,
-        class: Object
+        week: String
     },
     components: {
         Dialog
