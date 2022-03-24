@@ -1,14 +1,25 @@
 <template>
     <div class="card mb-3" id="schedule-navigator">
         <div class="card-body d-flex justify-content-center">
+            <section class="me-auto" style="width: 300px">
+                <multiselect v-model="selectedClass" id="multiselectClasses" label="name" track-by="id"
+                             placeholder="Type om een klas te zoeken" open-direction="bottom" :options="classes" :searchable="true"
+                             :loading="isLoadingClasses" :internal-search="false" :clear-on-select="false" :options-limit="300"
+                             :show-no-results="true" @search-change="asyncFindClasses" @select="selectClass">
+
+                    <template v-slot:noResult>Oops! Geen klassen gevonden. Verander je zoekopdracht.</template>
+                    <template v-slot:noOptions>Oops! Geen klassen gevonden.</template>
+                </multiselect>
+            </section>
             <section>
                 <button class="navigator" @click="previousWeek"><i class="fa-solid fa-arrow-left" title="<"></i>
                 </button>
-                <span class="date mx-4">{{ this.$moment(dates[0]).format('LL') }} -
-                    {{ this.$moment(dates[dates.length - 1]).format('LL') }}</span>
+                <span class="date mx-4">{{ $moment(dates[0]).format('LL') }} -
+                    {{ $moment(dates[dates.length - 1]).format('LL') }}</span>
                 <button class="navigator" @click="nextWeek"><i class="fa-solid fa-arrow-right" title=">"></i>
                 </button>
             </section>
+            <section class="ms-auto" style="visibility: hidden; width: 300px;"></section>
         </div>
     </div>
 
@@ -42,13 +53,13 @@
                 <ul class="wrap">
                     <li class="lessons-group" v-for="date in dates">
                         <div class="top-info">
-                            <span id="day">{{ this.$moment(date).format('dddd') }}</span>
-                            <span>{{ this.$moment(date).format('DD/MM') }}</span>
+                            <span id="day">{{ $moment(date).format('dddd') }}</span>
+                            <span>{{ $moment(date).format('DD/MM') }}</span>
                         </div>
                         <ul>
-                            <template v-for="lesson in lessons[this.$moment(date).format('YYYY-MM-DD')]" style="position: relative; z-index: 10;">
+                            <template v-for="lesson in lessons[$moment(date).format('YYYY-MM-DD')]" style="position: relative; z-index: 10;">
                                 <li class="single-lesson" v-for="(les, index) in lesson"
-                                    :style="{'top': this.singleLessonTop(les.time.from)+'px', 'height': this.singleLessonHeight(les.time.to)+'px', 'width': (100 / lesson.length)+'%', 'left': (index * (100 / lesson.length))+'%'}"
+                                    :style="{'top': singleLessonTop(les.time.from)+'px', 'height': singleLessonHeight(les.time.to)+'px', 'width': (100 / lesson.length)+'%', 'left': (index * (100 / lesson.length))+'%'}"
                                     :class="{'lesson-deleted': les.deleted}">
                                     <a class="clickable" @click="openLessonModal(les)">
                                         <span class="lesson-name">{{ les.subject.name }}</span>
@@ -78,7 +89,7 @@
             </tr>
             <tr>
                 <td><strong>Datum:</strong></td>
-                <td>{{ this.$moment(activeLesson.date).format('LL') }}</td>
+                <td>{{ $moment(activeLesson.date).format('LL') }}</td>
             </tr>
             <tr>
                 <td><strong>Tijd:</strong></td>
@@ -98,22 +109,48 @@
 <script>
 import StudentLayout from "@/Layouts/StudentLayout";
 import Dialog from "primevue/dialog";
+import {debounce, pickBy} from "lodash";
 
 export default {
     layout: StudentLayout,
     props: {
         dates: Array,
         lessons: Object,
-        week: String
+        week: String,
+        class: Object
     },
     components: {
         Dialog
     },
     data() {
         return {
+            params: {
+                week: this.week,
+                class: null
+            },
             openModal: false,
-            activeLesson: null
+            activeLesson: null,
+            selectedClass: null,
+            classes: [],
+            isLoadingClasses: false
         }
+    },
+    watch: {
+        params: {
+            handler() {
+                let params = pickBy(this.params);
+
+                this.$inertia.get(this.route('student.schedule'), params, {
+                    replace: true,
+                    preserveState: true,
+                    preserveScroll: true
+                })
+            },
+            deep: true
+        }
+    },
+    mounted() {
+        this.asyncFindClasses();
     },
     methods: {
         getScheduleTimestamp(time) {
@@ -144,24 +181,12 @@ export default {
         nextWeek() {
             let weekNumber = this.week.split('-')[1];
             weekNumber++;
-            let week = this.week.split('-')[0] + '-' + weekNumber;
-
-            this.$inertia.get(this.route('student.schedule'), {'week': week}, {
-                replace: true,
-                preserveState: true,
-                preserveScroll: true
-            })
+            this.params.week = this.week.split('-')[0] + '-' + weekNumber;
         },
         previousWeek() {
             let weekNumber = this.week.split('-')[1];
             weekNumber--;
-            let week = this.week.split('-')[0] + '-' + weekNumber;
-
-            this.$inertia.get(this.route('student.schedule'), {'week': week}, {
-                replace: true,
-                preserveState: true,
-                preserveScroll: true
-            })
+            this.params.week = this.week.split('-')[0] + '-' + weekNumber;
         },
         openLessonModal(lesson) {
             this.activeLesson = lesson;
@@ -169,6 +194,19 @@ export default {
         },
         closeLessonModal() {
             this.activeLesson = null;
+        },
+        asyncFindClasses: debounce(function (query) {
+            this.isLoadingClasses = true
+            axios.get(this.route('student.schedules.getSchoolClasses', {
+                query: query
+            }))
+                .then((response) => {
+                    this.classes = response.data
+                    this.isLoadingClasses = false
+                })
+        }, 150),
+        selectClass(selectedClass) {
+            this.params.class = selectedClass.name;
         }
     }
 }
