@@ -48,11 +48,15 @@
                         <ul>
                             <template v-for="lesson in lessons[this.$moment(date).format('YYYY-MM-DD')]" style="position: relative; z-index: 10;">
                                 <li class="single-lesson" v-for="(les, index) in lesson"
-                                    :style="{'top': this.singleLessonTop(les.time.from)+'px', 'height': this.singleLessonHeight(les.time.to)+'px', 'width': (100 / lesson.length)+'%', 'left': (index * (100 / lesson.length))+'%'}">
+                                    :style="{'top': this.singleLessonTop(les.time.from)+'px', 'height': this.singleLessonHeight(les.time.to)+'px', 'width': (100 / lesson.length)+'%', 'left': (index * (100 / lesson.length))+'%'}"
+                                    :class="{'lesson-deleted': les.deleted}">
                                     <a class="clickable" @click="openLessonModal(les)">
                                         <span class="lesson-name">{{ les.subject.name }}</span>
                                         <span class="lesson-abbreviation">NONE</span>
                                         <span class="lesson-classroom">E404</span>
+                                        <section class="lesson-icons">
+                                            <i class="fa-solid fa-triangle-exclamation fa-2xl text-white" v-if="les.deleted"></i>
+                                        </section>
                                     </a>
                                 </li>
                             </template>
@@ -294,6 +298,12 @@ export default {
         display: block;
         height: 100%;
         //padding: .8em;
+
+        .lesson-icons {
+            position: absolute;
+            right: 8px;
+            bottom: 8px;
+        }
     }
 
     .cd-schedule .lessons {
@@ -415,6 +425,10 @@ export default {
         display: block;
         color: #575757;
         line-height: 1.2rem;
+    }
+
+    .lesson-deleted {
+        background-color: #FF6863 !important;
     }
 }
 </style>
