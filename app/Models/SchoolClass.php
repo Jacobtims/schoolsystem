@@ -41,6 +41,7 @@ class SchoolClass extends Model
      * @var string[]
      */
     protected $fillable = [
+        'mentor_id',
         'name'
     ];
 
@@ -53,11 +54,11 @@ class SchoolClass extends Model
     }
 
     /**
-     * @return BelongsToMany
+     * @return HasMany
      */
-    public function students(): BelongsToMany
+    public function students(): HasMany
     {
-        return $this->belongsToMany(Student::class);
+        return $this->hasMany(Student::class);
     }
 
     /**

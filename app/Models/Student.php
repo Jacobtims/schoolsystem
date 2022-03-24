@@ -5,32 +5,47 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 /**
  * App\Models\Student
  *
  * @property int $id
  * @property int $user_id
+ * @property int $school_class_id
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Attendance[] $attendances
+ * @property-read int|null $attendances_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Grade[] $grades
  * @property-read int|null $grades_count
- * @property-read \App\Models\User|null $user
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Lesson[] $lessons
+ * @property-read int|null $lessons_count
+ * @property-read \App\Models\SchoolClass $schoolClass
+ * @property-read \App\Models\User $user
+ * @method static \Database\Factories\StudentFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Student newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Student newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Student query()
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Student whereSchoolClassId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereUserId($value)
  * @mixin \Eloquent
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Lesson[] $lessons
- * @property-read int|null $lessons_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\SchoolClass[] $schoolClasses
- * @property-read int|null $school_classes_count
  */
 class Student extends Model
 {
     use HasFactory;
+
+    public $timestamps = false;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var string[]
+     */
+    protected $fillable = [
+        'user_id',
+        'school_class_id'
+    ];
 
     /**
      * @return BelongsTo
@@ -49,18 +64,33 @@ class Student extends Model
     }
 
     /**
-     * @return BelongsToMany
+     * @return BelongsTo
      */
-    public function schoolClasses(): BelongsToMany
+    public function schoolClass(): BelongsTo
     {
-        return $this->belongsToMany(SchoolClass::class);
+        return $this->belongsTo(SchoolClass::class);
+    }
+
+    /**
+     * @return HasManyThrough
+     */
+    public function lessons(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            Lesson::class,
+            SchoolClass::class,
+            'id', // Foreign key on the school_classes table...
+            null, // Foreign key on the lessons table...
+            'school_class_id', // Local key on the this (student) table...
+            null // Local key on the school_classes table...
+        );
     }
 
     /**
      * @return HasMany
      */
-    public function lessons(): HasMany
+    public function attendances(): HasMany
     {
-        return $this->hasMany(Lesson::class);
+        return $this->hasMany(Attendance::class);
     }
 }

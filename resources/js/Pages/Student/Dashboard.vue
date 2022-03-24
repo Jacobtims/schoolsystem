@@ -1,13 +1,11 @@
 <template>
-    <student-layout>
-        Student dashboard
-    </student-layout>
+    Student dashboard
 </template>
 <script>
 import StudentLayout from "@/Layouts/StudentLayout";
 export default {
+    layout: StudentLayout,
     components: {
-        StudentLayout
     }
 }
 </script>

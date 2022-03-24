@@ -25,6 +25,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @mixin \Eloquent
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Lesson[] $lessons
  * @property-read int|null $lessons_count
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|Teacher whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Teacher whereUpdatedAt($value)
  */
 class Teacher extends Model
 {
@@ -36,6 +40,7 @@ class Teacher extends Model
      * @var string[]
      */
     protected $fillable = [
+        'user_id',
         'abbreviation',
         'student_name'
     ];

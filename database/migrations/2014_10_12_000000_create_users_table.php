@@ -24,11 +24,12 @@ class CreateUsersTable extends Migration
             $table->string('lastname');
             $table->string('phone_number');
             $table->date('date_of_birth');
-            $table->unsignedBigInteger('country_id')->nullable();
-            $table->unsignedBigInteger('state_id')->nullable();
-            $table->unsignedBigInteger('city_id')->nullable();
+            $table->string('country');
+            $table->string('state');
+            $table->string('city');
             $table->string('zipcode');
             $table->string('street');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

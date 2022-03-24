@@ -1,110 +1,108 @@
 <template>
-    <student-layout>
-        <div class="card mb-3" id="schedule-navigator">
-            <div class="card-body d-flex justify-content-center">
-                <section>
-                    <button class="navigator" @click="previousWeek"><i class="fa-solid fa-arrow-left" title="<"></i>
-                    </button>
-                    <span class="date mx-4">{{ this.$moment(dates[0]).format('LL') }} -
-                        {{ this.$moment(dates[dates.length - 1]).format('LL') }}</span>
-                    <button class="navigator" @click="nextWeek"><i class="fa-solid fa-arrow-right" title=">"></i>
-                    </button>
-                </section>
+    <div class="card mb-3" id="schedule-navigator">
+        <div class="card-body d-flex justify-content-center">
+            <section>
+                <button class="navigator" @click="previousWeek"><i class="fa-solid fa-arrow-left" title="<"></i>
+                </button>
+                <span class="date mx-4">{{ this.$moment(dates[0]).format('LL') }} -
+                    {{ this.$moment(dates[dates.length - 1]).format('LL') }}</span>
+                <button class="navigator" @click="nextWeek"><i class="fa-solid fa-arrow-right" title=">"></i>
+                </button>
+            </section>
+        </div>
+    </div>
+
+    <div class="card card-body py-0 pe-0 w-100" id="schedule-table">
+        <div class="cd-schedule js-full">
+            <div class="timeline">
+                <ul>
+                    <li><span>07:00</span></li>
+                    <li><span>07:30</span></li>
+                    <li><span>08:00</span></li>
+                    <li><span>08:30</span></li>
+                    <li><span>09:00</span></li>
+                    <li><span>09:30</span></li>
+                    <li><span>10:00</span></li>
+                    <li><span>10:30</span></li>
+                    <li><span>11:00</span></li>
+                    <li><span>11:30</span></li>
+                    <li><span>12:00</span></li>
+                    <li><span>12:30</span></li>
+                    <li><span>13:00</span></li>
+                    <li><span>13:30</span></li>
+                    <li><span>14:00</span></li>
+                    <li><span>14:30</span></li>
+                    <li><span>15:00</span></li>
+                    <li><span>15:30</span></li>
+                    <li><span>16:00</span></li>
+                </ul>
+            </div>
+
+            <div class="lessons">
+                <ul class="wrap">
+                    <li class="lessons-group" v-for="date in dates">
+                        <div class="top-info">
+                            <span id="day">{{ this.$moment(date).format('dddd') }}</span>
+                            <span>{{ this.$moment(date).format('DD/MM') }}</span>
+                        </div>
+                        <ul>
+                            <template v-for="lesson in lessons[this.$moment(date).format('YYYY-MM-DD')]" style="position: relative; z-index: 10;">
+                                <li class="single-lesson" v-for="(les, index) in lesson"
+                                    :style="{'top': this.singleLessonTop(les.time.from)+'px', 'height': this.singleLessonHeight(les.time.to)+'px', 'width': (100 / lesson.length)+'%', 'left': (index * (100 / lesson.length))+'%'}">
+                                    <a class="clickable" @click="openLessonModal(les)">
+                                        <span class="lesson-name">{{ les.subject.name }}</span>
+                                        <span class="lesson-abbreviation">NONE</span>
+                                        <span class="lesson-classroom">E404</span>
+                                    </a>
+                                </li>
+                            </template>
+                        </ul>
+                    </li>
+                </ul>
             </div>
         </div>
+    </div>
 
-        <div class="card card-body py-0 pe-0 w-100" id="schedule-table">
-            <div class="cd-schedule js-full">
-                <div class="timeline">
-                    <ul>
-                        <li><span>07:00</span></li>
-                        <li><span>07:30</span></li>
-                        <li><span>08:00</span></li>
-                        <li><span>08:30</span></li>
-                        <li><span>09:00</span></li>
-                        <li><span>09:30</span></li>
-                        <li><span>10:00</span></li>
-                        <li><span>10:30</span></li>
-                        <li><span>11:00</span></li>
-                        <li><span>11:30</span></li>
-                        <li><span>12:00</span></li>
-                        <li><span>12:30</span></li>
-                        <li><span>13:00</span></li>
-                        <li><span>13:30</span></li>
-                        <li><span>14:00</span></li>
-                        <li><span>14:30</span></li>
-                        <li><span>15:00</span></li>
-                        <li><span>15:30</span></li>
-                        <li><span>16:00</span></li>
-                    </ul>
-                </div>
-
-                <div class="lessons">
-                    <ul class="wrap">
-                        <li class="lessons-group" v-for="date in dates">
-                            <div class="top-info">
-                                <span id="day">{{ this.$moment(date).format('dddd') }}</span>
-                                <span>{{ this.$moment(date).format('DD/MM') }}</span>
-                            </div>
-                            <ul>
-                                <template v-for="lesson in lessons[this.$moment(date).format('YYYY-MM-DD')]" style="position: relative; z-index: 10;">
-                                    <li class="single-lesson" v-for="(les, index) in lesson"
-                                        :style="{'top': this.singleLessonTop(les.time.from)+'px', 'height': this.singleLessonHeight(les.time.to)+'px', 'width': (100 / lesson.length)+'%', 'left': (index * (100 / lesson.length))+'%'}">
-                                        <a class="clickable" @click="openLessonModal(les)">
-                                            <span class="lesson-name">{{ les.subject.name }}</span>
-                                            <span class="lesson-abbreviation">NONE</span>
-                                            <span class="lesson-classroom">E404</span>
-                                        </a>
-                                    </li>
-                                </template>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <!-- Modal -->
-        <Dialog v-model:visible="openModal" :breakpoints="{'1200px': '50vw', '992px': '65vw'}" :style="{width: '40vw'}"
-                :header="activeLesson.subject.name" :draggable="false" :modal="true" :dismissableMask="true"
-                @hide="closeLessonModal" v-if="activeLesson">
-            <table class="table table-borderless" id="table-grades">
-                <tr>
-                    <td><strong>Vak:</strong></td>
-                    <td>{{ activeLesson.subject.name }}</td>
-                </tr>
-                <tr>
-                    <td><strong>Datum:</strong></td>
-                    <td>{{ this.$moment(activeLesson.date).format('LL') }}</td>
-                </tr>
-                <tr>
-                    <td><strong>Tijd:</strong></td>
-                    <td>{{ activeLesson.time.from }} - {{ activeLesson.time.to }}</td>
-                </tr>
-                <tr>
-                    <td><strong>Docent:</strong></td>
-                    <td>NONE</td>
-                </tr>
-                <tr>
-                    <td><strong>Lokaal:</strong></td>
-                    <td>E404</td>
-                </tr>
-            </table>
-        </Dialog>
-    </student-layout>
+    <!-- Modal -->
+    <Dialog v-model:visible="openModal" :breakpoints="{'1200px': '50vw', '992px': '65vw'}" :style="{width: '40vw'}"
+            :header="activeLesson.subject.name" :draggable="false" :modal="true" :dismissableMask="true"
+            @hide="closeLessonModal" v-if="activeLesson">
+        <table class="table table-borderless" id="table-grades">
+            <tr>
+                <td><strong>Vak:</strong></td>
+                <td>{{ activeLesson.subject.name }}</td>
+            </tr>
+            <tr>
+                <td><strong>Datum:</strong></td>
+                <td>{{ this.$moment(activeLesson.date).format('LL') }}</td>
+            </tr>
+            <tr>
+                <td><strong>Tijd:</strong></td>
+                <td>{{ activeLesson.time.from }} - {{ activeLesson.time.to }}</td>
+            </tr>
+            <tr>
+                <td><strong>Docent:</strong></td>
+                <td>NONE</td>
+            </tr>
+            <tr>
+                <td><strong>Lokaal:</strong></td>
+                <td>E404</td>
+            </tr>
+        </table>
+    </Dialog>
 </template>
 <script>
 import StudentLayout from "@/Layouts/StudentLayout";
 import Dialog from "primevue/dialog";
 
 export default {
+    layout: StudentLayout,
     props: {
         dates: Array,
         lessons: Object,
         week: String
     },
     components: {
-        StudentLayout,
         Dialog
     },
     data() {

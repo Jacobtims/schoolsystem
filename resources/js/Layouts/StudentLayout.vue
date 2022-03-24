@@ -12,6 +12,7 @@
             </div>
         </div>
     </div>
+    <Toast position="bottom-right"/>
 </template>
 <script>
 import Sidebar from "@/Layouts/Student/Sidebar";

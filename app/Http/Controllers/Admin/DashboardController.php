@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Student;
+use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,6 +17,13 @@ class DashboardController extends Controller
      */
     public function index(): \Inertia\Response
     {
-        return Inertia::render('Admin/Dashboard');
+        $counts = [
+            "students" => Student::count(),
+            "teachers" => Teacher::count()
+        ];
+
+        return Inertia::render('Admin/Dashboard', [
+            "counts" => $counts
+        ]);
     }
 }

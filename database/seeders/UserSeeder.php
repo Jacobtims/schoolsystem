@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\SchoolClass;
+use App\Models\Teacher;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -27,6 +29,9 @@ class UserSeeder extends Seeder
                 'lastname' => 'Account',
                 'phone_number' => '0612345678',
                 'date_of_birth' => Carbon::now()->subYears(rand(1, 99)),
+                'country' => 'Nederland',
+                'state' => 'Zuid-Holland',
+                'city' => 'Rotterdam',
                 'zipcode' => '1234AB',
                 'street' => 'Weetnietstraat',
                 'role_id' => 1
@@ -40,6 +45,9 @@ class UserSeeder extends Seeder
                 'lastname' => 'Account',
                 'phone_number' => '0612345678',
                 'date_of_birth' => Carbon::now()->subYears(rand(1, 99)),
+                'country' => 'Nederland',
+                'state' => 'Zuid-Holland',
+                'city' => 'Rotterdam',
                 'zipcode' => '1234AB',
                 'street' => 'Weetnietstraat',
                 'role_id' => 2
@@ -53,6 +61,9 @@ class UserSeeder extends Seeder
                 'lastname' => 'Account',
                 'phone_number' => '0612345678',
                 'date_of_birth' => Carbon::now()->subYears(rand(1, 99)),
+                'country' => 'Nederland',
+                'state' => 'Zuid-Holland',
+                'city' => 'Rotterdam',
                 'zipcode' => '1234AB',
                 'street' => 'Weetnietstraat',
                 'role_id' => 3
@@ -69,11 +80,21 @@ class UserSeeder extends Seeder
             ]
         ]);
 
+        // Seed student school class
+        DB::table('school_classes')->insert([
+            [
+                'id' => 1,
+                'mentor_id' => Teacher::findOrFail(1)->id,
+                'name' => 'TEST'
+            ]
+        ]);
+
         // Seed student
         DB::table('students')->insert([
             [
                 'id' => 1,
-                'user_id' => 3
+                'user_id' => 3,
+                'school_class_id' => SchoolClass::findOrFail(1)->id
             ]
         ]);
     }
