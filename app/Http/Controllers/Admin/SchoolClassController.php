@@ -7,6 +7,8 @@ use App\Http\Requests\StoreSchoolClassRequest;
 use App\Models\SchoolClass;
 use App\Models\Student;
 use App\Models\Teacher;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Inertia\Inertia;
@@ -19,7 +21,7 @@ class SchoolClassController extends Controller
      *
      * @return \Inertia\Response
      */
-    public function index(Request $request)
+    public function index(Request $request): \Inertia\Response
     {
         $request->validate([
             'class' => 'integer'
@@ -41,22 +43,12 @@ class SchoolClassController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param StoreSchoolClassRequest $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function store(StoreSchoolClassRequest $request)
+    public function store(StoreSchoolClassRequest $request): RedirectResponse
     {
         $mentor = Teacher::whereAbbreviation($request->get('mentor_abbreviation'))->firstOrFail();
         $schoolClass = SchoolClass::create([
@@ -77,26 +69,15 @@ class SchoolClassController extends Controller
      * Display the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function show(int $id)
+    public function show(int $id): JsonResponse
     {
         $schoolClass = SchoolClass::whereId($id)->with('students.user')->firstOrFail();
 
         return response()->json([
             'class' => $schoolClass
         ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
@@ -127,9 +108,9 @@ class SchoolClassController extends Controller
      *
      * @param Request $request
      * @param int $id
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function addStudents(Request $request, int $id): \Illuminate\Http\RedirectResponse
+    public function addStudents(Request $request, int $id): RedirectResponse
     {
         $request->validate([
             'studentIds' => 'array'
@@ -152,9 +133,9 @@ class SchoolClassController extends Controller
      *
      * @param int $classId
      * @param int $studentId
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function removeStudent(int $classId, int $studentId)
+    public function removeStudent(int $classId, int $studentId): RedirectResponse
     {
         $schoolClass = SchoolClass::findOrFail($classId);
         $student = Student::findOrFail($studentId);
