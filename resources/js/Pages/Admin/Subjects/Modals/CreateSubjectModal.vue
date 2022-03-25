@@ -57,7 +57,11 @@ export default {
                 onSuccess: () => {
                     this.subjectForm.reset();
                     this.close();
+                    this.toast('success', 'Succesvol aangemaakt!', 'Vak is aangemaakt.')
                 },
+                    onError: () => {
+                    this.toast('error', 'Fout!', 'Er is iets fout gegegaan tijdens het aanmaken van dit vak. Probeer het opnieuw.')
+                }
             })
         }
     }

@@ -165,7 +165,11 @@ export default {
                 onSuccess: () => {
                     this.teacherForm.reset();
                     this.close();
+                    this.toast('success', 'Succesvol aangepast!', 'Docent is aangepast.')
                 },
+                onError: () => {
+                    this.toast('error', 'Fout!', 'Er is iets fout gegegaan tijdens het aanpassen van deze docent. Probeer het opnieuw.')
+                }
             })
         }
     }

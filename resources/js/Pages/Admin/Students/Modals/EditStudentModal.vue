@@ -153,7 +153,11 @@ export default {
                 onSuccess: () => {
                     this.studentForm.reset();
                     this.close();
+                    this.toast('success', 'Succesvol aangepast!', 'Student is aangepast.')
                 },
+                    onError: () => {
+                    this.toast('error', 'Fout!', 'Er is iets fout gegegaan tijdens het aanpassen van deze student. Probeer het opnieuw.')
+                }
             })
         }
     }

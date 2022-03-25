@@ -6,6 +6,7 @@
             <slot></slot>
         </main>
     </div>
+    <Toast position="bottom-right"/>
 </template>
 <script>
 import Sidebar from "@/Layouts/Admin/Sidebar";

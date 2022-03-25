@@ -89,7 +89,11 @@ export default {
                 preserveScroll: true,
                 onSuccess: () => {
                     this.close();
+                    this.toast('success', 'Succesvol toegevoegd!', 'Studenten zijn toegevoegd aan deze klas.')
                 },
+                onError: () => {
+                    this.toast('error', 'Fout!', 'Er is iets fout gegegaan tijdens het toevoegen van deze studenten. Probeer het opnieuw.')
+                }
             })
         }
     }

@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\SchoolClass;
+use App\Models\Teacher;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -78,11 +80,21 @@ class UserSeeder extends Seeder
             ]
         ]);
 
+        // Seed student school class
+        DB::table('school_classes')->insert([
+            [
+                'id' => 1,
+                'mentor_id' => Teacher::findOrFail(1)->id,
+                'name' => 'TEST'
+            ]
+        ]);
+
         // Seed student
         DB::table('students')->insert([
             [
                 'id' => 1,
-                'user_id' => 3
+                'user_id' => 3,
+                'school_class_id' => SchoolClass::findOrFail(1)->id
             ]
         ]);
     }

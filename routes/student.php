@@ -5,5 +5,6 @@ Route::middleware(['auth:sanctum', 'verified', 'role:student'])->prefix('student
     Route::get('/grades', [\App\Http\Controllers\Student\GradeController::class, 'index'])->name('grades');
     Route::get('/schedule', [\App\Http\Controllers\Student\ScheduleController::class, 'index'])->name('schedule');
     Route::get('/attendance', [\App\Http\Controllers\Student\AttendanceController::class, 'index'])->name('attendance');
+    Route::get('/schedule/school-classes/get', [\App\Http\Controllers\Student\ScheduleController::class, 'getSchoolClasses'])->name('schedules.getSchoolClasses');
 });
 
