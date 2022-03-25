@@ -14,7 +14,7 @@ class AddSchoolClassIdToStudentsTable extends Migration
     public function up()
     {
         Schema::table('students', function (Blueprint $table) {
-            $table->foreignId('school_class_id')->constrained('school_classes');
+            $table->foreignId('school_class_id')->nullable()->constrained('school_classes');
         });
     }
 

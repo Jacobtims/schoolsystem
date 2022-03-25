@@ -59,7 +59,9 @@ class SchoolClassController extends Controller
         $studentIds = $request->get('studentIds');
         foreach ($studentIds as $studentId) {
             $student = Student::findOrFail($studentId);
-            $schoolClass->students()->syncWithoutDetaching($student->id);
+//            $schoolClass->students()->syncWithoutDetaching($student->id);
+            $student->school_class_id = $schoolClass->id;
+            $student->save();
         }
 
         return Redirect::back();
@@ -122,7 +124,9 @@ class SchoolClassController extends Controller
         foreach ($studentIds as $studentId)
         {
             $student = Student::findOrFail($studentId);
-            $schoolClass->students()->syncWithoutDetaching($student->id);
+//            $schoolClass->students()->syncWithoutDetaching($student->id);
+            $student->school_class_id = $schoolClass->id;
+            $student->save();
         }
 
         return Redirect::back();
@@ -137,10 +141,12 @@ class SchoolClassController extends Controller
      */
     public function removeStudent(int $classId, int $studentId): RedirectResponse
     {
-        $schoolClass = SchoolClass::findOrFail($classId);
+//        $schoolClass = SchoolClass::findOrFail($classId);
         $student = Student::findOrFail($studentId);
 
-        $schoolClass->students()->detach($student->id);
+//        $schoolClass->students()->detach($student->id);
+        $student->school_class_id = null;
+        $student->save();
 
         return Redirect::back();
     }
