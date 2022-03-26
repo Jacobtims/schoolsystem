@@ -1,12 +1,9 @@
 <template>
     <div class="card">
         <div class="card-body d-flex">
-            <select class="form-select w-50" v-model="params.class">
-                <option disabled selected value="0">Selecteer een klas</option>
-                <option v-for="sClass in schoolClasses" :value="sClass.id">
-                    {{ sClass.name }}
-                </option>
-            </select>
+            <multiselect v-model="params.schoolClass" deselect-label="Geselecteerd" track-by="name" label="name" placeholder="Selecteer een klas"
+                         :options="schoolClasses" :allow-empty="false" style="max-width: 500px;">
+            </multiselect>
 
             <button class="btn btn-success ms-auto" @click="createSchoolClass"><i class="fa-solid fa-plus"></i> Nieuwe klas</button>
         </div>
@@ -16,9 +13,9 @@
         <div class="card-body">
             <div class="mb-3 d-flex">
                 <h3 class="d-inline">Studenten</h3>
-                <button class="btn btn-success ms-auto" @click="addStudentsToSchoolClass"
-                        :disabled="!schoolClass">
-                    <i class="fa-solid fa-plus"></i> Studenten toevoegen</button>
+                <button class="btn btn-success ms-auto" @click="addStudentsToSchoolClass" :disabled="!schoolClass">
+                    <i class="fa-solid fa-plus"></i> Studenten toevoegen
+                </button>
             </div>
 
             <div class="spinner-border ms-3" role="status" v-if="loading">
@@ -44,10 +41,9 @@
                             <td class="text-nowrap">{{ student.user.firstname }} {{ student.user.lastname }}</td>
                             <td>
                                 <div class="float-end d-flex">
-    <!--                                <button class="btn btn-warning me-2" @click="showStudent(student)"><i class="fa-solid fa-eye"></i></button>-->
-    <!--                                <button class="btn btn-success me-2" @click="editStudent(student)"><i class="fa-solid fa-pen-to-square"></i></button>-->
                                     <button class="btn btn-danger text-nowrap" @click="deleteStudent(student.id)">
-                                        <i class="fa-solid fa-trash-can"></i> Uit klas verwijderen</button>
+                                        <i class="fa-solid fa-trash-can"></i> Uit klas verwijderen
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -81,13 +77,12 @@ export default {
     layout: AdminLayout,
     props: {
         schoolClasses: Object,
-        schoolClass: Object,
-        oldParams: Object
+        schoolClass: Object
     },
     data() {
         return {
             params: {
-                class: this.oldParams.class ?? 0
+                schoolClass: null
             },
             loading: false,
             openAddStudentsModal: false,
@@ -113,7 +108,7 @@ export default {
             handler: throttle(function () {
                 let params = pickBy(this.params);
 
-                this.$inertia.get(this.route('admin.classes.index'), params, { replace: true, preserveState: true, preserveScroll: true });
+                this.$inertia.get(this.route('admin.classes.index'), {class: params.schoolClass.name}, { replace: true, preserveState: true, preserveScroll: true });
             }, 150),
             deep: true
         }

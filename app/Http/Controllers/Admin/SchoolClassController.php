@@ -19,26 +19,25 @@ class SchoolClassController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return \Inertia\Response
      */
     public function index(Request $request): \Inertia\Response
     {
         $request->validate([
-            'class' => 'integer'
+            'class' => 'string'
         ]);
 
         $schoolClasses = SchoolClass::select(['id', 'name'])->get();
 
+        $schoolClass = null;
         if ($request->has('class')) {
-            $schoolClass = SchoolClass::whereId($request->get('class'))->with('students.user')->firstOrFail();
-        } else {
-            $schoolClass = null;
+            $schoolClass = SchoolClass::whereName($request->get('class'))->with('students.user')->firstOrFail();
         }
 
         return Inertia::render('Admin/SchoolClasses/Overview', [
             'schoolClasses' => $schoolClasses,
-            'schoolClass' => $schoolClass,
-            'oldParams' => $request->all(['class'])
+            'schoolClass' => $schoolClass
         ]);
     }
 
