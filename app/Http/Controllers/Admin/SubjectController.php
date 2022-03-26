@@ -18,7 +18,7 @@ class SubjectController extends Controller
      */
     public function index(): \Inertia\Response
     {
-        $subjects = Subject::limit(100)->get();
+        $subjects = Subject::withTrashed()->orderBy('deleted_at')->limit(100)->get();
 
         return Inertia::render('Admin/Subjects/Overview', [
             'subjects' => $subjects
@@ -35,7 +35,7 @@ class SubjectController extends Controller
     {
         Subject::create($request->only(['name', 'abbreviation']));
 
-        return Redirect::back();
+        return back();
     }
 
     /**
@@ -49,6 +49,20 @@ class SubjectController extends Controller
         $subject = Subject::findOrFail($id);
         $subject->delete();
 
-        return Redirect::back();
+        return back();
+    }
+
+    /**
+     * Restore the specified resource from storage.
+     *
+     * @param int $id
+     * @return RedirectResponse
+     */
+    public function restore(int $id): RedirectResponse
+    {
+        $subject = Subject::withTrashed()->findOrFail($id);
+        $subject->restore();
+
+        return back();
     }
 }

@@ -22,13 +22,15 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr v-for="(subject, index) in subjects" :key="'subject'+index" v-if="subjects.length > 0">
+                        <tr v-for="(subject, index) in subjects" :key="'subject'+index" :class="{'table-secondary text-secondary': subject.deleted_at}" v-if="subjects.length > 0">
                             <td>{{ subject.name }}</td>
                             <td>{{ subject.abbreviation }}</td>
                             <td>
                                 <div class="float-end d-flex">
-                                    <button class="btn btn-danger" @click="deleteSubject(subject.id)"><i
-                                        class="fa-solid fa-trash-can"></i></button>
+                                    <button class="btn btn-danger" @click="deleteSubject(subject.id)" v-if="!subject.deleted_at">
+                                        <i class="fa-solid fa-trash-can"></i></button>
+                                    <button class="btn btn-success" @click="unDeletedSubject(subject.id)" v-else>
+                                        <i class="fa-solid fa-arrow-rotate-left"></i></button>
                                 </div>
                             </td>
                         </tr>
@@ -46,16 +48,20 @@
     <create-subject-modal :open-modal="openCreateModal"></create-subject-modal>
     <delete-subject-confirmation-modal :open-modal="openDeleteModal"
                                        :subject-id="deleteId"></delete-subject-confirmation-modal>
+    <un-delete-subject-confirmation-modal :open-modal="openUnDeleteModal"
+                                          :subject-id="unDeleteId"></un-delete-subject-confirmation-modal>
 </template>
 <script>
 
 import AdminLayout from "@/Layouts/AdminLayout";
 import CreateSubjectModal from "@/Pages/Admin/Subjects/Modals/CreateSubjectModal";
 import DeleteSubjectConfirmationModal from "@/Pages/Admin/Subjects/Modals/DeleteSubjectConfirmationModal";
+import UnDeleteSubjectConfirmationModal from "@/Pages/Admin/Subjects/Modals/UnDeleteSubjectConfirmationModal";
 
 export default {
     layout: AdminLayout,
     components: {
+        UnDeleteSubjectConfirmationModal,
         DeleteSubjectConfirmationModal,
         CreateSubjectModal
 
@@ -67,7 +73,9 @@ export default {
         return {
             openCreateModal: false,
             openDeleteModal: false,
-            deleteId: null
+            openUnDeleteModal: false,
+            deleteId: null,
+            unDeleteId: null
         }
     },
     methods: {
@@ -77,6 +85,10 @@ export default {
         deleteSubject(id) {
             this.deleteId = id;
             this.openDeleteModal = true;
+        },
+        unDeletedSubject(id) {
+            this.unDeleteId = id;
+            this.openUnDeleteModal = true;
         }
     }
 }

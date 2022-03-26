@@ -12,6 +12,7 @@ Route::middleware(['auth:sanctum', 'verified', 'role:admin'])->prefix('admin')->
     Route::post('/classes/remove-student/{class}/{id}', [\App\Http\Controllers\Admin\SchoolClassController::class, 'removeStudent'])->name('classes.removeStudent');
 
     Route::resource('subjects', \App\Http\Controllers\Admin\SubjectController::class)->except(['create', 'show', 'edit', 'update']);
+    Route::post('/subjects/restore/{id}', [\App\Http\Controllers\Admin\SubjectController::class, 'restore'])->name('subjects.restore');
 
     Route::resource('schedules', \App\Http\Controllers\Admin\ScheduleController::class)->except(['show', 'edit', 'update', 'destroy']);
     Route::get('/schedules/classes/get', [\App\Http\Controllers\Admin\ScheduleController::class, 'getSchoolClasses'])->name('schedules.getSchoolClasses');

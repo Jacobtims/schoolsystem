@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App\Models\Subject
@@ -28,7 +29,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class Subject extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
+
+    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
@@ -38,17 +41,6 @@ class Subject extends Model
     protected $fillable = [
         'name',
         'abbreviation'
-    ];
-
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array
-     */
-    protected $hidden = [
-//        'id', //TODO: Remove timestamps from database
-        'created_at',
-        'updated_at'
     ];
 
     /**
