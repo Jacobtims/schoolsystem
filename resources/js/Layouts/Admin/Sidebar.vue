@@ -14,7 +14,7 @@
                         <i class="fa fa-home sidebar-icon"></i>
                         <span class="sidebar-name">Dashboard</span>
                     </Link>
-                    <Link :href="'#'" :class="{'sidebar-link': true, 'active': false}">
+                    <Link :href="route('admin.settings')" :class="{'sidebar-link': true, 'active': isRoute('admin.settings')}">
                         <i class="fa fa-gear sidebar-icon"></i>
                         <span class="sidebar-name">Instellingen</span>
                     </Link>
