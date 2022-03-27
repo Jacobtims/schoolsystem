@@ -16,9 +16,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
-use Redirect;
 
 class ScheduleController extends Controller
 {
@@ -167,11 +164,11 @@ class ScheduleController extends Controller
     public function getSubjects(Request $request): JsonResponse
     {
         $subjects = Subject::
-            when($request->has('query'), function ($query) use ($request) {
-                $query
-                    ->where('name', 'LIKE', '%' . $request->get('query') . '%')
-                    ->orWhere('abbreviation', 'LIKE', '%' . $request->get('query') . '%');
-            })->limit(300)->get();
+        when($request->has('query'), function ($query) use ($request) {
+            $query
+                ->where('name', 'LIKE', '%' . $request->get('query') . '%')
+                ->orWhere('abbreviation', 'LIKE', '%' . $request->get('query') . '%');
+        })->limit(300)->get();
 
         return response()->json($subjects);
     }

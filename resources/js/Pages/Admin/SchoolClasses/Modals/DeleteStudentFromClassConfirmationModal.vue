@@ -28,7 +28,7 @@ export default {
             this.$parent.selectedStudent = null;
         },
         deleteStudent() {
-            this.$inertia.post(route('admin.classes.removeStudent', [this.schoolClass.id, this.studentId]), {}, {
+            this.$inertia.post(route('admin.classes.removeStudent', [this.studentId]), {}, {
                 preserveScroll: true,
                 onSuccess: () => {
                     this.close();

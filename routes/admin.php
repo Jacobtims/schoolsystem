@@ -9,7 +9,7 @@ Route::middleware(['auth:sanctum', 'verified', 'role:admin'])->prefix('admin')->
 
     Route::resource('classes', \App\Http\Controllers\Admin\SchoolClassController::class)->except(['create', 'edit']);
     Route::post('/classes/add-students/{class}', [\App\Http\Controllers\Admin\SchoolClassController::class, 'addStudents'])->name('classes.addStudents');
-    Route::post('/classes/remove-student/{class}/{id}', [\App\Http\Controllers\Admin\SchoolClassController::class, 'removeStudent'])->name('classes.removeStudent');
+    Route::post('/classes/remove-student/{id}', [\App\Http\Controllers\Admin\SchoolClassController::class, 'removeStudent'])->name('classes.removeStudent');
 
     Route::resource('subjects', \App\Http\Controllers\Admin\SubjectController::class)->except(['create', 'show', 'edit', 'update']);
     Route::post('/subjects/restore/{id}', [\App\Http\Controllers\Admin\SubjectController::class, 'restore'])->name('subjects.restore');

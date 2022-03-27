@@ -56,12 +56,8 @@ class SchoolClassController extends Controller
         ]);
 
         $studentIds = $request->get('studentIds');
-        foreach ($studentIds as $studentId) {
-            $student = Student::findOrFail($studentId);
-//            $schoolClass->students()->syncWithoutDetaching($student->id);
-            $student->school_class_id = $schoolClass->id;
-            $student->save();
-        }
+
+        Student::whereIn('id', $studentIds)->update(['school_class_id' => $schoolClass->id]);
 
         return Redirect::back();
     }
@@ -85,7 +81,7 @@ class SchoolClassController extends Controller
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param  int  $id
+     * @param int $id
      * @return Response
      */
     public function update(Request $request, $id)
@@ -96,7 +92,7 @@ class SchoolClassController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return Response
      */
     public function destroy($id)
@@ -114,19 +110,15 @@ class SchoolClassController extends Controller
     public function addStudents(Request $request, int $id): RedirectResponse
     {
         $request->validate([
-            'studentIds' => 'array'
+            'studentIds' => 'array',
+            'studentIds.*' => 'integer|exists:students,id'
         ]);
 
         $schoolClass = SchoolClass::findOrFail($id);
 
         $studentIds = $request->get('studentIds');
-        foreach ($studentIds as $studentId)
-        {
-            $student = Student::findOrFail($studentId);
-//            $schoolClass->students()->syncWithoutDetaching($student->id);
-            $student->school_class_id = $schoolClass->id;
-            $student->save();
-        }
+
+        Student::whereIn('id', $studentIds)->update(['school_class_id' => $schoolClass->id]);
 
         return Redirect::back();
     }
@@ -134,16 +126,13 @@ class SchoolClassController extends Controller
     /**
      * Remove a student from a specific school class
      *
-     * @param int $classId
      * @param int $studentId
      * @return RedirectResponse
      */
-    public function removeStudent(int $classId, int $studentId): RedirectResponse
+    public function removeStudent(int $studentId): RedirectResponse
     {
-//        $schoolClass = SchoolClass::findOrFail($classId);
         $student = Student::findOrFail($studentId);
 
-//        $schoolClass->students()->detach($student->id);
         $student->school_class_id = null;
         $student->save();
 
