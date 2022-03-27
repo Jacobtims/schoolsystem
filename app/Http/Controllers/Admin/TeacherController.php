@@ -104,8 +104,13 @@ class TeacherController extends Controller
      */
     public function destroy(int $id): RedirectResponse
     {
+        // Soft-delete user
         $user = User::findOrFail($id);
         $user->delete();
+
+        // Soft-delete teacher
+        $teacher = $user->teacher;
+        $teacher->delete();
 
         return Redirect::back();
     }

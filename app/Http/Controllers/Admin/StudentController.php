@@ -100,8 +100,13 @@ class StudentController extends Controller
      */
     public function destroy(int $id): RedirectResponse
     {
+        // Soft-delete user
         $user = User::findOrFail($id);
         $user->delete();
+
+        // Soft-delete student
+        $student = $user->student;
+        $student->delete();
 
         return Redirect::back();
     }
