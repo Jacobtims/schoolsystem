@@ -64,15 +64,13 @@ class ScheduleController extends Controller
      * Show the form for creating a new resource.
      *
      * @return \Inertia\Response
-     * @throws NotFoundExceptionInterface|ContainerExceptionInterface
      */
     public function create(): \Inertia\Response
     {
         $standardLessons = StandardLesson::get();
 
         return Inertia::render('Admin/Schedule/Lessons', [
-            'lessons' => $standardLessons,
-            'createdRecords' => session()->has('createdRecords') ? session()->get('createdRecords') : null
+            'lessons' => $standardLessons
         ]);
     }
 
@@ -86,7 +84,6 @@ class ScheduleController extends Controller
     {
         $schoolClasses = $request->get('classes');
         $lessons = $request->get('lessons');
-        $createdRecords = 0;
         foreach ($schoolClasses as $class) {
             foreach ($lessons as $lesson) {
                 Lesson::create([
@@ -96,13 +93,10 @@ class ScheduleController extends Controller
                     'date' => $request->get('date'),
                     'time' => $lesson['id']
                 ]);
-                $createdRecords++;
             }
         }
 
-        return Redirect::back()->with([
-            'createdRecords' => $createdRecords
-        ]);
+        return back();
     }
 
     /**
@@ -125,7 +119,7 @@ class ScheduleController extends Controller
             }
         }
 
-        return Redirect::back();
+        return back();
     }
 
     /**

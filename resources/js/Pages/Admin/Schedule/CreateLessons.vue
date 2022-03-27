@@ -69,6 +69,14 @@
             </div>
         </div>
         <div class="col-md-12">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="check-permanent" v-model="lessonForm.remember">
+                <label class="form-check-label" for="check-permanent">
+                    Velden behouden
+                </label>
+            </div>
+        </div>
+        <div class="col-md-12">
             <button class="btn btn-success" type="submit" :disabled="lessonForm.processing">
                 <i class="fa-solid fa-plus"></i> Toevoegen
             </button>
@@ -84,11 +92,7 @@ import moment from "moment/moment";
 export default {
     name: "create-lessons",
     props: {
-        lessons: Object,
-        createdRecords: {
-            required: false,
-            type: Number
-        }
+        lessons: Object
     },
     data() {
         return {
@@ -97,7 +101,8 @@ export default {
                 teacher: [],
                 subject: [],
                 date: null,
-                lessons: []
+                lessons: [],
+                remember: false
             }),
             classes: [],
             isLoadingClasses: false,
@@ -105,13 +110,6 @@ export default {
             isLoadingTeachers: false,
             subjects: [],
             isLoadingSubjects: false
-        }
-    },
-    watch: {
-        createdRecords(newValue) {
-            if (newValue !== null) {
-                this.toast('success', 'Succesvol toegevoegd!', 'In totaal '+(newValue ?? 0)+' uren toegevoegd!');
-            }
         }
     },
     computed: {
@@ -124,7 +122,11 @@ export default {
             this.lessonForm.post(route('admin.schedules.store'), {
                 preserveScroll: true,
                 onSuccess: () => {
-                    this.lessonForm.reset();
+                    // Only reset fields if keepValues is false
+                    this.toast('success', 'Succesvol toegevoegd!', 'In totaal '+(this.lessonForm.classes.length * this.lessonForm.lessons.length)+' uren toegevoegd!');
+                    if (!this.lessonForm.remember) {
+                        this.lessonForm.reset();
+                    }
                 },
                 onError: () => {
                     this.toast('error', 'Fout!', 'Er is iets fout gegegaan tijdens het toevoegen van de uren.')
