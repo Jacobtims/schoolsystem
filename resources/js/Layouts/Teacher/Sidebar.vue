@@ -14,21 +14,9 @@
             </li>
 
             <li class="nav-item mb-3">
-                <Link :href="route('student.schedule')" :class="{'nav-link': true, 'active': isRoute('student.schedule')}">
+                <Link :href="route('teacher.schedule')" :class="{'nav-link': true, 'active': isRoute('teacher.schedule')}">
                     <i class="fa-solid fa-calendar sidebar-icon"></i>
                     <span class="ms-2 sidebar-item">Rooster</span>
-                </Link>
-            </li>
-            <li class="nav-item mb-3">
-                <Link :href="route('student.grades')" :class="{'nav-link': true, 'active': isRoute('student.grades')}">
-                    <i class="fa-solid fa-list-ol sidebar-icon"></i>
-                    <span class="ms-2 sidebar-item">Cijfers</span>
-                </Link>
-            </li>
-            <li class="nav-item mb-3">
-                <Link :href="route('student.attendance')" :class="{'nav-link': true, 'active': isRoute('student.attendance')}">
-                    <i class="fa-solid fa-check sidebar-icon"></i>
-                    <span class="ms-2 sidebar-item">Presentie</span>
                 </Link>
             </li>
         </ul>

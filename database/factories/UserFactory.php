@@ -31,6 +31,7 @@ class UserFactory extends Factory
             'password' => Hash::make('test123test'),
             'firstname' => $this->faker->firstName,
             'lastname' => $this->faker->lastName,
+            'sex' => ['m', 'v', 'o'][array_rand(['m', 'v', 'o'])],
             'phone_number' => $this->faker->phoneNumber,
             'date_of_birth' => $this->faker->dateTimeBetween('1990-01-01', '2021-12-31')->format('Y-m-d'),
             'country' => 'Nederland',
