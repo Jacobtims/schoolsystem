@@ -18,6 +18,7 @@ class CreateTeachersTable extends Migration
             $table->foreignId('user_id')->constrained();
             $table->string('student_name');
             $table->string('abbreviation');
+            $table->softDeletes();
         });
     }
 

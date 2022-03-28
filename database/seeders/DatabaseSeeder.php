@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Student;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,8 +15,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
-
         $this->call([
             RoleSeeder::class,
             UserSeeder::class,
@@ -25,5 +25,10 @@ class DatabaseSeeder extends Seeder
             SubjectSeeder::class,
             AttendanceTypeSeeder::class
         ]);
+
+        User::factory()
+            ->has(Student::factory()->count(1))
+            ->count(100)
+            ->create();
     }
 }

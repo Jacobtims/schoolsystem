@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSchoolClassStudentTable extends Migration
+class AddSchoolClassIdToStudentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class CreateSchoolClassStudentTable extends Migration
      */
     public function up()
     {
-        Schema::create('school_class_student', function (Blueprint $table) {
-            $table->foreignId('school_class_id')->constrained();
-            $table->foreignId('student_id')->constrained();
+        Schema::table('students', function (Blueprint $table) {
+            $table->foreignId('school_class_id')->nullable()->after('user_id')->constrained('school_classes');
         });
     }
 
@@ -26,6 +25,8 @@ class CreateSchoolClassStudentTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('school_class_student');
+        Schema::table('students', function (Blueprint $table) {
+            $table->dropForeign(['school_class_id']);
+        });
     }
 }

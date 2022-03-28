@@ -17,7 +17,7 @@ class CreateSubjectsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('abbreviation');
-            $table->timestamps();
+            $table->softDeletes();
         });
     }
 
