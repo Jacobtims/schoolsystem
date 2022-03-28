@@ -19,6 +19,12 @@
                     <span class="ms-2 sidebar-item">Rooster</span>
                 </Link>
             </li>
+            <li class="nav-item mb-3">
+                <Link :href="route('teacher.attendance')" :class="{'nav-link': true, 'active': isRoute('teacher.attendance')}">
+                    <i class="fa-solid fa-circle-check sidebar-icon"></i>
+                    <span class="ms-2 sidebar-item">Registratie</span>
+                </Link>
+            </li>
         </ul>
     </div>
 </template>
