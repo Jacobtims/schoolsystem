@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('profile_photo_path', 2048)->nullable();
             $table->string('firstname');
             $table->string('lastname');
+            $table->enum('sex', ['m', 'v', 'o']);
             $table->string('phone_number');
             $table->date('date_of_birth');
             $table->unsignedBigInteger('country_id')->nullable();
