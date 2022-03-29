@@ -7,4 +7,6 @@ Route::middleware(['auth:sanctum', 'verified', 'role:teacher'])->prefix('teacher
     Route::get('/schedule/school-classes/get', [\App\Http\Controllers\Teacher\ScheduleController::class, 'getSchoolClasses'])->name('schedules.getSchoolClasses');
 
     Route::get('/attendance', [\App\Http\Controllers\Teacher\AttendanceController::class, 'index'])->name('attendance');
+    Route::get('/attendance/{lesson}', [\App\Http\Controllers\Teacher\AttendanceController::class, 'show'])->name('attendance.show');
+    Route::post('/attendance', [\App\Http\Controllers\Teacher\AttendanceController::class, 'store'])->name('attendance.store');
 });

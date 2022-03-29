@@ -88,6 +88,8 @@ use Laravel\Sanctum\HasApiTokens;
  * @method static \Illuminate\Database\Eloquent\Builder|User whereDeletedAt($value)
  * @method static \Illuminate\Database\Query\Builder|User withTrashed()
  * @method static \Illuminate\Database\Query\Builder|User withoutTrashed()
+ * @property string $sex
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereSex($value)
  */
 class User extends Authenticatable
 {

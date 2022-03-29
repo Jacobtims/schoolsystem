@@ -31,6 +31,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereSchoolClassId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereUserId($value)
  * @mixin \Eloquent
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @method static \Illuminate\Database\Query\Builder|Student onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Student whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|Student withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Student withoutTrashed()
  */
 class Student extends Model
 {

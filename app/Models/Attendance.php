@@ -47,6 +47,10 @@ class Attendance extends Model
      * @var string[]
      */
     protected $fillable = [
+        'student_id',
+        'lesson_id',
+        'type',
+        'teacher_id',
         'reason',
         'status',
         'verified'

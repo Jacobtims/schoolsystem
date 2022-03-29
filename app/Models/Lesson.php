@@ -35,6 +35,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @mixin \Eloquent
  * @property string|null $deleted
  * @method static \Illuminate\Database\Eloquent\Builder|Lesson whereDeleted($value)
+ * @property int|null $attendance_registered
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Attendance[] $attendances
+ * @property-read int|null $attendances_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Lesson whereAttendanceRegistered($value)
  */
 class Lesson extends Model
 {
@@ -51,6 +55,7 @@ class Lesson extends Model
         'subject_id',
         'date',
         'time',
+        'attendance_registered',
         'deleted'
     ];
 

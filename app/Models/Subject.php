@@ -26,6 +26,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @mixin \Eloquent
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Grade[] $grades
  * @property-read int|null $grades_count
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @method static \Illuminate\Database\Query\Builder|Subject onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Subject whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|Subject withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Subject withoutTrashed()
  */
 class Subject extends Model
 {

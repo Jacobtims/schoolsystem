@@ -30,6 +30,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|Teacher whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Teacher whereUpdatedAt($value)
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @method static \Illuminate\Database\Query\Builder|Teacher onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Teacher whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|Teacher withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Teacher withoutTrashed()
  */
 class Teacher extends Model
 {
