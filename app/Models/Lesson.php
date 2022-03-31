@@ -98,4 +98,12 @@ class Lesson extends Model
     {
         return $this->hasMany(Attendance::class);
     }
+
+    /**
+     * @return HasMany
+     */
+    public function absentees(): HasMany
+    {
+        return $this->hasMany(Attendance::class)->where('present', false);
+    }
 }

@@ -12,9 +12,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $id
  * @property int $student_id
  * @property int $lesson_id
- * @property \App\Models\AttendanceType $type
- * @property int $status
  * @property int|null $teacher_id
+ * @property int $present
+ * @property \App\Models\AttendanceType|null $type
  * @property string|null $reason
  * @property int|null $verified
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -28,8 +28,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|Attendance whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Attendance whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Attendance whereLessonId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Attendance wherePresent($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Attendance whereReason($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Attendance whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Attendance whereStudentId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Attendance whereTeacherId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Attendance whereType($value)
@@ -52,7 +52,7 @@ class Attendance extends Model
         'type',
         'teacher_id',
         'reason',
-        'status',
+        'present',
         'verified'
     ];
 

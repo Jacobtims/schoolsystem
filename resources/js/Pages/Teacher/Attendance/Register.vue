@@ -80,9 +80,11 @@ export default {
     },
     methods: {
         fillAbsent() {
-            this.lesson.attendances.forEach((attendance) => {
-                this.absent[attendance.student_id] = true;
-                this.disabled[attendance.student_id] = true;
+            this.lesson.absentees.forEach((attendance) => {
+                if(attendance.present === 0) {
+                    this.absent[attendance.student_id] = true;
+                    this.disabled[attendance.student_id] = true;
+                }
             });
         },
         fillPresent() {

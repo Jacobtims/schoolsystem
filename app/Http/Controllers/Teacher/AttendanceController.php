@@ -30,7 +30,7 @@ class AttendanceController extends Controller
      */
     public function show(int $lesson): \Inertia\Response
     {
-        $lesson = Lesson::whereId($lesson)->with(['schoolClass:id,name', 'schoolClass.students.user', 'subject:id,name', 'attendances'])->firstOrFail();
+        $lesson = Lesson::whereId($lesson)->with(['schoolClass:id,name', 'schoolClass.students.user', 'subject:id,name', 'absentees'])->firstOrFail();
 
 
         return Inertia::render('Teacher/Attendance/Register', [
@@ -54,33 +54,35 @@ class AttendanceController extends Controller
 
         $lesson = Lesson::findOrFail($request->get('lessonId'));
 
-        if ($lesson->attendance_registered) {
-            return back()->withErrors([
-                'error' => 'Dit lesuur is al geregistreerd!'
-            ]);
-        }
-
         $teacher = Auth::user()->teacher;
 
         foreach ($request->get('present') as $key => $value) {
             if ($value === true) {
-                Attendance::create([
-                    'student_id' => $key,
-                    'lesson_id' => $lesson->id,
-                    'status' => true,
-                    'teacher_id' => $teacher->id
-                ]);
+                Attendance::updateOrCreate(
+                    [
+                        'student_id' => $key,
+                        'lesson_id' => $lesson->id
+                    ],
+                    [
+                        'present' => true,
+                        'teacher_id' => $teacher->id
+                    ]
+                );
             }
         }
 
         foreach ($request->get('absent') as $key => $value) {
             if ($value === true) {
-                Attendance::create([
-                    'student_id' => $key,
-                    'lesson_id' => $lesson->id,
-                    'status' => false,
-                    'teacher_id' => $teacher->id
-                ]);
+                Attendance::updateOrCreate(
+                    [
+                        'student_id' => $key,
+                        'lesson_id' => $lesson->id
+                    ],
+                    [
+                        'present' => false,
+                        'teacher_id' => $teacher->id
+                    ]
+                );
             }
         }
 
