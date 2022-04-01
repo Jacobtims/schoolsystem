@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreSubjectRequest;
 use App\Models\Subject;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Redirect;
 
@@ -14,11 +15,19 @@ class SubjectController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return \Inertia\Response
      */
-    public function index(): \Inertia\Response
+    public function index(Request $request): \Inertia\Response
     {
-        $subjects = Subject::withTrashed()->orderBy('deleted_at')->limit(100)->get();
+        $request->validate([
+            'search' => 'string|max:255'
+        ]);
+
+        $subjects = Subject::withTrashed()->when($request->has('search'), function ($query) use ($request) {
+            $query->where('name', 'LIKE', '%'.$request->get('search').'%')
+                ->orWhere('abbreviation', 'LIKE', '%'.$request->get('search').'%');
+        })->orderBy('deleted_at')->limit(100)->get();
 
         return Inertia::render('Admin/Subjects/Overview', [
             'subjects' => $subjects

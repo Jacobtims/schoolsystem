@@ -10,7 +10,10 @@
 
         <div class="card mt-3">
             <div class="card-body">
-                <h3 class="mb-3 px-1">All vakken</h3>
+                <div class="d-flex mb-3 px-1">
+                    <h3>Alle vakken</h3>
+                    <input type="text" class="form-control ms-auto" placeholder="Zoeken..." v-model="params.search" style="max-width: 400px;"/>
+                </div>
 
                 <div class="table-responsive">
                     <table class="table table-borderless" id="subjects-table">
@@ -57,6 +60,7 @@ import AdminLayout from "@/Layouts/AdminLayout";
 import CreateSubjectModal from "@/Pages/Admin/Subjects/Modals/CreateSubjectModal";
 import DeleteSubjectConfirmationModal from "@/Pages/Admin/Subjects/Modals/DeleteSubjectConfirmationModal";
 import UnDeleteSubjectConfirmationModal from "@/Pages/Admin/Subjects/Modals/UnDeleteSubjectConfirmationModal";
+import {pickBy, throttle} from "lodash";
 
 export default {
     layout: AdminLayout,
@@ -71,6 +75,9 @@ export default {
     },
     data() {
         return {
+            params: {
+                search: null
+            },
             openCreateModal: false,
             openDeleteModal: false,
             openUnDeleteModal: false,
@@ -89,6 +96,16 @@ export default {
         unDeletedSubject(id) {
             this.unDeleteId = id;
             this.openUnDeleteModal = true;
+        }
+    },
+    watch: {
+        params: {
+            handler: throttle(function () {
+                let params = pickBy(this.params);
+
+                this.$inertia.get(this.route('admin.subjects.index'), params, { replace: true, preserveState: true, preserveScroll: true });
+            }, 150),
+            deep: true
         }
     }
 }

@@ -18,7 +18,8 @@ class AttendanceController extends Controller
     public function index(): \Inertia\Response
     {
         $lessons = Auth::user()->teacher->lessons()->with(['schoolClass:id,name', 'subject:id,name'])
-            ->where('date', today())->where('deleted', '!=', true)->get();
+            ->where('deleted', false)->orWhereNull('deleted')->where('date', today())
+            ->orderBy('time')->get();
 
         return Inertia::render('Teacher/Attendance/Overview', [
             'lessons' => $lessons
