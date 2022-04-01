@@ -1,25 +1,32 @@
 <template>
     <div class="card mb-3" id="schedule-navigator">
-        <div class="card-body d-flex justify-content-center">
-            <section class="me-auto" style="width: 300px">
-                <multiselect v-model="selectedClass" id="multiselectClasses" label="name" track-by="id"
-                             placeholder="Type om een klas te zoeken" open-direction="bottom" :options="classes" :searchable="true"
+        <div class="card-body">
+            <div class="d-flex mb-2">
+                <multiselect v-model="selectedClass" id="multiselectClasses" label="name" track-by="id" class="me-3"
+                             placeholder="Klas" open-direction="bottom" :options="classes" :searchable="true"
                              :loading="isLoadingClasses" :internal-search="false" :clear-on-select="false" :options-limit="300"
                              :show-no-results="true" @search-change="asyncFindClasses" @select="selectClass">
 
                     <template v-slot:noResult>Oops! Geen klassen gevonden. Verander je zoekopdracht.</template>
                     <template v-slot:noOptions>Oops! Geen klassen gevonden.</template>
                 </multiselect>
-            </section>
-            <section>
+                <multiselect v-model="selectedTeacher" id="multiselectTeacher" label="abbreviation" track-by="id"
+                             placeholder="Docent" open-direction="bottom" :options="teachers" :searchable="true"
+                             :loading="isLoadingTeachers" :internal-search="false" :clear-on-select="false" :options-limit="300"
+                             :show-no-results="true" @search-change="asyncFindTeachers" @select="selectTeacher">
+
+                    <template v-slot:noResult>Oops! Geen docenten gevonden. Verander je zoekopdracht.</template>
+                    <template v-slot:noOptions>Oops! Geen docenten gevonden.</template>
+                </multiselect>
+            </div>
+            <div class="d-flex justify-content-center">
                 <button class="navigator" @click="previousWeek"><i class="fa-solid fa-arrow-left" title="<"></i>
                 </button>
                 <span class="date mx-4">{{ $moment(dates[0]).format('LL') }} -
                     {{ $moment(dates[dates.length - 1]).format('LL') }}</span>
                 <button class="navigator" @click="nextWeek"><i class="fa-solid fa-arrow-right" title=">"></i>
                 </button>
-            </section>
-            <section class="ms-auto" style="visibility: hidden; width: 300px;"></section>
+            </div>
         </div>
     </div>
 
@@ -116,7 +123,8 @@ export default {
     props: {
         dates: Array,
         lessons: Object,
-        week: String
+        week: String,
+        data: Object
     },
     components: {
         Dialog
@@ -125,13 +133,17 @@ export default {
         return {
             params: {
                 week: this.week,
-                class: null
+                class: null,
+                teacher: null
             },
             openModal: false,
             activeLesson: null,
-            selectedClass: null,
+            selectedClass: this.data.class,
             classes: [],
-            isLoadingClasses: false
+            isLoadingClasses: false,
+            selectedTeacher: this.data.teacher,
+            teachers: [],
+            isLoadingTeachers: false
         }
     },
     watch: {
@@ -150,6 +162,7 @@ export default {
     },
     mounted() {
         this.asyncFindClasses();
+        this.asyncFindTeachers();
     },
     methods: {
         getScheduleTimestamp(time) {
@@ -205,7 +218,29 @@ export default {
                 })
         }, 150),
         selectClass(selectedClass) {
+            // Unset teacher param
+            this.params.teacher = null;
+            this.selectedTeacher = null;
+
             this.params.class = selectedClass.name;
+        },
+
+        asyncFindTeachers: debounce(function (query) {
+            this.isLoadingTeachers = true
+            axios.get(this.route('teacher.schedules.getTeachers', {
+                query: query
+            }))
+                .then((response) => {
+                    this.teachers = response.data
+                    this.isLoadingTeachers = false
+                })
+        }, 150),
+        selectTeacher(selectedTeacher) {
+            // Unset class param
+            this.params.class = null;
+            this.selectedClass = null;
+
+            this.params.teacher = selectedTeacher.abbreviation;
         }
     }
 }
@@ -466,6 +501,12 @@ export default {
 
     .lesson-deleted {
         background-color: #FF6863 !important;
+    }
+}
+
+#schedule-navigator {
+    .multiselect {
+        max-width: 250px;
     }
 }
 </style>

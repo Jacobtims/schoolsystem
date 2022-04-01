@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Teacher;
 
 use App\Http\Controllers\Controller;
+use App\Models\Lesson;
 use App\Models\SchoolClass;
+use App\Models\Teacher;
 use Auth;
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
@@ -23,20 +25,16 @@ class ScheduleController extends Controller
         // Validate
         $request->validate([
             'week' => ['regex:/^[0-9]+-[0-9]+$/i'],
-            'class' => 'string|max:255'
+            'class' => 'string|max:255|exists:school_classes,name',
+            'teacher' => 'string|max:255|exists:teachers,abbreviation'
         ]);
 
         $now = Carbon::now();
+
         // Check for specific week
         if ($request->filled('week')) {
             $splitWeek = explode("-", $request->get('week'));
             $now->setISODate($splitWeek[0], $splitWeek[1]);
-        }
-
-        // Check for specific school class
-        $schoolClass = null;
-        if ($request->filled('class')) {
-            $schoolClass = SchoolClass::where('name', $request->get('class'))->first();
         }
 
         // Week dates
@@ -49,20 +47,40 @@ class ScheduleController extends Controller
         // Get week
         $week = $now->format('Y-W');
 
-        // Get the lessons for the specific week
-        $lessons = Auth::user()->teacher->lessons()->with(['time', 'subject'])->whereBetween('date', [$monday, $friday])
-            ->when($schoolClass, function ($query) use ($schoolClass) {
-                $query->where('school_class_id', $schoolClass->id);
-            })->get()
-            ->groupBy([function ($data) {
-                return Carbon::parse($data->date)->format('Y-m-d');
-            }, 'time']);
+        // Create query
+        $query = Lesson::query();
+        $query->with(['time', 'subject'])->whereBetween('date', [$monday, $friday]);
+
+        // Check for class, teacher or student
+        if ($request->filled('class')) {
+            $schoolClass = SchoolClass::whereName($request->get('class'))->first();
+            $query->where('school_class_id', $schoolClass->id);
+        }
+        elseif ($request->filled('teacher')) {
+            $teacher = Teacher::whereAbbreviation($request->get('teacher'))->first();
+            $query->where('teacher_id', $teacher->id);
+        }
+        else {
+            $query->where('teacher_id', Auth::user()->teacher->id);
+        }
+
+        // Get lessons & group by date
+        $lessons = $query->get()->groupBy([function ($data) {
+            return Carbon::parse($data->date)->format('Y-m-d');
+        }, 'time']);
+
+        // Set params
+        $data = [
+            'class' => $schoolClass ?? null,
+            'teacher' => $teacher ?? null
+        ];
 
         // Return
         return Inertia::render('Teacher/Schedule', [
             'dates' => $dates,
             'lessons' => $lessons,
-            'week' => $week
+            'week' => $week,
+            'data' => $data
         ]);
     }
 
@@ -83,5 +101,22 @@ class ScheduleController extends Controller
         })->limit(300)->get();
 
         return response()->json($schoolClasses);
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getTeachers(Request $request): JsonResponse
+    {
+        $request->validate([
+            'query' => 'string|max:255'
+        ]);
+
+        $teachers = Teacher::when($request->has('query'), function ($query) use ($request) {
+            $query->where('abbreviation', 'LIKE', '%' . $request->get('query') . '%');
+        })->limit(300)->get();
+
+        return response()->json($teachers);
     }
 }
