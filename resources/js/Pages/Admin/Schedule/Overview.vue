@@ -1,14 +1,32 @@
 <template>
     <div class="card mb-3" id="schedule-navigator">
-        <div class="card-body d-flex justify-content-center">
-            <section>
+        <div class="card-body">
+            <div class="d-flex mb-2">
+                <multiselect v-model="selectedClass" id="multiselectClasses" label="name" track-by="id" class="me-3"
+                             placeholder="Klas" open-direction="bottom" :options="classes" :searchable="true"
+                             :loading="isLoadingClasses" :internal-search="false" :clear-on-select="false" :options-limit="300"
+                             :show-no-results="true" @search-change="asyncFindClasses" @select="selectClass">
+
+                    <template v-slot:noResult>Oops! Geen klassen gevonden. Verander je zoekopdracht.</template>
+                    <template v-slot:noOptions>Oops! Geen klassen gevonden.</template>
+                </multiselect>
+                <multiselect v-model="selectedTeacher" id="multiselectTeacher" label="abbreviation" track-by="id"
+                             placeholder="Docent" open-direction="bottom" :options="teachers" :searchable="true"
+                             :loading="isLoadingTeachers" :internal-search="false" :clear-on-select="false" :options-limit="300"
+                             :show-no-results="true" @search-change="asyncFindTeachers" @select="selectTeacher">
+
+                    <template v-slot:noResult>Oops! Geen docenten gevonden. Verander je zoekopdracht.</template>
+                    <template v-slot:noOptions>Oops! Geen docenten gevonden.</template>
+                </multiselect>
+            </div>
+            <div class="d-flex justify-content-center">
                 <button class="navigator" @click="previousWeek"><i class="fa-solid fa-arrow-left" title="<"></i>
                 </button>
                 <span class="date mx-4">{{ $moment(dates[0]).format('LL') }} -
                     {{ $moment(dates[dates.length - 1]).format('LL') }}</span>
                 <button class="navigator" @click="nextWeek"><i class="fa-solid fa-arrow-right" title=">"></i>
                 </button>
-            </section>
+            </div>
         </div>
     </div>
 
@@ -48,11 +66,15 @@
                         <ul>
                             <template v-for="lesson in lessons[$moment(date).format('YYYY-MM-DD')]" style="position: relative; z-index: 10;">
                                 <li class="single-lesson" v-for="(les, index) in lesson"
-                                    :style="{'top': singleLessonTop(les.time.from)+'px', 'height': singleLessonHeight(les.time.to)+'px', 'width': (100 / lesson.length)+'%', 'left': (index * (100 / lesson.length))+'%'}">
+                                    :style="{'top': singleLessonTop(les.time.from)+'px', 'height': singleLessonHeight(les.time.to)+'px', 'width': (100 / lesson.length)+'%', 'left': (index * (100 / lesson.length))+'%'}"
+                                    :class="{'lesson-deleted': les.deleted}">
                                     <a class="clickable" @click="openLessonModal(les)">
                                         <span class="lesson-name">{{ les.subject.name }}</span>
                                         <span class="lesson-abbreviation">NONE</span>
                                         <span class="lesson-classroom">E404</span>
+                                        <section class="lesson-icons">
+                                            <i class="fa-solid fa-triangle-exclamation fa-2xl text-white" v-if="les.deleted"></i>
+                                        </section>
                                     </a>
                                 </li>
                             </template>
@@ -74,7 +96,7 @@
             </tr>
             <tr>
                 <td><strong>Datum:</strong></td>
-                <td>{{ this.$moment(activeLesson.date).format('LL') }}</td>
+                <td>{{ $moment(activeLesson.date).format('LL') }}</td>
             </tr>
             <tr>
                 <td><strong>Tijd:</strong></td>
@@ -93,6 +115,7 @@
 </template>
 <script>
 import Dialog from "primevue/dialog";
+import {debounce, pickBy} from "lodash";
 import AdminLayout from "@/Layouts/AdminLayout";
 
 export default {
@@ -100,16 +123,46 @@ export default {
     props: {
         dates: Array,
         lessons: Object,
-        week: String
+        week: String,
+        data: Object
     },
     components: {
         Dialog
     },
     data() {
         return {
+            params: {
+                week: this.week,
+                class: null,
+                teacher: null
+            },
             openModal: false,
-            activeLesson: null
+            activeLesson: null,
+            selectedClass: this.data.class,
+            classes: [],
+            isLoadingClasses: false,
+            selectedTeacher: this.data.teacher,
+            teachers: [],
+            isLoadingTeachers: false
         }
+    },
+    watch: {
+        params: {
+            handler() {
+                let params = pickBy(this.params);
+
+                this.$inertia.get(this.route('admin.schedules.index'), params, {
+                    replace: true,
+                    preserveState: true,
+                    preserveScroll: true
+                })
+            },
+            deep: true
+        }
+    },
+    mounted() {
+        this.asyncFindClasses();
+        this.asyncFindTeachers();
     },
     methods: {
         getScheduleTimestamp(time) {
@@ -140,24 +193,12 @@ export default {
         nextWeek() {
             let weekNumber = this.week.split('-')[1];
             weekNumber++;
-            let week = this.week.split('-')[0] + '-' + weekNumber;
-
-            this.$inertia.get(this.route('admin.schedules.index'), {'week': week}, {
-                replace: true,
-                preserveState: true,
-                preserveScroll: true
-            })
+            this.params.week = this.week.split('-')[0] + '-' + weekNumber;
         },
         previousWeek() {
             let weekNumber = this.week.split('-')[1];
             weekNumber--;
-            let week = this.week.split('-')[0] + '-' + weekNumber;
-
-            this.$inertia.get(this.route('admin.schedules.index'), {'week': week}, {
-                replace: true,
-                preserveState: true,
-                preserveScroll: true
-            })
+            this.params.week = this.week.split('-')[0] + '-' + weekNumber;
         },
         openLessonModal(lesson) {
             this.activeLesson = lesson;
@@ -165,6 +206,41 @@ export default {
         },
         closeLessonModal() {
             this.activeLesson = null;
+        },
+        asyncFindClasses: debounce(function (query) {
+            this.isLoadingClasses = true
+            axios.get(this.route('student.schedules.getSchoolClasses', {
+                query: query
+            }))
+                .then((response) => {
+                    this.classes = response.data
+                    this.isLoadingClasses = false
+                })
+        }, 150),
+        selectClass(selectedClass) {
+            // Unset teacher param
+            this.params.teacher = null;
+            this.selectedTeacher = null;
+
+            this.params.class = selectedClass.name;
+        },
+
+        asyncFindTeachers: debounce(function (query) {
+            this.isLoadingTeachers = true
+            axios.get(this.route('student.schedules.getTeachers', {
+                query: query
+            }))
+                .then((response) => {
+                    this.teachers = response.data
+                    this.isLoadingTeachers = false
+                })
+        }, 150),
+        selectTeacher(selectedTeacher) {
+            // Unset class param
+            this.params.class = null;
+            this.selectedClass = null;
+
+            this.params.teacher = selectedTeacher.abbreviation;
         }
     }
 }
@@ -294,6 +370,12 @@ export default {
         display: block;
         height: 100%;
         //padding: .8em;
+
+        .lesson-icons {
+            position: absolute;
+            right: 8px;
+            bottom: 8px;
+        }
     }
 
     .cd-schedule .lessons {
@@ -415,6 +497,16 @@ export default {
         display: block;
         color: #575757;
         line-height: 1.2rem;
+    }
+
+    .lesson-deleted {
+        background-color: #FF6863 !important;
+    }
+}
+
+#schedule-navigator {
+    .multiselect {
+        max-width: 250px;
     }
 }
 </style>

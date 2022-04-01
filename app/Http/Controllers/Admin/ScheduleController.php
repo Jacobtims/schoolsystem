@@ -27,9 +27,17 @@ class ScheduleController extends Controller
      */
     public function index(Request $request): \Inertia\Response
     {
+        // Validate
+        $request->validate([
+            'week' => ['regex:/^[0-9]+-[0-9]+$/i'],
+            'class' => 'string|max:255|exists:school_classes,name',
+            'teacher' => 'string|max:255|exists:teachers,abbreviation'
+        ]);
+
         $now = Carbon::now();
+
         // Check for specific week
-        if ($request->input('week') !== null) {
+        if ($request->filled('week')) {
             $splitWeek = explode("-", $request->get('week'));
             $now->setISODate($splitWeek[0], $splitWeek[1]);
         }
@@ -44,16 +52,41 @@ class ScheduleController extends Controller
         // Get week
         $week = $now->format('Y-W');
 
-        // Get the lessons for the specific week
-        $lessons = Lesson::whereStudentId(1)->with(['time', 'subject'])->whereBetween('date', [$monday, $friday])->get()->groupBy([function ($data) {
+        // Create query
+        $query = Lesson::query();
+        $query->with(['time', 'subject'])->whereBetween('date', [$monday, $friday]);
+
+        // Check for class, teacher or student
+        if ($request->filled('class')) {
+            $schoolClass = SchoolClass::whereName($request->get('class'))->first();
+            $query->where('school_class_id', $schoolClass->id);
+        }
+        elseif ($request->filled('teacher')) {
+            $teacher = Teacher::whereAbbreviation($request->get('teacher'))->first();
+            $query->where('teacher_id', $teacher->id);
+        }
+        else {
+            $query->limit(100);
+            // TODO: Remove?
+        }
+
+        // Get lessons & group by date
+        $lessons = $query->get()->groupBy([function ($data) {
             return Carbon::parse($data->date)->format('Y-m-d');
         }, 'time']);
+
+        // Set params
+        $data = [
+            'class' => $schoolClass ?? null,
+            'teacher' => $teacher ?? null
+        ];
 
         // Return
         return Inertia::render('Admin/Schedule/Overview', [
             'dates' => $dates,
             'lessons' => $lessons,
-            'week' => $week
+            'week' => $week,
+            'data' => $data
         ]);
     }
 
