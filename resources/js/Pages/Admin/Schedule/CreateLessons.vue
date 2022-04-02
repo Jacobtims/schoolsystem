@@ -119,7 +119,7 @@ export default {
     },
     methods: {
         createLessons() {
-            this.lessonForm.post(route('admin.schedules.store'), {
+            this.lessonForm.post(route('admin.lessons.store'), {
                 preserveScroll: true,
                 onSuccess: () => {
                     // Only reset fields if keepValues is false
@@ -141,7 +141,7 @@ export default {
         },
         asyncFindClasses: debounce(function (query) {
             this.isLoadingClasses = true
-            axios.get(this.route('admin.schedules.getSchoolClasses', {
+            axios.get(this.route('admin.lessons.getSchoolClasses', {
                 query: query
             }))
                 .then((response) => {
@@ -154,7 +154,7 @@ export default {
         },
         asyncFindTeachers: debounce(function (query) {
             this.isLoadingTeachers = true
-            axios.get(this.route('admin.schedules.getTeachers', {
+            axios.get(this.route('admin.lessons.getTeachers', {
                 query: query
             }))
                 .then((response) => {
@@ -164,7 +164,7 @@ export default {
         }, 150),
         asyncFindSubjects: debounce(function (query) {
             this.isLoadingSubjects = true
-            axios.get(this.route('admin.schedules.getSubjects', {
+            axios.get(this.route('admin.lessons.getSubjects', {
                 query: query
             }))
                 .then((response) => {

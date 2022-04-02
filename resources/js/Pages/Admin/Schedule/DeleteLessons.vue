@@ -78,7 +78,7 @@ export default {
     },
     methods: {
         deleteLessons() {
-            this.deleteLessenForm.post(route('admin.schedules.destroyMultiple'), {
+            this.deleteLessenForm.post(route('admin.lessons.destroyMultiple'), {
                 preserveScroll: true,
                 onSuccess: () => {
                     this.deleteLessenForm.reset();
@@ -97,7 +97,7 @@ export default {
         },
         asyncFindClasses: debounce(function (query) {
             this.isLoadingClasses = true
-            axios.get(this.route('admin.schedules.getSchoolClasses', {
+            axios.get(this.route('admin.lessons.getSchoolClasses', {
                 query: query
             }))
                 .then((response) => {
@@ -111,8 +111,8 @@ export default {
         getLessons() {
             if (this.deleteLessenForm.class && this.deleteLessenForm.date) {
                 this.isLoadingLessons = true
-                axios.get(this.route('admin.schedules.getLessonsByClass', {
-                    class: this.deleteLessenForm.class,
+                axios.get(this.route('admin.lessons.getLessonsByClass', {
+                    class: this.deleteLessenForm.class.id,
                     date: this.deleteLessenForm.date
                 }))
                     .then((response) => {

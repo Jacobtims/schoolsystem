@@ -14,12 +14,16 @@ Route::middleware(['auth:sanctum', 'verified', 'role:admin'])->prefix('admin')->
     Route::resource('subjects', \App\Http\Controllers\Admin\SubjectController::class)->except(['create', 'show', 'edit', 'update']);
     Route::post('/subjects/restore/{id}', [\App\Http\Controllers\Admin\SubjectController::class, 'restore'])->name('subjects.restore');
 
-    Route::resource('schedules', \App\Http\Controllers\Admin\ScheduleController::class)->except(['show', 'edit', 'update', 'destroy']);
-    Route::get('/schedules/classes/get', [\App\Http\Controllers\Admin\ScheduleController::class, 'getSchoolClasses'])->name('schedules.getSchoolClasses');
-    Route::get('/schedules/teachers/get', [\App\Http\Controllers\Admin\ScheduleController::class, 'getTeachers'])->name('schedules.getTeachers');
-    Route::get('/schedules/subjects/get', [\App\Http\Controllers\Admin\ScheduleController::class, 'getSubjects'])->name('schedules.getSubjects');
-    Route::get('/schedules/lessons/get', [\App\Http\Controllers\Admin\ScheduleController::class, 'getLessonsByClass'])->name('schedules.getLessonsByClass');
-    Route::post('/schedules/destroy-multiple', [\App\Http\Controllers\Admin\ScheduleController::class, 'destroyMultiple'])->name('schedules.destroyMultiple');
+    Route::get('/schedules', [\App\Http\Controllers\Admin\ScheduleController::class, 'index'])->name('schedules.index');
+    Route::get('/schedule/school-classes/get', [\App\Http\Controllers\Admin\ScheduleController::class, 'getSchoolClasses'])->name('schedules.getSchoolClasses');
+    Route::get('/schedule/teachers/get', [\App\Http\Controllers\Admin\ScheduleController::class, 'getTeachers'])->name('schedules.getTeachers');
+
+    Route::resource('lessons', \App\Http\Controllers\Admin\LessonController::class)->only(['create', 'store']);
+    Route::get('/lessons/classes/get', [\App\Http\Controllers\Admin\LessonController::class, 'getSchoolClasses'])->name('lessons.getSchoolClasses');
+    Route::get('/lessons/teachers/get', [\App\Http\Controllers\Admin\LessonController::class, 'getTeachers'])->name('lessons.getTeachers');
+    Route::get('/lessons/subjects/get', [\App\Http\Controllers\Admin\LessonController::class, 'getSubjects'])->name('lessons.getSubjects');
+    Route::get('/lessons/lessons/get', [\App\Http\Controllers\Admin\LessonController::class, 'getLessonsByClass'])->name('lessons.getLessonsByClass');
+    Route::post('/lessons/destroy-multiple', [\App\Http\Controllers\Admin\LessonController::class, 'destroyMultiple'])->name('lessons.destroyMultiple');
 
     Route::get('/settings', [\App\Http\Controllers\Admin\SettingController::class, 'index'])->name('settings');
     Route::patch('/settings', [\App\Http\Controllers\Admin\SettingController::class, 'update'])->name('settings.update');

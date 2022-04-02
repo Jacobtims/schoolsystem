@@ -209,7 +209,7 @@ export default {
         },
         asyncFindClasses: debounce(function (query) {
             this.isLoadingClasses = true
-            axios.get(this.route('student.schedules.getSchoolClasses', {
+            axios.get(this.route('admin.schedules.getSchoolClasses', {
                 query: query
             }))
                 .then((response) => {
@@ -227,7 +227,7 @@ export default {
 
         asyncFindTeachers: debounce(function (query) {
             this.isLoadingTeachers = true
-            axios.get(this.route('student.schedules.getTeachers', {
+            axios.get(this.route('admin.schedules.getTeachers', {
                 query: query
             }))
                 .then((response) => {

@@ -8,7 +8,6 @@ use App\Models\Subject;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use Redirect;
 
 class SubjectController extends Controller
 {

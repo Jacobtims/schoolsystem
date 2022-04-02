@@ -74,7 +74,7 @@
                             <i class="fa-solid fa-calendar sidebar-icon ms-1 me-1"></i>
                             <span class="sidebar-name">Bekijken</span>
                         </Link>
-                        <Link :href="route('admin.schedules.create')" :class="{'sidebar-link': true, 'sidebar-collapse-link': true, 'active': isRoute('admin.schedules.create')}">
+                        <Link :href="route('admin.lessons.create')" :class="{'sidebar-link': true, 'sidebar-collapse-link': true, 'active': isRoute('admin.lessons.create')}">
                             <i class="fa-solid fa-calendar sidebar-icon ms-1 me-1"></i>
                             <span class="sidebar-name">Uren toevoegen</span>
                         </Link>
