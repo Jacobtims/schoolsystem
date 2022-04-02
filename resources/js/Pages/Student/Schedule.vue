@@ -71,7 +71,7 @@
                                     <a class="clickable" @click="openLessonModal(les)">
                                         <span class="lesson-name">{{ les.subject.name }}</span>
                                         <span class="lesson-abbreviation">{{ les.teacher.abbreviation }}</span>
-                                        <span class="lesson-classroom">LOKAAL</span>
+                                        <span class="lesson-classroom">{{ les.classroom.name }}</span>
                                         <section class="lesson-icons">
                                             <i class="fa-solid fa-triangle-exclamation fa-2xl text-white" v-if="les.deleted"></i>
                                         </section>
@@ -108,7 +108,7 @@
             </tr>
             <tr>
                 <td><strong>Lokaal:</strong></td>
-                <td>LOKAAL</td>
+                <td>{{ activeLesson.classroom.name }}</td>
             </tr>
         </table>
     </Dialog>
