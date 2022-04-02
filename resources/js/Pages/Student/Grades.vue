@@ -1,5 +1,5 @@
 <template>
-    <div class="card mb-3" v-for="(subject, index) in grades" :key="index">
+    <div class="card mb-3" v-for="(subject, index) in grades" :key="index" v-if="grades.length > 0">
         <div class="card-body row">
             <h3 class="d-inline col-2">{{ subject[0]['subject']['name'] }}</h3>
             <div class="col-9 row" id="grades">
@@ -12,6 +12,11 @@
             <div :class="{'col-1': true, 'average': true, 'grade-plus': averages[index] > 5.4, 'grade-min': averages[index] < 5.5}">
                 {{ averages[index] }}
             </div>
+        </div>
+    </div>
+    <div class="card mb-3" v-else>
+        <div class="card-body">
+            Er zijn geen cijfers gevonden!
         </div>
     </div>
 
