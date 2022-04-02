@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreScheduleRequest;
+use App\Models\Classroom;
 use App\Models\Lesson;
 use App\Models\SchoolClass;
 use App\Models\StandardLesson;
@@ -45,6 +46,7 @@ class LessonController extends Controller
                 Lesson::create([
                     'school_class_id' => $class['id'],
                     'teacher_id' => $request->get('teacher')['id'],
+                    'classroom_id' => $request->get('classroom')['id'],
                     'subject_id' => $request->get('subject')['id'],
                     'date' => $request->get('date'),
                     'time' => $lesson['id']
@@ -164,5 +166,24 @@ class LessonController extends Controller
             ->with('subject')->limit(300)->get();
 
         return response()->json($lessons);
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getClassrooms(Request $request): JsonResponse
+    {
+        $request->validate([
+            'query' => 'string|nullable|max:255'
+        ]);
+
+        $classrooms = Classroom::
+        when($request->has('query'), function ($query) use ($request) {
+            $query
+                ->where('name', 'LIKE', '%' . $request->get('query') . '%');
+        })->limit(300)->get();
+
+        return response()->json($classrooms);
     }
 }

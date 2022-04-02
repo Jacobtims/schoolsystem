@@ -32,6 +32,21 @@
             </div>
         </div>
         <div class="col-md-12">
+            <label for="multiselectClassroom" class="form-label">Lokaal</label>
+            <multiselect v-model="lessonForm.classroom" id="multiselectClassroom" label="name" track-by="id"
+                         placeholder="Type om een lokaal te zoeken" open-direction="bottom" :options="classrooms"
+                         :searchable="true" :loading="isLoadingClassrooms" :internal-search="false" :options-limit="300"
+                         :show-no-results="true" @search-change="asyncFindClassrooms" aria-describedby="feedbackMultiselectClassroom"
+                         :class="{'is-invalid': lessonForm.errors.classroom}">
+
+                <template v-slot:noResult>Oops! Geen lokalen gevonden. Verander je zoekopdracht.</template>
+                <template v-slot:noOptions>Oops! Geen lokalen gevonden.</template>
+            </multiselect>
+            <div id="feedbackMultiselectClassroom" class="invalid-feedback" v-if="lessonForm.errors.classroom">
+                {{ lessonForm.errors.classroom }}
+            </div>
+        </div>
+        <div class="col-md-12">
             <label for="multiselectSubject" class="form-label">Vak</label>
             <multiselect v-model="lessonForm.subject" id="multiselectSubject" label="name" track-by="id"
                          placeholder="Type om een vak te zoeken" open-direction="bottom" :options="subjects"
@@ -102,14 +117,17 @@ export default {
                 subject: [],
                 date: null,
                 lessons: [],
-                remember: false
+                remember: false,
+                classroom: []
             }),
             classes: [],
             isLoadingClasses: false,
             teachers: [],
             isLoadingTeachers: false,
             subjects: [],
-            isLoadingSubjects: false
+            isLoadingSubjects: false,
+            classrooms: [],
+            isLoadingClassrooms: false
         }
     },
     computed: {
@@ -170,6 +188,16 @@ export default {
                 .then((response) => {
                     this.subjects = response.data
                     this.isLoadingSubjects = false
+                })
+        }, 150),
+        asyncFindClassrooms: debounce(function (query) {
+            this.isLoadingClassrooms = true
+            axios.get(this.route('admin.lessons.getClassrooms', {
+                query: query
+            }))
+                .then((response) => {
+                    this.classrooms = response.data
+                    this.isLoadingClassrooms = false
                 })
         }, 150)
     },

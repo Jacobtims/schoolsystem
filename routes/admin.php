@@ -24,6 +24,7 @@ Route::middleware(['auth:sanctum', 'verified', 'role:admin'])->prefix('admin')->
     Route::get('/lessons/subjects/get', [\App\Http\Controllers\Admin\LessonController::class, 'getSubjects'])->name('lessons.getSubjects');
     Route::get('/lessons/lessons/get', [\App\Http\Controllers\Admin\LessonController::class, 'getLessonsByClass'])->name('lessons.getLessonsByClass');
     Route::post('/lessons/destroy-multiple', [\App\Http\Controllers\Admin\LessonController::class, 'destroyMultiple'])->name('lessons.destroyMultiple');
+    Route::get('/lessons/classrooms/get', [\App\Http\Controllers\Admin\LessonController::class, 'getClassrooms'])->name('lessons.getClassrooms');
 
     Route::get('/settings', [\App\Http\Controllers\Admin\SettingController::class, 'index'])->name('settings');
     Route::patch('/settings', [\App\Http\Controllers\Admin\SettingController::class, 'update'])->name('settings.update');

@@ -62,7 +62,7 @@ class Lesson extends Model
         'time',
         'attendance_registered',
         'deleted',
-        'class_room_id'
+        'classroom_id'
     ];
 
     /**
