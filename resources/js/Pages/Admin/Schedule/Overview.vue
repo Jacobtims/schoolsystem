@@ -70,8 +70,8 @@
                                     :class="{'lesson-deleted': les.deleted}">
                                     <a class="clickable" @click="openLessonModal(les)">
                                         <span class="lesson-name">{{ les.subject.name }}</span>
-                                        <span class="lesson-abbreviation">NONE</span>
-                                        <span class="lesson-classroom">E404</span>
+                                        <span class="lesson-abbreviation">{{ les.teacher.abbreviation }}</span>
+                                        <span class="lesson-classroom">LOKAAL</span>
                                         <section class="lesson-icons">
                                             <i class="fa-solid fa-triangle-exclamation fa-2xl text-white" v-if="les.deleted"></i>
                                         </section>
@@ -91,8 +91,8 @@
             @hide="closeLessonModal" v-if="activeLesson">
         <table class="table table-borderless" id="table-grades">
             <tr>
-                <td><strong>Vak:</strong></td>
-                <td>{{ activeLesson.subject.name }}</td>
+                <td><strong>Klas:</strong></td>
+                <td>{{ activeLesson.school_class.name }}</td>
             </tr>
             <tr>
                 <td><strong>Datum:</strong></td>
@@ -104,11 +104,11 @@
             </tr>
             <tr>
                 <td><strong>Docent:</strong></td>
-                <td>NONE</td>
+                <td>{{ activeLesson.teacher.abbreviation }} ({{ activeLesson.teacher.student_name }})</td>
             </tr>
             <tr>
                 <td><strong>Lokaal:</strong></td>
-                <td>E404</td>
+                <td>LOKAAL</td>
             </tr>
         </table>
     </Dialog>

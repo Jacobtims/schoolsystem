@@ -60,6 +60,15 @@ class Lesson extends Model
     ];
 
     /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'attendance_registered'
+    ];
+
+    /**
      * @return BelongsTo
      */
     public function teacher(): BelongsTo
