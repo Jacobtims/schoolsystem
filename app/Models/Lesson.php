@@ -56,7 +56,8 @@ class Lesson extends Model
         'date',
         'time',
         'attendance_registered',
-        'deleted'
+        'deleted',
+        'class_room_id'
     ];
 
     /**
@@ -114,5 +115,13 @@ class Lesson extends Model
     public function absentees(): HasMany
     {
         return $this->hasMany(Attendance::class)->where('present', false);
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function classRoom(): BelongsTo
+    {
+        return $this->belongsTo(ClassRoom::class);
     }
 }
