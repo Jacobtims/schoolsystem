@@ -39,6 +39,10 @@
                             <i class="fa-solid fa-user-graduate sidebar-icon"></i>
                             <span class="sidebar-name">Vakken</span>
                         </Link>
+                        <Link :href="route('admin.classrooms.index')" :class="{'sidebar-link': true, 'sidebar-collapse-link': true, 'active': isRoute('admin.classrooms.index')}">
+                            <i class="fa-solid fa-user-graduate sidebar-icon"></i>
+                            <span class="sidebar-name">Lokalen</span>
+                        </Link>
                     </div>
                     <!-- Docenten collapse -->
                     <a href="#collapseTeachers" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseTeachers" :class="{'sidebar-link': true, 'active': isRoute('admin.teachers.')}">

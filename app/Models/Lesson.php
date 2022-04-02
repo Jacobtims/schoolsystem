@@ -39,6 +39,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Attendance[] $attendances
  * @property-read int|null $attendances_count
  * @method static \Illuminate\Database\Eloquent\Builder|Lesson whereAttendanceRegistered($value)
+ * @property int $classroom_id
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Attendance[] $absentees
+ * @property-read int|null $absentees_count
+ * @property-read \App\Models\Classroom $classroom
+ * @method static \Illuminate\Database\Eloquent\Builder|Lesson whereClassroomId($value)
  */
 class Lesson extends Model
 {
@@ -120,8 +125,8 @@ class Lesson extends Model
     /**
      * @return BelongsTo
      */
-    public function classRoom(): BelongsTo
+    public function classroom(): BelongsTo
     {
-        return $this->belongsTo(ClassRoom::class);
+        return $this->belongsTo(Classroom::class);
     }
 }
