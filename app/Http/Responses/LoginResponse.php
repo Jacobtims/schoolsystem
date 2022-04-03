@@ -20,7 +20,8 @@ class LoginResponse implements LoginResponseContract
         } elseif (Auth::user()->is_student) {
             $home = '/student/dashboard';
         } else {
-            $home = '/dashboard';
+            Auth::logout();
+            $home = '/login';
         }
 
         return redirect()->intended($home);

@@ -2,13 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -165,7 +162,7 @@ class User extends Authenticatable
      */
     public function getIsAdminAttribute(): bool
     {
-        return $this->role->id === Role::whereName('admin')->firstOrFail()->id;
+        return $this->role_id === Role::whereName('admin')->firstOrFail()->id;
     }
 
     /**
@@ -173,7 +170,7 @@ class User extends Authenticatable
      */
     public function getIsTeacherAttribute(): bool
     {
-        return $this->role->id === Role::whereName('teacher')->firstOrFail()->id;
+        return $this->role_id === Role::whereName('teacher')->firstOrFail()->id;
     }
 
     /**
@@ -181,7 +178,7 @@ class User extends Authenticatable
      */
     public function getIsStudentAttribute(): bool
     {
-        return $this->role->id === Role::whereName('student')->firstOrFail()->id;
+        return $this->role_id === Role::whereName('student')->firstOrFail()->id;
     }
 
     /**
