@@ -26,7 +26,7 @@ class TeacherController extends Controller
     public function index(Request $request): \Inertia\Response
     {
         $request->validate([
-            'field' => 'in:firstname,lastname,abbreviation,student_name,email,phone_number',
+            'field' => 'in:firstname,lastname,abbreviation,student_name,email,phone_number,sex',
             'direction' => 'in:asc,desc'
         ]);
 

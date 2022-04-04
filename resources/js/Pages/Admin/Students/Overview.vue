@@ -40,6 +40,12 @@
                                 <i class="fa-solid fa-arrow-up-wide-short" v-else-if="params.field === 'student_id' && params.direction === 'asc'"></i>
                                 <i class="fa-solid fa-sort" v-else></i>
                             </th>
+                            <th @click="sort('sex')" class="clickable">
+                                <span class="me-2">Geslacht</span>
+                                <i class="fa-solid fa-arrow-down-short-wide" v-if="params.field === 'sex' && params.direction === 'desc'"></i>
+                                <i class="fa-solid fa-arrow-up-wide-short" v-else-if="params.field === 'sex' && params.direction === 'asc'"></i>
+                                <i class="fa-solid fa-sort" v-else></i>
+                            </th>
                             <th @click="sort('email')" class="clickable">
                                 <span class="me-2">E-mailadres</span>
                                 <i class="fa-solid fa-arrow-down-short-wide" v-if="params.field === 'email' && params.direction === 'desc'"></i>
@@ -59,12 +65,13 @@
                         <tr v-for="(student, index) in students.data" :key="'student'+index" v-if="students.data.length > 0">
                             <td><input class="form-check-input" type="checkbox" @click="selectRow(student.id)" :checked="selectedRows.indexOf(student.id) > -1"></td>
                             <td>
-                                <img :src="'https://eu.ui-avatars.com/api/?size=50&name='+student.firstname+'+'+student.lastname" alt="Profile picture"
+                                <img :src="student.profile_photo_url" alt="Profile picture"
                                      class="rounded-circle" width="50" height="50"/>
                             </td>
                             <td>{{ student.firstname }}</td>
                             <td>{{ student.lastname }}</td>
                             <td>{{ student.student_id }}</td>
+                            <td>{{ sex(student.sex) }}</td>
                             <td>{{ student.email }}</td>
                             <td>{{ student.phone_number }}</td>
                             <td>
@@ -105,6 +112,7 @@ import DeleteStudentConfirmationModal from "@/Pages/Admin/Students/Modals/Delete
 import DeleteSelectedStudentsConfirmationModal
     from "@/Pages/Admin/Students/Modals/DeleteSelectedStudentsConfirmationModal";
 import ShowStudentModal from "@/Pages/Admin/Students/Modals/ShowStudentModal";
+import moment from "moment";
 
 export default {
     layout: AdminLayout,
@@ -170,6 +178,24 @@ export default {
         showStudent(student) {
             this.activeStudent = student;
             this.openShowModal = true;
+        },
+        sex(value) {
+            let sex = '';
+            switch (value) {
+                case "m":
+                    sex = "Man"
+                    break;
+                case "v":
+                    sex = "Vrouw"
+                    break;
+                case "o":
+                    sex = "Overig"
+                    break;
+                default:
+                    sex = "-"
+                    break;
+            }
+            return sex;
         }
     },
     watch: {

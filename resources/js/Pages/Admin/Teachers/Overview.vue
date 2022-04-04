@@ -40,6 +40,12 @@
                                 <i class="fa-solid fa-arrow-up-wide-short" v-else-if="params.field === 'abbreviation' && params.direction === 'asc'"></i>
                                 <i class="fa-solid fa-sort" v-else></i>
                             </th>
+                            <th @click="sort('sex')" class="clickable">
+                                <span class="me-2">Geslacht</span>
+                                <i class="fa-solid fa-arrow-down-short-wide" v-if="params.field === 'sex' && params.direction === 'desc'"></i>
+                                <i class="fa-solid fa-arrow-up-wide-short" v-else-if="params.field === 'sex' && params.direction === 'asc'"></i>
+                                <i class="fa-solid fa-sort" v-else></i>
+                            </th>
                             <th @click="sort('student_name')" class="clickable">
                                 <span class="me-2">Studenten naam</span>
                                 <i class="fa-solid fa-arrow-down-short-wide" v-if="params.field === 'student_name' && params.direction === 'desc'"></i>
@@ -65,12 +71,13 @@
                         <tr v-for="(teacher, index) in teachers.data" :key="'teacher'+index" v-if="teachers.data.length > 0">
                             <td><input class="form-check-input" type="checkbox" @click="selectRow(teacher.id)" :checked="selectedRows.indexOf(teacher.id) > -1"></td>
                             <td>
-                                <img :src="'https://eu.ui-avatars.com/api/?size=50&name='+teacher.firstname+'+'+teacher.lastname" alt="Profile picture"
+                                <img :src="teacher.profile_photo_url" alt="Profile picture"
                                      class="rounded-circle" width="50" height="50"/>
                             </td>
                             <td>{{ teacher.firstname }}</td>
                             <td>{{ teacher.lastname }}</td>
                             <td>{{ teacher.abbreviation }}</td>
+                            <td>{{ sex(teacher.sex) }}</td>
                             <td>{{ teacher.student_name }}</td>
                             <td>{{ teacher.email }}</td>
                             <td>{{ teacher.phone_number }}</td>
@@ -176,6 +183,24 @@ export default {
         showTeacher(teacher) {
             this.activeTeacher = teacher;
             this.openShowModal = true;
+        },
+        sex(value) {
+            let sex = '';
+            switch (value) {
+                case "m":
+                    sex = "Man"
+                    break;
+                case "v":
+                    sex = "Vrouw"
+                    break;
+                case "o":
+                    sex = "Overig"
+                    break;
+                default:
+                    sex = "-"
+                    break;
+            }
+            return sex;
         }
     },
     watch: {
