@@ -18,6 +18,8 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->name('dashboard');
 
+Route::get('/settings', [\App\Http\Controllers\SettingController::class, 'index'])->name('user.settings');
+
 // Require fortify routes
 require_once __DIR__ . '/fortify.php';
 

@@ -21,12 +21,13 @@
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <!--                            <hr/>-->
-                            <a class="dropdown-item" href="#">
-                                <form @submit.prevent="logout">
-                                    <button type="submit" style="background: none; border: none;">Uitloggen</button>
-                                </form>
-                            </a>
+                            <Link class="dropdown-item" :href="route('user.settings')">
+                                Instellingen
+                            </Link>
+                            <hr class="mb-0 mt-2"/>
+                            <Link class="dropdown-item" @click="logout">
+                                Uitloggen
+                            </Link>
                         </div>
                     </li>
                 </ul>
@@ -35,11 +36,16 @@
     </nav>
 </template>
 <script>
+import {Link} from "@inertiajs/inertia-vue3";
+
 export default {
     methods: {
         logout() {
             this.$inertia.post(route('logout'));
         }
+    },
+    components: {
+        Link
     }
 }
 </script>
