@@ -25,6 +25,12 @@
                     <span class="ms-2 sidebar-item">Registratie</span>
                 </Link>
             </li>
+            <li class="nav-item mb-3">
+                <Link :href="route('teacher.grades')" :class="{'nav-link': true, 'active': isRoute('teacher.grades')}">
+                    <i class="fa-solid fa-list-ol sidebar-icon"></i>
+                    <span class="ms-2 sidebar-item">Cijfers</span>
+                </Link>
+            </li>
         </ul>
     </div>
 </template>
