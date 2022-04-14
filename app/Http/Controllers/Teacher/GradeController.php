@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Teacher;
 
 use App\Http\Controllers\Controller;
+use App\Models\Assignment;
 use App\Models\Grade;
 use App\Models\SchoolClass;
 use App\Models\Student;
@@ -46,8 +47,11 @@ class GradeController extends Controller
 
         $students = $schoolClass->students->pluck('id');
 
-        $grades = Grade::whereIn('student_id', $students)->where('subject_id', $subject->id)->get()->groupBy(['name', 'student_id']);
+//        $assignments = Assignment::with('grades')->where('subject_id', $subject->id)->where('school_class_id', $schoolClass->id)->get();
 
+        $grades = Grade::with('assignment')->whereIn('student_id', $students)->whereHas('assignment', function ($query) use ($subject) {
+            $query->where('subject_id', $subject->id);
+        })->get()->groupBy(['assignment.id', 'student_id']);
 
         return Inertia::render('Teacher/Grades/Show', [
             'subjects' => $subjects,

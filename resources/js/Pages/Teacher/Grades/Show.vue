@@ -10,7 +10,7 @@
             <tr>
                 <th style="width: 10px;">Leerling-nummer</th>
                 <th style="width: 10%;" class="border-0 border-end border-2 border-dark">Naam</th>
-                <th v-for="name in names" class="name" v-if="names.length > 0">{{ name }}</th>
+                <th v-for="name in names" class="name" v-if="names.length > 0">{{ name.name }}</th>
                 <th><button class="btn btn-sm btn-success"><i class="fa-solid fa-plus"></i> Toets toevoegen</button></th>
             </tr>
             </thead>
@@ -19,11 +19,11 @@
                 <td>{{ student.id }}</td>
                 <td class="border-0 border-end border-2 border-dark">{{ student.user.firstname }} {{ student.user.lastname }}</td>
                 <template v-for="name in names" v-if="names.length > 0">
-                    <td v-for="grade in grades[name][student.id]" v-if="grades[name] && grades[name][student.id]" class="grade">
-                        <input type="number" :value="grade.number" min="1" max="10">
+                    <td v-for="grade in grades[name.id][student.id]" v-if="grades[name.id] && grades[name.id][student.id]" class="grade">
+                        <input type="number" :value="grade.number" min="1" max="10" step="0.1">
                     </td>
                     <td v-else class="grade">
-                        <input type="number" min="1" max="10">
+                        <input type="number" min="1" max="10" step="0.1">
                     </td>
                 </template>
                 <td></td>
@@ -55,7 +55,7 @@ export default {
             params: {
                 subject: this.subject
             },
-            names: {}
+            names: []
         }
     },
     watch: {
@@ -85,10 +85,13 @@ export default {
             this.params.subject = subject;
         },
         getGradeNames() {
+            this.names = [];
             if (this.grades && Object.keys(this.grades).length > 0) {
-                this.names = Object.keys(this.grades);
-            } else {
-                this.names = {};
+                const keys = Object.keys(this.grades);
+
+                keys.forEach((val) => {
+                    this.names.push(Object.values(this.grades[val])[0][0]['assignment']);
+                })
             }
         }
     }
