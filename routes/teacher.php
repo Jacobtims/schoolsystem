@@ -13,4 +13,6 @@ Route::middleware(['auth:sanctum', 'verified', 'role:teacher'])->prefix('teacher
 
     Route::get('/grades', [\App\Http\Controllers\Teacher\GradeController::class, 'index'])->name('grades');
     Route::get('/grades/{class}', [\App\Http\Controllers\Teacher\GradeController::class, 'show'])->name('grades.show');
+    Route::post('/grades/assignment', [\App\Http\Controllers\Teacher\GradeController::class, 'storeAssignment'])->name('grades.assignment.store');
+    Route::post('/grades', [\App\Http\Controllers\Teacher\GradeController::class, 'store'])->name('grades.store');
 });
