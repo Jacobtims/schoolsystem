@@ -23,7 +23,8 @@ class DatabaseSeeder extends Seeder
             SettingSeeder::class,
             StandardLessonSeeder::class,
             SubjectSeeder::class,
-            AttendanceTypeSeeder::class
+            AttendanceTypeSeeder::class,
+            ClassroomSeeder::class
         ]);
 
         User::factory()
