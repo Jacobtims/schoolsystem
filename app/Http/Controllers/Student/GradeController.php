@@ -13,8 +13,8 @@ class GradeController extends Controller
      */
     public function index(): \Inertia\Response
     {
-        $grades = Auth::user()->student->grades()->with(['subject', 'teacher'])->orderByDesc('created_at')
-            ->get()->groupBy('subject_id');
+        $grades = Auth::user()->student->grades()->with(['assignment', 'assignment.subject', 'teacher'])->orderByDesc('created_at')
+            ->get()->groupBy('assignment.subject_id');
 
         $averages = [];
         foreach ($grades as $key => $grade) {

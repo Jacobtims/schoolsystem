@@ -9,6 +9,7 @@ use App\Models\Assignment;
 use App\Models\Grade;
 use App\Models\SchoolClass;
 use App\Models\Subject;
+use Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -103,7 +104,7 @@ class GradeController extends Controller
                         [
                             'assignment_id' => $assignment_id,
                             'student_id' => $student_id,
-                            'teacher_id' => 1,
+                            'teacher_id' => Auth::user()->teacher->id,
                             'number' => $grade['number']
                         ]
                     );
