@@ -49,7 +49,7 @@ class ScheduleController extends Controller
 
         // Create query
         $query = Lesson::query();
-        $query->with(['time', 'subject', 'teacher:id,abbreviation,student_name', 'schoolClass:id,name', 'classroom:id,name'])->whereBetween('date', [$monday, $friday]);
+        $query->with(['time', 'subject', 'teacher:id,abbreviation,student_name', 'schoolClass:id,name', 'classroom:id,name', 'homework'])->whereBetween('date', [$monday, $friday]);
 
         // Check for class, teacher or student
         if ($request->filled('class')) {
