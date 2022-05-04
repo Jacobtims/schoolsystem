@@ -6,6 +6,8 @@ Route::middleware(['auth:sanctum', 'verified', 'role:teacher'])->prefix('teacher
     Route::get('/schedule', [\App\Http\Controllers\Teacher\ScheduleController::class, 'index'])->name('schedule');
     Route::get('/schedule/school-classes/get', [\App\Http\Controllers\Teacher\ScheduleController::class, 'getSchoolClasses'])->name('schedules.getSchoolClasses');
     Route::get('/schedule/teachers/get', [\App\Http\Controllers\Teacher\ScheduleController::class, 'getTeachers'])->name('schedules.getTeachers');
+    Route::post('/schedule/homework', [\App\Http\Controllers\Teacher\ScheduleController::class, 'addHomework'])->name('schedules.addHomework');
+    Route::delete('/schedule/homework/{id}', [\App\Http\Controllers\Teacher\ScheduleController::class, 'deleteHomework'])->name('schedules.deleteHomework');
 
     Route::get('/attendance', [\App\Http\Controllers\Teacher\AttendanceController::class, 'index'])->name('attendance');
     Route::get('/attendance/{lesson}', [\App\Http\Controllers\Teacher\AttendanceController::class, 'show'])->name('attendance.show');

@@ -74,6 +74,7 @@
                                         <span class="lesson-classroom">{{ les.classroom.name }}</span>
                                         <section class="lesson-icons">
                                             <i class="fa-solid fa-triangle-exclamation fa-2xl text-white" v-if="les.deleted"></i>
+                                            <i class="fa-solid fa-book fa-2xl text-primary" v-else-if="les.homework && les.homework.length > 0"></i>
                                         </section>
                                     </a>
                                 </li>
@@ -111,6 +112,18 @@
                 <td>{{ activeLesson.classroom.name }}</td>
             </tr>
         </table>
+        <div v-if="!activeLesson.deleted && activeLesson.homework && activeLesson.homework.length > 0">
+            <hr/>
+            <table class="table table-borderless">
+                <tr v-for="hw in activeLesson.homework">
+                    <td v-if="hw.type === 'activity'" title="Activiteit" style="width: 30px;"><i class="fa-solid fa-person-running"></i></td>
+                    <td v-else-if="hw.type === 'test'" title="Toets" style="width: 30px;"><i class="fa-solid fa-pencil"></i></td>
+                    <td v-else title="Huiswerk" style="width: 30px;"><i class="fa-solid fa-book"></i></td>
+                    <td style="word-break: break-all; width: 350px;">{{ hw.description }}</td>
+                    <td class="text-end">{{ $moment(hw.created_at).format('LLL') }}</td>
+                </tr>
+            </table>
+        </div>
     </Dialog>
 </template>
 <script>

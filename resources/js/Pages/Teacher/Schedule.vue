@@ -111,12 +111,64 @@
                 <td>{{ activeLesson.classroom.name }}</td>
             </tr>
         </table>
+        <div v-if="!activeLesson.deleted && activeLesson.teacher_id === $attrs.user.teacher.id">
+            <hr/>
+            <table class="table table-borderless">
+                <tr v-for="(hw, index) in activeLesson.homework">
+                    <td v-if="hw.type === 'activity'" title="Activiteit" style="width: 30px;"><i class="fa-solid fa-person-running"></i></td>
+                    <td v-else-if="hw.type === 'test'" title="Toets" style="width: 30px;"><i class="fa-solid fa-pencil"></i></td>
+                    <td v-else title="Huiswerk" style="width: 30px;"><i class="fa-solid fa-book"></i></td>
+                    <td style="word-break: break-all; width: 350px;">{{ hw.description }}</td>
+                    <td class="text-end">{{ $moment(hw.created_at).format('LLL') }}</td>
+                    <td style="width: 10px;"><i class="fa-solid fa-trash text-danger clickable" @click="deleteHomework(hw.id, index)"></i></td>
+                </tr>
+            </table>
+            <button class="btn btn-sm btn-primary" @click="openHomeworkModal"><i class="fa-solid fa-plus"></i> Huiswerk toevoegen</button>
+        </div>
+    </Dialog>
+
+    <!-- Homework modal -->
+    <Dialog v-model:visible="openHwModal" :breakpoints="{'1200px': '50vw', '992px': '65vw'}" :style="{width: '40vw'}"
+            header="Huiswerk toevoegen" :draggable="false" :modal="true" :dismissableMask="true"
+            @hide="closeHomeworkModal">
+        <div>
+            <form class="row g-3" @submit.prevent="addHomework">
+                <div class="col-md-12">
+                    <label for="inputType" class="form-label">Type</label>
+                    <select class="form-select" :class="{'is-invalid': homeworkForm.errors.type}" id="inputType"
+                            v-model="homeworkForm.type" aria-describedby="feedbackType" required>
+                        <option value="homework">Huiswerk</option>
+                        <option value="test">Toets</option>
+                        <option value="activity">Activiteit</option>
+                    </select>
+
+                    <div id="feedbackType" class="invalid-feedback" v-if="homeworkForm.errors.type">
+                        {{ homeworkForm.errors.type }}
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <label for="inputDescription" class="form-label">Omschrijving</label>
+                    <textarea type="number" class="form-control" :class="{'is-invalid': homeworkForm.errors.description}"
+                              id="inputDescription" v-model="homeworkForm.description" aria-describedby="feedbackDescription"
+                              required min="1" rows="3"></textarea>
+                    <div id="feedbackDescription" class="invalid-feedback" v-if="homeworkForm.errors.description">
+                        {{ homeworkForm.errors.description }}
+                    </div>
+                </div>
+            </form>
+        </div>
+        <template #footer>
+            <button class="btn btn-success" type="submit" @click="addHomework" autofocus :disabled="homeworkForm.processing"><i class="fa-solid fa-check"></i> Toevoegen</button>
+            <button class="btn btn-outline-secondary" @click="closeHomeworkModal" :disabled="homeworkForm.processing"><i class="fa-solid fa-xmark"></i> Annuleren</button>
+        </template>
     </Dialog>
 </template>
 <script>
 import Dialog from "primevue/dialog";
 import {debounce, pickBy} from "lodash";
 import TeacherLayout from "@/Layouts/TeacherLayout";
+import {useForm} from "@inertiajs/inertia-vue3";
+import moment from "moment";
 
 export default {
     layout: TeacherLayout,
@@ -143,7 +195,13 @@ export default {
             isLoadingClasses: false,
             selectedTeacher: this.data.teacher,
             teachers: [],
-            isLoadingTeachers: false
+            isLoadingTeachers: false,
+            openHwModal: false,
+            homeworkForm: useForm({
+                lesson_id: null,
+                type: "homework",
+                description: null
+            })
         }
     },
     watch: {
@@ -241,6 +299,40 @@ export default {
             this.selectedClass = null;
 
             this.params.teacher = selectedTeacher.abbreviation;
+        },
+
+        openHomeworkModal() {
+            this.homeworkForm.lesson_id = this.activeLesson.id;
+            this.openHwModal = true;
+        },
+        closeHomeworkModal() {
+            this.openHwModal = false;
+        },
+        addHomework() {
+            this.homeworkForm.post(route('teacher.schedules.addHomework'), {
+                preserveState: true,
+                preserveScroll: true,
+                onSuccess: () => {
+                    this.openHwModal = false;
+                    this.activeLesson.homework.push({
+                        type: this.homeworkForm.type,
+                        description: this.homeworkForm.description,
+                        created_at: moment()
+                    });
+                    this.homeworkForm.reset();
+                    this.toast('success', 'Huiswerk is toegevoegd!', '')
+                },
+            })
+        },
+        deleteHomework(id, index) {
+            this.homeworkForm.delete(route('teacher.schedules.deleteHomework', id), {
+                preserveState: true,
+                preserveScroll: true,
+                onSuccess: () => {
+                    this.activeLesson.homework.splice(index, 1);
+                    this.toast('success', 'Huiswerk is verwijderd!', '');
+                },
+            })
         }
     }
 }
