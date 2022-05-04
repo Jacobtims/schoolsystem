@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Teacher;
 
 use App\Http\Controllers\Controller;
+use App\Models\Homework;
 use App\Models\Lesson;
 use App\Models\SchoolClass;
 use App\Models\Teacher;
@@ -11,6 +12,7 @@ use Carbon\Carbon;
 use Carbon\CarbonInterface;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -49,7 +51,7 @@ class ScheduleController extends Controller
 
         // Create query
         $query = Lesson::query();
-        $query->with(['time', 'subject', 'teacher:id,abbreviation,student_name', 'schoolClass:id,name', 'classroom:id,name'])->whereBetween('date', [$monday, $friday]);
+        $query->with(['time', 'subject', 'teacher:id,abbreviation,student_name', 'schoolClass:id,name', 'classroom:id,name', 'homework'])->whereBetween('date', [$monday, $friday]);
 
         // Check for class, teacher or student
         if ($request->filled('class')) {
@@ -118,5 +120,34 @@ class ScheduleController extends Controller
         })->limit(300)->get();
 
         return response()->json($teachers);
+    }
+
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function addHomework(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'lesson_id' => 'required|exists:lessons,id',
+            'type' => 'required|in:homework,test,activity',
+            'description' => 'required|min:2|max:1000'
+        ]);
+
+        Homework::create($request->only(['lesson_id', 'type', 'description']));
+
+        return back();
+    }
+
+    /**
+     * @param int $id
+     * @return RedirectResponse
+     */
+    public function deleteHomework(int $id): RedirectResponse
+    {
+        $homework = Homework::findOrFail($id);
+        $homework->delete();
+
+        return back();
     }
 }

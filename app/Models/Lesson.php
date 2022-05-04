@@ -129,4 +129,12 @@ class Lesson extends Model
     {
         return $this->belongsTo(Classroom::class);
     }
+
+    /**
+     * @return HasMany
+     */
+    public function homework(): HasMany
+    {
+        return $this->hasMany(Homework::class);
+    }
 }
