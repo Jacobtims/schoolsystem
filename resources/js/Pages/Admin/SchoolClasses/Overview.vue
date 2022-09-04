@@ -65,12 +65,12 @@
     <create-school-class-modal :open-modal="openCreateModal"></create-school-class-modal>
 </template>
 <script>
-import AdminLayout from "@/Layouts/AdminLayout";
-import AddStudentsModal from "@/Pages/Admin/SchoolClasses/Modals/AddStudentsModal";
+import AdminLayout from "@/Layouts/AdminLayout.vue";
+import AddStudentsModal from "@/Pages/Admin/SchoolClasses/Modals/AddStudentsModal.vue";
 import {pickBy, throttle} from "lodash";
 import DeleteStudentFromClassConfirmationModal
-    from "@/Pages/Admin/SchoolClasses/Modals/DeleteStudentFromClassConfirmationModal";
-import CreateSchoolClassModal from "@/Pages/Admin/SchoolClasses/Modals/CreateSchoolClassModal";
+    from "@/Pages/Admin/SchoolClasses/Modals/DeleteStudentFromClassConfirmationModal.vue";
+import CreateSchoolClassModal from "@/Pages/Admin/SchoolClasses/Modals/CreateSchoolClassModal.vue";
 
 export default {
     components: {CreateSchoolClassModal, DeleteStudentFromClassConfirmationModal, AddStudentsModal},

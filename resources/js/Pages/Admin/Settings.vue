@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import AdminLayout from "@/Layouts/AdminLayout";
+import AdminLayout from "@/Layouts/AdminLayout.vue";
 import {useForm} from "@inertiajs/inertia-vue3";
 import {Inertia} from "@inertiajs/inertia";
 

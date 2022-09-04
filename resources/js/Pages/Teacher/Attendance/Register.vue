@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import TeacherLayout from "@/Layouts/TeacherLayout";
+import TeacherLayout from "@/Layouts/TeacherLayout.vue";
 import { Link } from '@inertiajs/inertia-vue3'
 import {Inertia} from "@inertiajs/inertia";
 

@@ -116,7 +116,7 @@
 <script>
 import Dialog from "primevue/dialog";
 import {debounce, pickBy} from "lodash";
-import AdminLayout from "@/Layouts/AdminLayout";
+import AdminLayout from "@/Layouts/AdminLayout.vue";
 
 export default {
     layout: AdminLayout,

@@ -166,7 +166,7 @@
 <script>
 import Dialog from "primevue/dialog";
 import {debounce, pickBy} from "lodash";
-import TeacherLayout from "@/Layouts/TeacherLayout";
+import TeacherLayout from "@/Layouts/TeacherLayout.vue";
 import {useForm} from "@inertiajs/inertia-vue3";
 import moment from "moment";
 

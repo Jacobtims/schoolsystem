@@ -56,10 +56,10 @@
 </template>
 <script>
 
-import AdminLayout from "@/Layouts/AdminLayout";
-import CreateSubjectModal from "@/Pages/Admin/Subjects/Modals/CreateSubjectModal";
-import DeleteSubjectConfirmationModal from "@/Pages/Admin/Subjects/Modals/DeleteSubjectConfirmationModal";
-import UnDeleteSubjectConfirmationModal from "@/Pages/Admin/Subjects/Modals/UnDeleteSubjectConfirmationModal";
+import AdminLayout from "@/Layouts/AdminLayout.vue";
+import CreateSubjectModal from "@/Pages/Admin/Subjects/Modals/CreateSubjectModal.vue";
+import DeleteSubjectConfirmationModal from "@/Pages/Admin/Subjects/Modals/DeleteSubjectConfirmationModal.vue";
+import UnDeleteSubjectConfirmationModal from "@/Pages/Admin/Subjects/Modals/UnDeleteSubjectConfirmationModal.vue";
 import {pickBy, throttle} from "lodash";
 
 export default {

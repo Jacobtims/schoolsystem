@@ -53,8 +53,8 @@
 </template>
 <script>
 import {pickBy} from "lodash";
-import TeacherLayout from "@/Layouts/TeacherLayout";
-import CreateAssignmentModal from "@/Pages/Teacher/Grades/Modals/CreateAssignmentModal";
+import TeacherLayout from "@/Layouts/TeacherLayout.vue";
+import CreateAssignmentModal from "@/Pages/Teacher/Grades/Modals/CreateAssignmentModal.vue";
 import { Link } from '@inertiajs/inertia-vue3';
 
 export default {

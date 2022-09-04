@@ -53,11 +53,11 @@
                                           :classroom-id="unDeleteId"></un-delete-classroom-confirmation-modal>
 </template>
 <script>
-import AdminLayout from "@/Layouts/AdminLayout";
+import AdminLayout from "@/Layouts/AdminLayout.vue";
 import {pickBy, throttle} from "lodash";
-import CreateClassroomModal from "@/Pages/Admin/Classrooms/Modals/CreateClassroomModal";
-import DeleteClassroomConfirmationModal from "@/Pages/Admin/Classrooms/Modals/DeleteClassroomConfirmationModal";
-import UnDeleteClassroomConfirmationModal from "@/Pages/Admin/Classrooms/Modals/UnDeleteClassroomConfirmationModal";
+import CreateClassroomModal from "@/Pages/Admin/Classrooms/Modals/CreateClassroomModal.vue";
+import DeleteClassroomConfirmationModal from "@/Pages/Admin/Classrooms/Modals/DeleteClassroomConfirmationModal.vue";
+import UnDeleteClassroomConfirmationModal from "@/Pages/Admin/Classrooms/Modals/UnDeleteClassroomConfirmationModal.vue";
 
 export default {
     layout: AdminLayout,

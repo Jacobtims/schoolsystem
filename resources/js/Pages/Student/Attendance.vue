@@ -58,7 +58,7 @@
     </div>
 </template>
 <script>
-import StudentLayout from "@/Layouts/StudentLayout";
+import StudentLayout from "@/Layouts/StudentLayout.vue";
 export default {
     layout: StudentLayout,
     props: {

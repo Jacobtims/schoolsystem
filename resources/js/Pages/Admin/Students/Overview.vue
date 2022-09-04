@@ -103,15 +103,15 @@
 </template>
 <script>
 
-import AdminLayout from "@/Layouts/AdminLayout";
-import Pagination from "@/components/Pagination";
+import AdminLayout from "@/Layouts/AdminLayout.vue";
+import Pagination from "@/components/Pagination.vue";
 import {pickBy, throttle} from "lodash";
-import EditStudentModal from "@/Pages/Admin/Students/Modals/EditStudentModal";
-import CreateStudentModal from "@/Pages/Admin/Students/Modals/CreateStudentModal";
-import DeleteStudentConfirmationModal from "@/Pages/Admin/Students/Modals/DeleteStudentConfirmationModal";
+import EditStudentModal from "@/Pages/Admin/Students/Modals/EditStudentModal.vue";
+import CreateStudentModal from "@/Pages/Admin/Students/Modals/CreateStudentModal.vue";
+import DeleteStudentConfirmationModal from "@/Pages/Admin/Students/Modals/DeleteStudentConfirmationModal.vue";
 import DeleteSelectedStudentsConfirmationModal
-    from "@/Pages/Admin/Students/Modals/DeleteSelectedStudentsConfirmationModal";
-import ShowStudentModal from "@/Pages/Admin/Students/Modals/ShowStudentModal";
+    from "@/Pages/Admin/Students/Modals/DeleteSelectedStudentsConfirmationModal.vue";
+import ShowStudentModal from "@/Pages/Admin/Students/Modals/ShowStudentModal.vue";
 import moment from "moment";
 
 export default {

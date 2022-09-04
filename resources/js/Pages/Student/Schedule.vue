@@ -127,7 +127,7 @@
     </Dialog>
 </template>
 <script>
-import StudentLayout from "@/Layouts/StudentLayout";
+import StudentLayout from "@/Layouts/StudentLayout.vue";
 import Dialog from "primevue/dialog";
 import {debounce, pickBy} from "lodash";
 

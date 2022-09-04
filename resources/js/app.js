@@ -1,8 +1,11 @@
-require('./bootstrap');
+import './bootstrap';
+import '../scss/app.scss';
 
 import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/inertia-vue3';
 import { InertiaProgress } from '@inertiajs/progress';
+import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
+import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import PrimeVue from 'primevue/config';
 import 'primevue/resources/themes/bootstrap4-light-blue/theme.css';
 import 'primevue/resources/primevue.min.css';
@@ -18,10 +21,11 @@ const appName = window.document.getElementsByTagName('title')[0]?.innerText || '
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
-    resolve: (name) => require(`./Pages/${name}.vue`),
+    resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')),
     setup({ el, app, props, plugin }) {
         const myApp = createApp({ render: () => h(app, props) });
-        myApp.use(plugin)
+        myApp.use(plugin);
+        myApp.use(ZiggyVue, Ziggy);
         myApp.use(PrimeVue);
         myApp.use(ToastService);
 
@@ -33,13 +37,14 @@ createInertiaApp({
 
         myApp.mixin({
             methods: {
-                route,
                 toast(type, title, message) {
                     this.$toast.add({severity: type, summary: title, detail: message, life: 5000});
                 }
             }
-        });
-        myApp.mount(el)
+        })
+
+        myApp.mount(el);
+
         return myApp;
     },
 });

@@ -10,9 +10,9 @@
 </template>
 
 <script>
-import AdminLayout from "@/Layouts/AdminLayout";
-import CreateLessons from "@/Pages/Admin/Schedule/CreateLessons";
-import DeleteLessons from "@/Pages/Admin/Schedule/DeleteLessons";
+import AdminLayout from "@/Layouts/AdminLayout.vue";
+import CreateLessons from "@/Pages/Admin/Schedule/CreateLessons.vue";
+import DeleteLessons from "@/Pages/Admin/Schedule/DeleteLessons.vue";
 export default {
     layout: AdminLayout,
     components: {DeleteLessons, CreateLessons},

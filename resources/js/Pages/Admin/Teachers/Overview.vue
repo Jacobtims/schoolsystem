@@ -110,14 +110,14 @@
 </template>
 <script>
 
-import AdminLayout from "@/Layouts/AdminLayout";
-import Pagination from "@/components/Pagination";
+import AdminLayout from "@/Layouts/AdminLayout.vue";
+import Pagination from "@/components/Pagination.vue";
 import {pickBy, throttle} from "lodash";
-import EditTeacherModal from "@/Pages/Admin/Teachers/Modals/EditTeacherModal";
-import CreateTeacherModal from "@/Pages/Admin/Teachers/Modals/CreateTeacherModal";
-import DeleteTeacherConfirmationModal from "@/Pages/Admin/Teachers/Modals/DeleteTeacherConfirmationModal";
-import DeleteSelectedTeachersConfirmationModal from "@/Pages/Admin/Teachers/Modals/DeleteSelectedTeachersConfirmationModal";
-import ShowTeacherModal from "@/Pages/Admin/Teachers/Modals/ShowTeacherModal";
+import EditTeacherModal from "@/Pages/Admin/Teachers/Modals/EditTeacherModal.vue";
+import CreateTeacherModal from "@/Pages/Admin/Teachers/Modals/CreateTeacherModal.vue";
+import DeleteTeacherConfirmationModal from "@/Pages/Admin/Teachers/Modals/DeleteTeacherConfirmationModal.vue";
+import DeleteSelectedTeachersConfirmationModal from "@/Pages/Admin/Teachers/Modals/DeleteSelectedTeachersConfirmationModal.vue";
+import ShowTeacherModal from "@/Pages/Admin/Teachers/Modals/ShowTeacherModal.vue";
 
 export default {
     layout: AdminLayout,

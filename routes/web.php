@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -14,12 +15,13 @@ use Inertia\Inertia;
 |
 */
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->name('dashboard');
+Route::get('/', function () {
+    return redirect()->route('login');
+});
 
-// Require fortify routes
-require_once __DIR__ . '/fortify.php';
+Route::get('/dashboard', function () {
+    return Inertia::render('Dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 // Require admin routes
 require_once __DIR__ . '/admin.php';
@@ -29,3 +31,6 @@ require_once __DIR__ . '/teacher.php';
 
 // Require student routes
 require_once __DIR__ . '/student.php';
+
+// Require auth routes
+require __DIR__.'/auth.php';

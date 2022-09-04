@@ -9,8 +9,8 @@
     <Toast position="bottom-right"/>
 </template>
 <script>
-import Sidebar from "@/Layouts/Admin/Sidebar";
-import Navbar from "@/Layouts/Admin/Navbar";
+import Sidebar from "@/Layouts/Admin/Sidebar.vue";
+import Navbar from "@/Layouts/Admin/Navbar.vue";
 export default {
     components: {
         Navbar,

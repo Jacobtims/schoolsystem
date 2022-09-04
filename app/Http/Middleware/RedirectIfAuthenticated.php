@@ -23,15 +23,17 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
+
+                // Check to which dashboard the user should be redirected
                 if (Auth::user()->is_admin) {
-                    $home = '/admin/dashboard';
+                    $home = route('admin.dashboard');
                 } elseif (Auth::user()->is_teacher) {
-                    $home = '/teacher/dashboard';
+                    $home = route('teacher.dashboard');
                 } elseif (Auth::user()->is_student) {
-                    $home = '/student/dashboard';
+                    $home = route('student.dashboard');
                 } else {
                     Auth::logout();
-                    $home = '/login';
+                    $home = route('login');
                 }
 
                 return redirect($home);
