@@ -33,13 +33,13 @@ class TeacherController extends Controller
         $teacherRole = Role::whereName('Teacher')->firstOrFail();
         $teachers = User::whereRoleId($teacherRole->id)
             ->join('teachers', 'users.id', '=', 'teachers.user_id')
-            ->selectRaw('users.*, teachers.abbreviation as abbreviation, teachers.student_name as student_name')
             ->when($request->has('search'), function ($query) use ($request) {
                 $query->where('firstname', 'LIKE', '%'.$request->get('search').'%');
             })
             ->when($request->has(['field', 'direction']), function ($query) use ($request) {
                 $query->orderBy($request->get('field'), $request->get('direction'));
             })
+            ->select(['users.id', 'firstname', 'lastname', 'sex', 'email', 'phone_number', 'street', 'zipcode', 'city', 'state', 'country', 'date_of_birth', 'teachers.abbreviation as abbreviation', 'teachers.student_name as student_name'])
             ->paginate(10);
 
         return Inertia::render('Admin/Teachers/Overview', [

@@ -141,8 +141,7 @@ class LessonController extends Controller
             'query' => 'string|nullable|max:255'
         ]);
 
-        $subjects = Subject::
-        when($request->has('query'), function ($query) use ($request) {
+        $subjects = Subject::when($request->has('query'), function ($query) use ($request) {
             $query
                 ->where('name', 'LIKE', '%' . $request->get('query') . '%')
                 ->orWhere('abbreviation', 'LIKE', '%' . $request->get('query') . '%');
@@ -178,8 +177,7 @@ class LessonController extends Controller
             'query' => 'string|nullable|max:255'
         ]);
 
-        $classrooms = Classroom::
-        when($request->has('query'), function ($query) use ($request) {
+        $classrooms = Classroom::when($request->has('query'), function ($query) use ($request) {
             $query
                 ->where('name', 'LIKE', '%' . $request->get('query') . '%');
         })->limit(300)->get();

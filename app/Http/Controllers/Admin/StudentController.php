@@ -33,13 +33,13 @@ class StudentController extends Controller
         $studentRole = Role::whereName('Student')->firstOrFail();
         $students = User::whereRoleId($studentRole->id)
             ->join('students', 'users.id', '=', 'students.user_id')
-            ->selectRaw('users.*, students.id as student_id')
             ->when($request->has('search'), function ($query) use ($request) {
                 $query->where('firstname', 'LIKE', '%'.$request->get('search').'%');
             })
             ->when($request->has(['field', 'direction']), function ($query) use ($request) {
                 $query->orderBy($request->get('field'), $request->get('direction'));
             })
+            ->select(['users.id', 'students.id as student_id', 'firstname', 'lastname', 'sex', 'email', 'phone_number', 'street', 'zipcode', 'city', 'state', 'country', 'date_of_birth'])
             ->paginate(10);
 
         return Inertia::render('Admin/Students/Overview', [

@@ -15,6 +15,8 @@ class AttendanceController extends Controller
      */
     public function index(): \Inertia\Response
     {
+        // TODO: Complete rebuild
+
         $attendances = Attendance::whereStudentId(Auth::user()->student->id)->get();
 
         $counts = [
