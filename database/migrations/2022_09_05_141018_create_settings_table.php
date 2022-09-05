@@ -6,26 +6,20 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateSettingsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
-        Schema::create('settings', function (Blueprint $table) {
+        Schema::create('settings', function (Blueprint $table): void {
             $table->id();
+
+            $table->string('group')->index();
             $table->string('name');
-            $table->string('value');
+            $table->boolean('locked');
+            $table->json('payload');
+
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('settings');

@@ -46,7 +46,7 @@ export default {
     data() {
         return {
             settingsForm: useForm({
-                school_name: this.settings.school_name.value
+                school_name: this.settings.school_name
             }),
             lessons: this.standardLessons
         }
