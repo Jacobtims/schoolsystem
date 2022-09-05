@@ -9,34 +9,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-/**
- * App\Models\Student
- *
- * @property int $id
- * @property int $user_id
- * @property int $school_class_id
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Attendance[] $attendances
- * @property-read int|null $attendances_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Grade[] $grades
- * @property-read int|null $grades_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Lesson[] $lessons
- * @property-read int|null $lessons_count
- * @property-read \App\Models\SchoolClass $schoolClass
- * @property-read \App\Models\User $user
- * @method static \Database\Factories\StudentFactory factory(...$parameters)
- * @method static \Illuminate\Database\Eloquent\Builder|Student newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Student newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Student query()
- * @method static \Illuminate\Database\Eloquent\Builder|Student whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Student whereSchoolClassId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Student whereUserId($value)
- * @mixin \Eloquent
- * @property \Illuminate\Support\Carbon|null $deleted_at
- * @method static \Illuminate\Database\Query\Builder|Student onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder|Student whereDeletedAt($value)
- * @method static \Illuminate\Database\Query\Builder|Student withTrashed()
- * @method static \Illuminate\Database\Query\Builder|Student withoutTrashed()
- */
 class Student extends Model
 {
     use HasFactory, SoftDeletes;
