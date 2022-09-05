@@ -16,6 +16,8 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
+    protected $appends = ['profile_photo_url'];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -86,6 +88,14 @@ class User extends Authenticatable
     public function getIsStudentAttribute(): bool
     {
         return $this->role_id === Role::whereName('student')->firstOrFail()->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProfilePhotoUrlAttribute(): string
+    {
+        return "https://eu.ui-avatars.com/api/?size=50&background=D3E8F7&name=" . $this->firstname . "+" . $this->lastname;
     }
 
     /**

@@ -15,7 +15,7 @@
                     <li class="nav-item">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <img :src="'https://eu.ui-avatars.com/api/?size=30&name='+$page.props.auth.user.firstname+'+'+$page.props.auth.user.lastname"
+                            <img :src="$page.props.auth.user.profile_photo_url"
                                  class="rounded-circle profile-image"/>
                             <span class="align-middle mx-2">{{ $page.props.auth.user.firstname }} {{ $page.props.auth.user.lastname }}</span>
                         </a>

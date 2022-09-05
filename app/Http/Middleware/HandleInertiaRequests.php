@@ -39,7 +39,7 @@ class HandleInertiaRequests extends Middleware
         return array_merge(parent::share($request), [
             'auth' => [
                 'user' => auth()->check() ? $request->user()->only([
-                    'firstname', 'lastname'
+                    'firstname', 'lastname', 'profile_photo_url'
                 ]) : null,
             ],
             'ziggy' => function () use ($request) {

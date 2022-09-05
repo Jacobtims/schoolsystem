@@ -34,7 +34,7 @@
                     <tbody>
                         <tr v-for="(student, index) in schoolClass.students" :key="'student'+index" v-if="schoolClass && schoolClass.students.length > 0">
                             <td>
-                                <img :src="'https://eu.ui-avatars.com/api/?size=50&name='+student.user.firstname+'+'+student.user.lastname" alt="Profile picture"
+                                <img :src="student.user.profile_photo_url" alt="Profile picture"
                                      class="rounded-circle" width="50" height="50"/>
                             </td>
                             <td>{{ student.id }}</td>
