@@ -25,7 +25,7 @@
                         <div class="col-md-12 mb-3">
                             <div class="form-floating">
                                 <input type="email" :class="{'form-control': true, 'is-invalid': form.errors.email}" id="email" v-model="form.email" required autofocus placeholder="Email address" aria-describedby="emailFeedback">
-                                <label for="email">E-mailadres</label>
+                                <label for="email" class="text-start">E-mailadres</label>
 
                                 <div id="emailFeedback" class="invalid-feedback text-start" v-if="form.errors.email">
                                     {{ form.errors.email }}
@@ -35,7 +35,7 @@
                         <div class="col-md-12 mb-3">
                             <div class="form-floating">
                                 <input type="password" :class="{'form-control': true, 'is-invalid': form.errors.password}" id="password" v-model="form.password" required autocomplete="current-password" placeholder="Password" aria-describedby="passwordFeedback">
-                                <label for="password">Wachtwoord</label>
+                                <label for="password" class="text-start">Wachtwoord</label>
 
                                 <div id="passwordFeedback" class="invalid-feedback text-start" v-if="form.errors.password">
                                     {{ form.errors.password }}
