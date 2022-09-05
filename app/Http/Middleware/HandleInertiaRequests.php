@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Settings\GeneralSettings;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Route;
@@ -46,7 +47,7 @@ class HandleInertiaRequests extends Middleware
             },
             // Old
             'settings' => [
-                'school_name' => config('settings.school_name')
+                'school_name' => app(GeneralSettings::class)->school_name
             ],
             'current_route' => Route::currentRouteName()
         ]);

@@ -12,6 +12,7 @@
         "laravel/sanctum": "^2.8",
         "laravel/tinker": "^2.7",
         "laravel/ui": "^4.0",
+        "spatie/laravel-settings": "^2.4",
         "tightenco/ziggy": "^1.0"
     },
     "require-dev": {
