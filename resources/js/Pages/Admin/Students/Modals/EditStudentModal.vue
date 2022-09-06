@@ -1,101 +1,55 @@
 <template>
-    <Dialog v-model:visible="openModal" :breakpoints="{'1200px': '50vw', '992px': '65vw'}" :style="{width: '40vw'}"
-            header="Student bewerken" :draggable="false" :modal="true"
-            @hide="close" v-if="user">
-        <div>
-            <form class="row g-3" @submit.prevent="editStudent()">
-                <div class="col-md-12">
-                    <label for="inputStudentId" class="form-label">Leerlingnummer</label>
-                    <input type="number" class="form-control" id="inputStudentId" readonly v-model="studentForm.student_id">
-                </div>
-                <div class="col-md-5">
-                    <label for="inputFirstname" class="form-label">Voornaam</label>
-                    <input type="text" class="form-control" :class="{'is-invalid': studentForm.errors.firstname}" id="inputFirstname" v-model="studentForm.firstname" aria-describedby="feedbackFirstname" required min="2">
-                    <div id="feedbackFirstname" class="invalid-feedback" v-if="studentForm.errors.firstname">
-                        {{ studentForm.errors.firstname }}
-                    </div>
-                </div>
-                <div class="col-md-7">
-                    <label for="inputLastname" class="form-label">Achternaam</label>
-                    <input type="text" class="form-control" :class="{'is-invalid': studentForm.errors.lastname}" id="inputLastname" v-model="studentForm.lastname" aria-describedby="feedbackLastname" required min="2">
-                    <div id="feedbackLastname" class="invalid-feedback" v-if="studentForm.errors.lastname">
-                        {{ studentForm.errors.lastname }}
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <label for="inputEmail" class="form-label">E-mailadres</label>
-                    <input type="email" class="form-control" :class="{'is-invalid': studentForm.errors.email}" id="inputEmail" v-model="studentForm.email" aria-describedby="feedbackEmail" required>
-                    <div id="feedbackEmail" class="invalid-feedback" v-if="studentForm.errors.email">
-                        {{ studentForm.errors.email }}
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <label for="inputAddress" class="form-label">Straatnaam + huisnummer</label>
-                    <input type="text" class="form-control" :class="{'is-invalid': studentForm.errors.street}" id="inputAddress" v-model="studentForm.street" aria-describedby="feedbackStreet" required>
-                    <div id="feedbackStreet" class="invalid-feedback" v-if="studentForm.errors.street">
-                        {{ studentForm.errors.street }}
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <label for="inputCity" class="form-label">Woonplaats</label>
-                    <input type="text" class="form-control" :class="{'is-invalid': studentForm.errors.city}" id="inputCity" v-model="studentForm.city" aria-describedby="feedbackCity" required>
-                    <div id="feedbackCity" class="invalid-feedback" v-if="studentForm.errors.city">
-                        {{ studentForm.errors.city }}
-                    </div>
-                </div>
-                <div class="col-md-5">
-                    <label for="inputCountry" class="form-label">Land</label>
-                    <input type="text" class="form-control" :class="{'is-invalid': studentForm.errors.country}" id="inputCountry" v-model="studentForm.country" aria-describedby="feedbackCountry" required>
-                    <div id="feedbackCountry" class="invalid-feedback" v-if="studentForm.errors.country">
-                        {{ studentForm.errors.country }}
-                    </div>
-                </div>
-                <div class="col-md-5">
-                    <label for="inputState" class="form-label">Provincie</label>
-                    <input type="text" class="form-control" :class="{'is-invalid': studentForm.errors.state}" id="inputState" v-model="studentForm.state" aria-describedby="feedbackState" required>
-                    <div id="feedbackState" class="invalid-feedback" v-if="studentForm.errors.state">
-                        {{ studentForm.errors.state }}
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <label for="inputZip" class="form-label">Zip</label>
-                    <input type="text" class="form-control" :class="{'is-invalid': studentForm.errors.zipcode}" id="inputZip" v-model="studentForm.zipcode" aria-describedby="feedbackZipcode" required>
-                    <div id="feedbackZipcode" class="invalid-feedback" v-if="studentForm.errors.zipcode">
-                        {{ studentForm.errors.zipcode }}
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <label for="inputPhone" class="form-label">Telefoonnummer</label>
-                    <input type="tel" class="form-control" :class="{'is-invalid': studentForm.errors.phone_number}" id="inputPhone" v-model="studentForm.phone_number" aria-describedby="feedbackPhoneNumber" required>
-                    <div id="feedbackPhoneNumber" class="invalid-feedback" v-if="studentForm.errors.phone_number">
-                        {{ studentForm.errors.phone_number }}
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <label for="inputBirthday" class="form-label">Geboortedatum</label>
-                    <input type="date" class="form-control" :class="{'is-invalid': studentForm.errors.date_of_birth}" id="inputBirthday" v-model="studentForm.date_of_birth" aria-describedby="feedbackDateOfBirth" required>
-                    <div id="feedbackDateOfBirth" class="invalid-feedback" v-if="studentForm.errors.date_of_birth">
-                        {{ studentForm.errors.date_of_birth }}
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <label for="inputBirthday" class="form-label">Wachtwoord reset</label><br/>
-                    <small>Verstuurd een link naar e-mailadres <strong>{{ studentForm.email }}</strong> om het wachtwoord mee te kunnen resetten.</small>
-                </div>
-                <div class="col-md-6">
-                    <button class="btn btn-secondary" type="button">Verstuur reset link</button>
-                </div>
-            </form>
-        </div>
-        <template #footer>
-            <button class="btn btn-primary" type="submit" autofocus @click="editStudent()"><i class="fa-solid fa-check"></i> Aanpassen</button>
-            <button class="btn btn-secondary" @click="close"><i class="fa-solid fa-xmark"></i> Annuleren</button>
-        </template>
-    </Dialog>
+    <FormModal :open="openModal" header="Student bewerken" submit-text="Aanpassen"
+               @close="close" @action="editStudent" :disabled="studentForm.processing" v-if="user">
+        <form class="row g-3" @submit.prevent="editStudent()">
+            <div class="col-md-12">
+                <Input label="Leerlingnummer" v-model="studentForm.student_id" :error="studentForm.errors.student_id" type="number" readonly/>
+            </div>
+            <div class="col-md-5">
+                <Input label="Voornaam" v-model="studentForm.firstname" :error="studentForm.errors.firstname" min="2" required/>
+            </div>
+            <div class="col-md-7">
+                <Input label="Achternaam" v-model="studentForm.lastname" :error="studentForm.errors.lastname" min="2" required/>
+            </div>
+            <div class="col-md-12">
+                <Input label="E-mailadres" v-model="studentForm.email" :error="studentForm.errors.email" type="email" required/>
+            </div>
+            <div class="col-md-6">
+                <Input label="Straatnaam + huisnummer" v-model="studentForm.street" :error="studentForm.errors.street" required/>
+            </div>
+            <div class="col-md-6">
+                <Input label="Woonplaats" v-model="studentForm.city" :error="studentForm.errors.city" required/>
+            </div>
+            <div class="col-md-5">
+                <Input label="Land" v-model="studentForm.country" :error="studentForm.errors.country" required/>
+            </div>
+            <div class="col-md-5">
+                <Input label="Provincie" v-model="studentForm.state" :error="studentForm.errors.state" required/>
+            </div>
+            <div class="col-md-2">
+                <Input label="Postcode" v-model="studentForm.zipcode" :error="studentForm.errors.zipcode" required/>
+            </div>
+            <div class="col-md-6">
+                <Input label="Telefoonnummer" v-model="studentForm.phone_number" :error="studentForm.errors.phone_number" type="tel" required/>
+            </div>
+            <div class="col-md-6">
+                <Input label="Geboortedatum" v-model="studentForm.date_of_birth" :error="studentForm.errors.date_of_birth" type="date" required/>
+            </div>
+            <div class="col-md-6">
+                <label for="inputBirthday" class="form-label">Wachtwoord reset</label><br/>
+                <small>Verstuurd een link naar e-mailadres <strong>{{ studentForm.email }}</strong> om het wachtwoord mee te kunnen resetten.</small>
+            </div>
+            <div class="col-md-6">
+                <button class="btn btn-secondary" type="button">Verstuur reset link</button>
+            </div>
+        </form>
+    </FormModal>
 </template>
 <script>
 import Dialog from "primevue/dialog";
 import {useForm} from "@inertiajs/inertia-vue3";
+import FormModal from "@/Components/Modals/FormModal.vue";
+import Input from "@/Components/Inputs/Input.vue";
 export default {
     name: 'EditStudentModal',
     props: {
@@ -103,6 +57,8 @@ export default {
         user: Object
     },
     components: {
+        Input,
+        FormModal,
         Dialog
     },
     data() {

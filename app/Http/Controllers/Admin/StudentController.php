@@ -58,7 +58,7 @@ class StudentController extends Controller
     {
         $studentRole = Role::whereName('Student')->firstOrFail();
 
-        if ($request->get('generatePassword') == true) {
+        if ($request->get('generatePassword')) {
             $password = Str::random(8);
         } else {
             $password = $request->get('password');
@@ -69,7 +69,7 @@ class StudentController extends Controller
         $user = User::create($request->only(['email', 'firstname', 'lastname', 'phone_number', 'date_of_birth', 'country', 'state', 'city', 'zipcode', 'street', 'password', 'role_id']));
         Student::create(['user_id' => $user->id]);
 
-        if ($request->get('sendEmail') == true) {
+        if ($request->get('sendEmail')) {
             //TODO: Send e-mail to email-address...
         }
 
