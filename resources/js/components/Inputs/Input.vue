@@ -14,7 +14,7 @@ export default {
     props: {
         modelValue: {
             default: "",
-            type: String
+            type: [String, Number]
         },
         label: String,
         error: String
