@@ -14,7 +14,7 @@ import Multiselect from 'vue-multiselect';
 import ToastService from 'primevue/toastservice';
 import Toast from 'primevue/toast';
 
-import moment from "moment";
+import moment from 'moment/min/moment-with-locales';
 moment.locale('nl');
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
@@ -28,9 +28,11 @@ createInertiaApp({
         myApp.use(ZiggyVue, Ziggy);
         myApp.use(PrimeVue);
         myApp.use(ToastService);
+        myApp.use(moment);
 
         // Global properties
         myApp.config.globalProperties.$moment = moment;
+
         // Global components
         myApp.component('multiselect', Multiselect);
         myApp.component('Toast', Toast);

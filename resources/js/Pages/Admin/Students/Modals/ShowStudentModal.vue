@@ -55,7 +55,8 @@
 </template>
 <script>
 import Dialog from "primevue/dialog";
-import moment from "moment";
+import moment from 'moment/min/moment-with-locales';
+
 export default {
     name: 'ShowStudentModal',
     props: {

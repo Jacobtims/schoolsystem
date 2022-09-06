@@ -168,7 +168,7 @@ import Dialog from "primevue/dialog";
 import {debounce, pickBy} from "lodash";
 import TeacherLayout from "@/Layouts/TeacherLayout.vue";
 import {useForm} from "@inertiajs/inertia-vue3";
-import moment from "moment";
+import moment from "moment/min/moment-with-locales";
 
 export default {
     layout: TeacherLayout,
