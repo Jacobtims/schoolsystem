@@ -99,6 +99,19 @@ class User extends Authenticatable
     }
 
     /**
+     * @return string
+     */
+    public function getSexAttribute(): string
+    {
+        return match ($this->attributes['sex']) {
+            "m" => "Man",
+            "v" => "Vrouw",
+            "o" => "Overig",
+            default => "-",
+        };
+    }
+
+    /**
      * @return HasManyThrough
      */
     public function permissions(): HasManyThrough

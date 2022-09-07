@@ -77,7 +77,7 @@
                             <td>{{ teacher.firstname }}</td>
                             <td>{{ teacher.lastname }}</td>
                             <td>{{ teacher.abbreviation }}</td>
-                            <td>{{ sex(teacher.sex) }}</td>
+                            <td>{{ teacher.sex }}</td>
                             <td>{{ teacher.student_name }}</td>
                             <td>{{ teacher.email }}</td>
                             <td>{{ teacher.phone_number }}</td>
@@ -183,24 +183,6 @@ export default {
         showTeacher(teacher) {
             this.activeTeacher = teacher;
             this.openShowModal = true;
-        },
-        sex(value) {
-            let sex = '';
-            switch (value) {
-                case "m":
-                    sex = "Man"
-                    break;
-                case "v":
-                    sex = "Vrouw"
-                    break;
-                case "o":
-                    sex = "Overig"
-                    break;
-                default:
-                    sex = "-"
-                    break;
-            }
-            return sex;
         }
     },
     watch: {

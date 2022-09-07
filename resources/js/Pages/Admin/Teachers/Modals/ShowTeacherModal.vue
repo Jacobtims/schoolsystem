@@ -25,7 +25,7 @@
                     </tr>
                     <tr>
                         <th>Geslacht:</th>
-                        <td>{{ sex }}</td>
+                        <td>{{ teacher.sex }}</td>
                     </tr>
                     <tr>
                         <th>E-mailadres:</th>
@@ -71,24 +71,6 @@ export default {
     computed: {
         birthday() {
             return this.$dayjs(this.teacher.date_of_birth).format('LL');
-        },
-        sex() {
-            let sex = '';
-            switch (this.teacher.sex) {
-                case "m":
-                    sex = "Man"
-                    break;
-                case "v":
-                    sex = "Vrouw"
-                    break;
-                case "o":
-                    sex = "Overig"
-                    break;
-                default:
-                    sex = "-"
-                    break;
-            }
-            return sex;
         }
     },
     methods: {

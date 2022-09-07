@@ -71,7 +71,7 @@
                             <td>{{ student.firstname }}</td>
                             <td>{{ student.lastname }}</td>
                             <td>{{ student.student_id }}</td>
-                            <td>{{ sex(student.sex) }}</td>
+                            <td>{{ student.sex }}</td>
                             <td>{{ student.email }}</td>
                             <td>{{ student.phone_number }}</td>
                             <td>
@@ -176,24 +176,6 @@ export default {
         showStudent(student) {
             this.activeStudent = student;
             this.openShowModal = true;
-        },
-        sex(value) {
-            let sex = '';
-            switch (value) {
-                case "m":
-                    sex = "Man"
-                    break;
-                case "v":
-                    sex = "Vrouw"
-                    break;
-                case "o":
-                    sex = "Overig"
-                    break;
-                default:
-                    sex = "-"
-                    break;
-            }
-            return sex;
         }
     },
     watch: {
