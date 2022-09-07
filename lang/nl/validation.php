@@ -146,6 +146,29 @@ return [
     */
 
     'attributes' => [
-
+        'firstname' => 'voornaam',
+        'lastname' => 'achternaam',
+        'email' => 'e-mailadres',
+        'street' => 'straatnaam + huisnummer',
+        'city' => 'woonplaats',
+        'country' => 'land',
+        'state' => 'provincie',
+        'zipcode' => 'postcode',
+        'phone_number' => 'telefoonnummer',
+        'date_of_birth' => 'geboortedatum',
+        'class_name' => 'klas naam',
+        'mentor_abbreviation' => 'afkorting mentor',
+        'name' => 'naam',
+        'abbreviation' => 'afkorting',
+        'student_name' => 'studenten naam',
+        'classes' => 'klassen',
+        'teacher' => 'docent',
+        'subject' => 'vak',
+        'date' => 'datum',
+        'lessons' => 'lessen',
+        'classroom' => 'lokaal',
+        'school_name' => 'school naam',
+        'weighting' => 'weging',
+        'description' => 'omschrijving',
     ],
 ];
