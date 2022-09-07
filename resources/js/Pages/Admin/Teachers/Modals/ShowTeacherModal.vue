@@ -58,7 +58,6 @@
 </template>
 <script>
 import Dialog from "primevue/dialog";
-import moment from "moment/min/moment-with-locales";
 import ShowModal from "@/Components/Modals/ShowModal.vue";
 export default {
     name: 'ShowTeacherModal',
@@ -72,7 +71,7 @@ export default {
     },
     computed: {
         birthday() {
-            return moment(this.teacher.date_of_birth).format('LL');
+            return this.$dayjs(this.teacher.date_of_birth).format('LL');
         },
         sex() {
             let sex = '';

@@ -47,7 +47,7 @@
                     <th>Reden</th>
                 </tr>
                 <tr v-for="(abs, index) in absent" :key="'absent'+index">
-                    <td>{{ this.$moment(abs.lesson.date).format('LL') }}</td>
+                    <td>{{ $dayjs(abs.lesson.date).format('LL') }}</td>
                     <td>{{ abs.lesson.time.from }} - {{ abs.lesson.time.to }}</td>
                     <td v-if="abs.verified === 1">Geoorloofd</td>
                     <td v-else-if="abs.verified === 0 || abs.verified === null" class="text-danger">Ongeoorloofd</td>

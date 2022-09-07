@@ -6,6 +6,7 @@
 <script>
 import Dialog from "primevue/dialog";
 import DeleteModal from "@/Components/Modals/DeleteModal.vue";
+
 export default {
     name: 'DeleteStudentConfirmationModal',
     props: {

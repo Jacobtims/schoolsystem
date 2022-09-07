@@ -47,7 +47,7 @@ export default {
     methods: {
         openGradeModal(grade) {
             this.activeGrade = grade;
-            this.activeGrade.date = this.$moment(grade.created_at).format('LL');
+            this.activeGrade.date = this.$dayjs(grade.created_at).format('LL');
             this.openModal = true;
         },
         closeGradeModal() {

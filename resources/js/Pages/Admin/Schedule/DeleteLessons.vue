@@ -58,7 +58,6 @@
 <script>
 import {useForm} from "@inertiajs/inertia-vue3";
 import {debounce} from "lodash";
-import moment from "moment/moment";
 
 export default {
     name: "delete-lessons",

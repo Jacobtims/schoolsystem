@@ -102,7 +102,6 @@
 <script>
 import {useForm} from "@inertiajs/inertia-vue3";
 import {debounce} from "lodash";
-import moment from "moment/moment";
 
 export default {
     name: "create-lessons",
@@ -132,7 +131,7 @@ export default {
     },
     computed: {
         yesterday: () => {
-            return moment().format('YYYY-MM-DD');
+            return this.$dayjs.format('YYYY-MM-DD');
         }
     },
     methods: {

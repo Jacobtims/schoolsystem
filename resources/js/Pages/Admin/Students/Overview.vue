@@ -109,10 +109,8 @@ import {pickBy, throttle} from "lodash";
 import EditStudentModal from "@/Pages/Admin/Students/Modals/EditStudentModal.vue";
 import CreateStudentModal from "@/Pages/Admin/Students/Modals/CreateStudentModal.vue";
 import DeleteStudentConfirmationModal from "@/Pages/Admin/Students/Modals/DeleteStudentConfirmationModal.vue";
-import DeleteSelectedStudentsConfirmationModal
-    from "@/Pages/Admin/Students/Modals/DeleteSelectedStudentsConfirmationModal.vue";
+import DeleteSelectedStudentsConfirmationModal from "@/Pages/Admin/Students/Modals/DeleteSelectedStudentsConfirmationModal.vue";
 import ShowStudentModal from "@/Pages/Admin/Students/Modals/ShowStudentModal.vue";
-import moment from "moment/min/moment-with-locales";
 
 export default {
     layout: AdminLayout,

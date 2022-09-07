@@ -6,16 +6,26 @@ import { createInertiaApp } from '@inertiajs/inertia-vue3';
 import { InertiaProgress } from '@inertiajs/progress';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
+
+// PrimeVue
 import PrimeVue from 'primevue/config';
 import 'primevue/resources/themes/bootstrap4-light-blue/theme.css';
 import 'primevue/resources/primevue.min.css';
-import 'primeicons/primeicons.css'
-import Multiselect from 'vue-multiselect';
+import 'primeicons/primeicons.css';
+
 import ToastService from 'primevue/toastservice';
 import Toast from 'primevue/toast';
 
-import moment from 'moment/min/moment-with-locales';
-moment.locale('nl');
+// Multiselect
+import Multiselect from 'vue-multiselect';
+
+// Day.js
+import * as dayjs from 'dayjs'
+import localizedFormat from 'dayjs/plugin/localizedFormat';
+import locale_nl from 'dayjs/locale/nl';
+
+dayjs.extend(localizedFormat);
+dayjs.locale(locale_nl);
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
 
@@ -28,10 +38,9 @@ createInertiaApp({
         myApp.use(ZiggyVue, Ziggy);
         myApp.use(PrimeVue);
         myApp.use(ToastService);
-        myApp.use(moment);
 
         // Global properties
-        myApp.config.globalProperties.$moment = moment;
+        myApp.config.globalProperties.$dayjs = dayjs;
 
         // Global components
         myApp.component('multiselect', Multiselect);

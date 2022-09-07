@@ -22,8 +22,8 @@
             <div class="d-flex justify-content-center">
                 <button class="navigator" @click="previousWeek"><i class="fa-solid fa-arrow-left" title="<"></i>
                 </button>
-                <span class="date mx-4">{{ $moment(dates[0]).format('LL') }} -
-                    {{ $moment(dates[dates.length - 1]).format('LL') }}</span>
+                <span class="date mx-4">{{ $dayjs(dates[0]).format('LL') }} -
+                    {{ $dayjs(dates[dates.length - 1]).format('LL') }}</span>
                 <button class="navigator" @click="nextWeek"><i class="fa-solid fa-arrow-right" title=">"></i>
                 </button>
             </div>
@@ -60,11 +60,11 @@
                 <ul class="wrap">
                     <li class="lessons-group" v-for="date in dates">
                         <div class="top-info">
-                            <span id="day">{{ $moment(date).format('dddd') }}</span>
-                            <span>{{ $moment(date).format('DD/MM') }}</span>
+                            <span id="day">{{ $dayjs(date).format('dddd') }}</span>
+                            <span>{{ $dayjs(date).format('DD/MM') }}</span>
                         </div>
                         <ul>
-                            <template v-for="lesson in lessons[$moment(date).format('YYYY-MM-DD')]" style="position: relative; z-index: 10;">
+                            <template v-for="lesson in lessons[$dayjs(date).format('YYYY-MM-DD')]" style="position: relative; z-index: 10;">
                                 <li class="single-lesson" v-for="(les, index) in lesson"
                                     :style="{'top': singleLessonTop(les.time.from)+'px', 'height': singleLessonHeight(les.time.to)+'px', 'width': (100 / lesson.length)+'%', 'left': (index * (100 / lesson.length))+'%'}"
                                     :class="{'lesson-deleted': les.deleted}">
@@ -96,7 +96,7 @@
             </tr>
             <tr>
                 <td><strong>Datum:</strong></td>
-                <td>{{ $moment(activeLesson.date).format('LL') }}</td>
+                <td>{{ $dayjs(activeLesson.date).format('LL') }}</td>
             </tr>
             <tr>
                 <td><strong>Tijd:</strong></td>
@@ -111,7 +111,7 @@
                 <td>{{ activeLesson.classroom.name }}</td>
             </tr>
         </table>
-        <div v-if="!activeLesson.deleted && activeLesson.teacher_id === $attrs.user.teacher.id">
+        <div v-if="!activeLesson.deleted && activeLesson.teacher_id === $page.props.auth.user.teacher_id">
             <hr/>
             <table class="table table-borderless">
                 <tr v-for="(hw, index) in activeLesson.homework">
@@ -119,7 +119,7 @@
                     <td v-else-if="hw.type === 'test'" title="Toets" style="width: 30px;"><i class="fa-solid fa-pencil"></i></td>
                     <td v-else title="Huiswerk" style="width: 30px;"><i class="fa-solid fa-book"></i></td>
                     <td style="word-break: break-all; width: 350px;">{{ hw.description }}</td>
-                    <td class="text-end">{{ $moment(hw.created_at).format('LLL') }}</td>
+                    <td class="text-end">{{ $dayjs(hw.created_at).format('LLL') }}</td>
                     <td style="width: 10px;"><i class="fa-solid fa-trash text-danger clickable" @click="deleteHomework(hw.id, index)"></i></td>
                 </tr>
             </table>
@@ -168,7 +168,6 @@ import Dialog from "primevue/dialog";
 import {debounce, pickBy} from "lodash";
 import TeacherLayout from "@/Layouts/TeacherLayout.vue";
 import {useForm} from "@inertiajs/inertia-vue3";
-import moment from "moment/min/moment-with-locales";
 
 export default {
     layout: TeacherLayout,
@@ -317,7 +316,7 @@ export default {
                     this.activeLesson.homework.push({
                         type: this.homeworkForm.type,
                         description: this.homeworkForm.description,
-                        created_at: moment()
+                        created_at: new Date()
                     });
                     this.homeworkForm.reset();
                     this.toast('success', 'Huiswerk is toegevoegd!', '')
