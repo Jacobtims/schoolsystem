@@ -21,45 +21,12 @@
     </div>
 
     <!-- Modal -->
-    <Dialog v-model:visible="openModal" :breakpoints="{'1200px': '50vw', '992px': '65vw'}" :style="{width: '40vw'}" header="&nbsp;"
-            :draggable="false" :modal="true" :dismissableMask="true" @hide="closeGradeModal" v-if="activeGrade">
-        <table class="table table-borderless" id="table-grades">
-            <tr>
-                <td><strong>Vak:</strong></td>
-                <td>{{ activeGrade.assignment.subject.name }}</td>
-            </tr>
-            <tr>
-                <td><strong>Cijfer:</strong></td>
-                <td :class="{'grade-plus': activeGrade.number > 5.4, 'grade-min': activeGrade.number < 5.5}">
-                    {{ activeGrade.number }}
-                </td>
-            </tr>
-            <tr>
-                <td><strong>Toets:</strong></td>
-                <td>{{ activeGrade.assignment.name }}</td>
-            </tr>
-            <tr>
-                <td><strong>Omschrijving:</strong></td>
-                <td>{{ activeGrade.assignment.description }}</td>
-            </tr>
-            <tr>
-                <td><strong>Weging:</strong></td>
-                <td>{{ activeGrade.assignment.weighting }}&times;</td>
-            </tr>
-            <tr>
-                <td><strong>Datum:</strong></td>
-                <td>{{ activeGrade.date }}</td>
-            </tr>
-            <tr>
-                <td><strong>Docent:</strong></td>
-                <td>{{ activeGrade.teacher.student_name }}</td>
-            </tr>
-        </table>
-    </Dialog>
+    <show-grade-modal :open-modal="openModal" :grade="activeGrade"/>
 </template>
 <script>
 import StudentLayout from "@/Layouts/StudentLayout.vue";
 import Dialog from 'primevue/dialog';
+import ShowGradeModal from "@/Pages/Student/Grades/Modals/ShowGradeModal.vue";
 
 export default {
     layout: StudentLayout,
@@ -68,6 +35,7 @@ export default {
         averages: Object
     },
     components: {
+        ShowGradeModal,
         Dialog
     },
     data() {

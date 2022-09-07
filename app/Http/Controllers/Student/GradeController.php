@@ -21,7 +21,7 @@ class GradeController extends Controller
             $averages[$key] = round($grade->avg('number'), 1);
         }
 
-        return Inertia::render('Student/Grades', [
+        return Inertia::render('Student/Grades/Index', [
             'grades' => $grades,
             'averages' => $averages
         ]);
