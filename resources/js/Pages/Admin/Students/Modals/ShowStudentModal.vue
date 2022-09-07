@@ -53,7 +53,6 @@
     </ShowModal>
 </template>
 <script>
-import Dialog from "primevue/dialog";
 import ShowModal from "@/Components/Modals/ShowModal.vue";
 
 export default {
@@ -63,8 +62,7 @@ export default {
         user: Object
     },
     components: {
-        ShowModal,
-        Dialog
+        ShowModal
     },
     computed: {
         birthday() {

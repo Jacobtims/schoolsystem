@@ -4,7 +4,6 @@
     </DeleteModal>
 </template>
 <script>
-import Dialog from "primevue/dialog";
 import DeleteModal from "@/Components/Modals/DeleteModal.vue";
 
 export default {
@@ -14,8 +13,7 @@ export default {
         userIds: Array
     },
     components: {
-        DeleteModal,
-        Dialog
+        DeleteModal
     },
     methods: {
         close() {

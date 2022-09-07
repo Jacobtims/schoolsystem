@@ -26,7 +26,6 @@
     </FormModal>
 </template>
 <script>
-import Dialog from "primevue/dialog";
 import FormModal from "@/components/Modals/FormModal.vue";
 
 export default {
@@ -36,8 +35,7 @@ export default {
         schoolClass: Object
     },
     components: {
-        FormModal,
-        Dialog
+        FormModal
     },
     data() {
         return {

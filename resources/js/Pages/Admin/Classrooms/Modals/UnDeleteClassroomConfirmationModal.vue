@@ -4,8 +4,8 @@
     </DeleteModal>
 </template>
 <script>
-import Dialog from "primevue/dialog";
 import DeleteModal from "@/Components/Modals/DeleteModal.vue";
+
 export default {
     name: 'UnDeleteClassroomConfirmationModal',
     props: {
@@ -13,8 +13,7 @@ export default {
         classroomId: Number
     },
     components: {
-        DeleteModal,
-        Dialog
+        DeleteModal
     },
     methods: {
         close() {

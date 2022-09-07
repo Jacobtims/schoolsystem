@@ -42,7 +42,6 @@
     </FormModal>
 </template>
 <script>
-import Dialog from "primevue/dialog";
 import FormModal from "@/components/Modals/FormModal.vue";
 import Input from "@/components/Inputs/Input.vue";
 
@@ -53,8 +52,7 @@ export default {
     },
     components: {
         Input,
-        FormModal,
-        Dialog
+        FormModal
     },
     data() {
         return {

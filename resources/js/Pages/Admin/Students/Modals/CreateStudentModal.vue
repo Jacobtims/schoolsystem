@@ -43,7 +43,6 @@
     </FormModal>
 </template>
 <script>
-import Dialog from "primevue/dialog";
 import {useForm} from "@inertiajs/inertia-vue3";
 import Input from "@/components/Inputs/Input.vue";
 import Checkbox from "@/components/Inputs/Checkbox.vue";
@@ -57,8 +56,7 @@ export default {
     components: {
         FormModal,
         Input,
-        Checkbox,
-        Dialog
+        Checkbox
     },
     data() {
         return {

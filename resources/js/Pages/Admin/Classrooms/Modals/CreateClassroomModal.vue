@@ -9,7 +9,6 @@
     </FormModal>
 </template>
 <script>
-import Dialog from "primevue/dialog";
 import {useForm} from "@inertiajs/inertia-vue3";
 import FormModal from "@/Components/Modals/FormModal.vue";
 import Input from "@/Components/Inputs/Input.vue";
@@ -21,8 +20,7 @@ export default {
     },
     components: {
         Input,
-        FormModal,
-        Dialog
+        FormModal
     },
     data() {
         return {

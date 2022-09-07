@@ -25,7 +25,6 @@
 </template>
 <script>
 import StudentLayout from "@/Layouts/StudentLayout.vue";
-import Dialog from 'primevue/dialog';
 import ShowGradeModal from "@/Pages/Student/Grades/Modals/ShowGradeModal.vue";
 
 export default {
@@ -35,8 +34,7 @@ export default {
         averages: Object
     },
     components: {
-        ShowGradeModal,
-        Dialog
+        ShowGradeModal
     },
     data() {
         return {

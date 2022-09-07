@@ -57,8 +57,8 @@
     </ShowModal>
 </template>
 <script>
-import Dialog from "primevue/dialog";
 import ShowModal from "@/Components/Modals/ShowModal.vue";
+
 export default {
     name: 'ShowTeacherModal',
     props: {
@@ -66,8 +66,7 @@ export default {
         teacher: Object
     },
     components: {
-        ShowModal,
-        Dialog
+        ShowModal
     },
     computed: {
         birthday() {
