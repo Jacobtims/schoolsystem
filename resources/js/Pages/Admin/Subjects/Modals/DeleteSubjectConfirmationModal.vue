@@ -1,14 +1,11 @@
 <template>
-    <Dialog header="Weet je het zeker?" v-model:visible="openModal" :style="{width: '400px'}" :modal="true" :draggable="false" @hide="close">
-        <p>Weet je zeker dat je dit vak wilt verwijderen?</p>
-        <template #footer>
-            <button class="btn btn-danger" @click="deleteSubject"><i class="fa-solid fa-check"></i> Ja</button>
-            <button class="btn btn-secondary" @click="close"><i class="fa-solid fa-xmark"></i> Annuleren</button>
-        </template>
-    </Dialog>
+    <DeleteModal :open="openModal" @close="close" @delete="deleteSubject">
+        Weet je zeker dat je dit vak wilt verwijderen?
+    </DeleteModal>
 </template>
 <script>
 import Dialog from "primevue/dialog";
+import DeleteModal from "@/components/Modals/DeleteModal.vue";
 export default {
     name: 'DeleteSubjectConfirmationModal',
     props: {
@@ -16,6 +13,7 @@ export default {
         subjectId: Number
     },
     components: {
+        DeleteModal,
         Dialog
     },
     methods: {
