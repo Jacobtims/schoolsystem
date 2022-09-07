@@ -1,5 +1,5 @@
 <template>
-    <ShowModal :open="openModal" header="Persoonlijke informatie" @close="close">
+    <ShowModal :open="openModal" header="Persoonlijke informatie" @close="close" v-if="user">
         <div class="row">
             <div class="col-3" style="width: 120px;">
                 <img :src="user.profile_photo_url" alt="Profile picture"

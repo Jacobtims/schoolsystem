@@ -1,6 +1,5 @@
 <template>
-    <Dialog v-model:visible="openModal" :breakpoints="{'1200px': '50vw', '992px': '65vw'}" :style="{width: '40vw'}"
-            header="Persoonlijke informatie" :draggable="false" :modal="true" @hide="close" v-if="teacher">
+    <ShowModal :open="openModal" header="Persoonlijke informatie" @close="close" v-if="teacher">
         <div class="row">
             <div class="col-3" style="width: 120px;">
                 <img :src="teacher.profile_photo_url" alt="Profile picture"
@@ -55,11 +54,12 @@
                 </table>
             </div>
         </div>
-    </Dialog>
+    </ShowModal>
 </template>
 <script>
 import Dialog from "primevue/dialog";
 import moment from "moment/min/moment-with-locales";
+import ShowModal from "@/Components/Modals/ShowModal.vue";
 export default {
     name: 'ShowTeacherModal',
     props: {
@@ -67,6 +67,7 @@ export default {
         teacher: Object
     },
     components: {
+        ShowModal,
         Dialog
     },
     computed: {
