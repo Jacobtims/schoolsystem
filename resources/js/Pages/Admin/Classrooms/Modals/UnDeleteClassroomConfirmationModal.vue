@@ -1,14 +1,11 @@
 <template>
-    <Dialog header="Weet je het zeker?" v-model:visible="openModal" :style="{width: '400px'}" :modal="true" :draggable="false" @hide="close">
-        <p>Weet je zeker dat je dit lokaal weer wilt toevoegen?</p>
-        <template #footer>
-            <button class="btn btn-success" @click="deleteClassroom"><i class="fa-solid fa-check"></i> Ja</button>
-            <button class="btn btn-secondary" @click="close"><i class="fa-solid fa-xmark"></i> Annuleren</button>
-        </template>
-    </Dialog>
+    <DeleteModal :open="openModal" @close="close" @delete="restoreClassroom">
+        Weet je zeker dat je dit lokaal weer wilt toevoegen?
+    </DeleteModal>
 </template>
 <script>
 import Dialog from "primevue/dialog";
+import DeleteModal from "@/Components/Modals/DeleteModal.vue";
 export default {
     name: 'UnDeleteClassroomConfirmationModal',
     props: {
@@ -16,6 +13,7 @@ export default {
         classroomId: Number
     },
     components: {
+        DeleteModal,
         Dialog
     },
     methods: {
@@ -23,7 +21,7 @@ export default {
             this.$parent.openUnDeleteModal = false;
             this.$parent.unDeleteId = null;
         },
-        deleteClassroom() {
+        restoreClassroom() {
             this.$inertia.post(route('admin.classrooms.restore', this.classroomId), {
                 preserveScroll: true,
                 onSuccess: () => {
