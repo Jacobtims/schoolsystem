@@ -72,7 +72,7 @@ export default {
     watch: {
         lessonId: function (id) {
             if (id === null) return;
-            axios.get(this.route('student.schedules.get-lesson', id))
+            axios.get(this.route('schedule.lesson', id))
                 .then((response) => {
                     this.lesson = response.data;
                 })

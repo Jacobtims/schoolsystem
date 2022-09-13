@@ -9,7 +9,7 @@
                                  :options-limit="300" :show-no-results="true" @search-change="asyncFindClasses"
                                  @select="selectClass">
 
-                        <template v-slot:noResult>Oops! Geen klassen gevonden. Verander je zoekopdracht.</template>
+                        <template v-slot:noResult>Oops! Geen klassen gevonden.</template>
                         <template v-slot:noOptions>Oops! Geen klassen gevonden.</template>
                     </multiselect>
                     <multiselect v-model="selectedTeacher" id="multiselectTeacher" label="abbreviation" track-by="id"
@@ -18,7 +18,7 @@
                                  :options-limit="300" :show-no-results="true" @search-change="asyncFindTeachers"
                                  @select="selectTeacher">
 
-                        <template v-slot:noResult>Oops! Geen docenten gevonden. Verander je zoekopdracht.</template>
+                        <template v-slot:noResult>Oops! Geen docenten gevonden.</template>
                         <template v-slot:noOptions>Oops! Geen docenten gevonden.</template>
                     </multiselect>
                 </div>
@@ -134,7 +134,7 @@ export default {
             this.params.start = info.start;
             this.params.end = info.end;
 
-            axios.get(this.route('student.schedules.get-lessons'), {
+            axios.get(this.route('schedule.lessons'), {
                 params: {
                     start: this.$dayjs(info.start).format('YYYY-MM-DD'),
                     end: this.$dayjs(info.end).format('YYYY-MM-DD'),
@@ -156,7 +156,7 @@ export default {
         },
         asyncFindClasses: debounce(function (query) {
             this.isLoadingClasses = true
-            axios.get(this.route('student.schedules.getSchoolClasses', {
+            axios.get(this.route('schedule.school-classes', {
                 query: query
             }))
                 .then((response) => {
@@ -176,7 +176,7 @@ export default {
         },
         asyncFindTeachers: debounce(function (query) {
             this.isLoadingTeachers = true
-            axios.get(this.route('student.schedules.getTeachers', {
+            axios.get(this.route('schedule.teachers', {
                 query: query
             }))
                 .then((response) => {
