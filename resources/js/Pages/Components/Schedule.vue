@@ -1,38 +1,42 @@
 <template>
-    <div class="card mb-3" id="schedule-navigator">
-        <div class="card-body">
-            <div class="d-flex mb-2">
-                <multiselect v-model="selectedClass" id="multiselectClasses" label="name" track-by="id" class="me-3"
-                             placeholder="Klas" open-direction="bottom" :options="classes" :searchable="true"
-                             :loading="isLoadingClasses" :internal-search="false" :clear-on-select="false" :options-limit="300"
-                             :show-no-results="true" @search-change="asyncFindClasses" @select="selectClass">
+    <div id="scheduleWrapper">
+        <div class="card mb-3" id="scheduleNavigator">
+            <div class="card-body">
+                <div class="d-flex mb-2">
+                    <multiselect v-model="selectedClass" id="multiselectClasses" label="name" track-by="id" class="me-3"
+                                 placeholder="Klas" open-direction="bottom" :options="classes" :searchable="true"
+                                 :loading="isLoadingClasses" :internal-search="false" :clear-on-select="false"
+                                 :options-limit="300" :show-no-results="true" @search-change="asyncFindClasses"
+                                 @select="selectClass">
 
-                    <template v-slot:noResult>Oops! Geen klassen gevonden. Verander je zoekopdracht.</template>
-                    <template v-slot:noOptions>Oops! Geen klassen gevonden.</template>
-                </multiselect>
-                <multiselect v-model="selectedTeacher" id="multiselectTeacher" label="abbreviation" track-by="id"
-                             placeholder="Docent" open-direction="bottom" :options="teachers" :searchable="true"
-                             :loading="isLoadingTeachers" :internal-search="false" :clear-on-select="false" :options-limit="300"
-                             :show-no-results="true" @search-change="asyncFindTeachers" @select="selectTeacher">
+                        <template v-slot:noResult>Oops! Geen klassen gevonden. Verander je zoekopdracht.</template>
+                        <template v-slot:noOptions>Oops! Geen klassen gevonden.</template>
+                    </multiselect>
+                    <multiselect v-model="selectedTeacher" id="multiselectTeacher" label="abbreviation" track-by="id"
+                                 placeholder="Docent" open-direction="bottom" :options="teachers" :searchable="true"
+                                 :loading="isLoadingTeachers" :internal-search="false" :clear-on-select="false"
+                                 :options-limit="300" :show-no-results="true" @search-change="asyncFindTeachers"
+                                 @select="selectTeacher">
 
-                    <template v-slot:noResult>Oops! Geen docenten gevonden. Verander je zoekopdracht.</template>
-                    <template v-slot:noOptions>Oops! Geen docenten gevonden.</template>
-                </multiselect>
-            </div>
-            <div class="d-flex justify-content-center">
-                <button class="navigator" @click="prev"><i class="fa-solid fa-arrow-left" title="<"></i>
-                </button>
-                <span class="date mx-4">
+                        <template v-slot:noResult>Oops! Geen docenten gevonden. Verander je zoekopdracht.</template>
+                        <template v-slot:noOptions>Oops! Geen docenten gevonden.</template>
+                    </multiselect>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <button class="navigator" @click="prev">
+                        <i class="fa-solid fa-arrow-left" title="<"></i>
+                    </button>
+                    <span class="date mx-4">
                     {{ $dayjs(params.start).format('LL') }} - {{ $dayjs(params.end).subtract(1, 'day').format('LL') }}
                 </span>
-                <button class="navigator" @click="next"><i class="fa-solid fa-arrow-right" title=">"></i>
-                </button>
+                    <button class="navigator" @click="next">
+                        <i class="fa-solid fa-arrow-right" title=">"></i>
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class='demo-app'>
-        <div class='demo-app-main'>
+        <div class="card border-0" id="scheduleCalendar">
             <FullCalendar
                 ref="schedule"
                 :options='calendarOptions'
@@ -89,17 +93,12 @@ export default {
                     omitZeroMinute: false,
                     meridiem: 'short'
                 },
-                titleFormat: {
-                    year: 'numeric', month: 'long', day: 'numeric'
-                },
                 nowIndicator: true,
                 initialView: 'timeGridWeek',
                 events: this.getEvents,
-                editable: false,
-                selectable: false,
-                selectMirror: true,
                 dayMaxEvents: true,
                 weekends: false,
+                allDaySlot: false,
                 eventClick: this.openLessonModal,
                 slotDuration: '00:15:00',
                 eventColor: '#4782f6'
@@ -161,8 +160,10 @@ export default {
                 query: query
             }))
                 .then((response) => {
-                    this.classes = response.data
-                    this.isLoadingClasses = false
+                    this.classes = response.data;
+                })
+                .finally(() => {
+                    this.isLoadingClasses = false;
                 })
         }, 150),
         selectClass(selectedClass) {
@@ -170,18 +171,19 @@ export default {
             this.params.teacher = null;
             this.selectedTeacher = null;
 
-            this.params.class = selectedClass.name;
+            this.params.class = selectedClass.id;
             this.refetch();
         },
-
         asyncFindTeachers: debounce(function (query) {
             this.isLoadingTeachers = true
             axios.get(this.route('student.schedules.getTeachers', {
                 query: query
             }))
                 .then((response) => {
-                    this.teachers = response.data
-                    this.isLoadingTeachers = false
+                    this.teachers = response.data;
+                })
+                .finally(() => {
+                    this.isLoadingTeachers = false;
                 })
         }, 150),
         selectTeacher(selectedTeacher) {
@@ -189,7 +191,7 @@ export default {
             this.params.class = null;
             this.selectedClass = null;
 
-            this.params.teacher = selectedTeacher.abbreviation;
+            this.params.teacher = selectedTeacher.id;
             this.refetch();
         }
     },
@@ -204,20 +206,20 @@ export default {
     cursor: pointer;
     margin: 3px;
 }
+
 .lesson-subject {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: bold;
-    margin-bottom: 2px;
+    margin-bottom: 1px;
 }
+
 .lesson-teacher,
 .lesson-classroom {
-    font-size: 14px;
-    margin-bottom: 2px;
+    font-size: 13px;
+    margin-bottom: 1px;
 }
-.fc-timegrid-axis-cushion.fc-scrollgrid-shrink-cushion.fc-scrollgrid-sync-inner {
-    display: none;
-}
-#schedule-navigator {
+
+#scheduleNavigator {
     .date {
         font-size: 18px;
     }
@@ -231,5 +233,9 @@ export default {
     .multiselect {
         max-width: 250px;
     }
+}
+
+.fc .fc-timegrid-col.fc-day-today {
+    background: none;
 }
 </style>

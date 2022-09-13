@@ -104,10 +104,11 @@ class ScheduleController extends Controller
         $request->validate([
             'start' => 'date',
             'end' => 'date',
-            'class' => 'string|max:255|exists:school_classes,name',
-            'teacher' => 'string|max:255|exists:teachers,abbreviation'
+            'class' => 'integer|exists:school_classes,id',
+            'teacher' => 'integer|exists:teachers,id'
         ]);
 
+        // Start & end dates
         $start = $request->date('start');
         $end = $request->date('end');
 
@@ -124,15 +125,21 @@ class ScheduleController extends Controller
 
         // Check for class, teacher or student
         if ($request->filled('class')) {
-            $schoolClass = SchoolClass::whereName($request->get('class'))->first();
+            $schoolClass = SchoolClass::findOrFail($request->get('class'));
             $query->where('school_class_id', $schoolClass->id);
         }
         elseif ($request->filled('teacher')) {
-            $teacher = Teacher::whereAbbreviation($request->get('teacher'))->first();
+            $teacher = Teacher::findOrFail($request->get('teacher'));
             $query->where('teacher_id', $teacher->id);
         }
         else {
-            $query->where('school_class_id', Auth::user()->student->school_class_id);
+            if (auth()->user()->is_student) {
+                $query->where('school_class_id', auth()->user()->student->school_class_id);
+            } elseif (auth()->user()->is_teacher) {
+                $query->where('teacher_id', auth()->user()->teacher->id);
+            } else {
+                $query->whereRaw('1 = 0');
+            }
         }
 
         // Get all lessons
