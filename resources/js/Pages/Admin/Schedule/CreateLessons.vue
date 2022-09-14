@@ -129,12 +129,10 @@ export default {
             isLoadingClassrooms: false
         }
     },
-    computed: {
-        yesterday: () => {
-            return this.$dayjs.format('YYYY-MM-DD');
-        }
-    },
     methods: {
+        yesterday() {
+            this.$dayjs().subtract(1, 'day').format('YYYY-MM-DD');
+        },
         createLessons() {
             this.lessonForm.post(route('admin.lessons.store'), {
                 preserveScroll: true,
