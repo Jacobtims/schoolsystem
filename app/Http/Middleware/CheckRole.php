@@ -4,24 +4,28 @@ namespace App\Http\Middleware;
 
 use Auth;
 use Closure;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class CheckRole
 {
     /**
      * Handle an incoming request.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
-     * @param string $role
-     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
+     * @param Request $request
+     * @param Closure $next
+     * @param mixed ...$roles
+     * @return Response|RedirectResponse
      */
-    public function handle(Request $request, Closure $next, string $role)
+    public function handle(Request $request, Closure $next, ...$roles)
     {
-        abort_if(($role == 'admin' && !Auth::user()->is_admin), 403);
-        abort_if(($role == 'teacher' && !Auth::user()->is_teacher), 403);
-        abort_if(($role == 'student' && !Auth::user()->is_student), 403);
+        foreach ($roles as $role) {
+            if (strtolower($request->user()->role->name) === strtolower($role)) {
+                return $next($request);
+            }
+        }
 
-        return $next($request);
+        abort(404);
     }
 }

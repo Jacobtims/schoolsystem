@@ -38,15 +38,24 @@
                         <td v-else title="Huiswerk" style="width: 30px;"><i class="fa-solid fa-book"></i></td>
                         <td style="word-break: break-all; width: 350px;">{{ hw.description }}</td>
                         <td class="text-end">{{ $dayjs(hw.created_at).format('LLL') }}</td>
+                        <td style="width: 10px;" v-if="$page.props.auth.user.is_teacher">
+                            <i class="fa-solid fa-trash text-danger clickable" @click="deleteHomework(hw.id)"></i>
+                        </td>
                     </tr>
                 </table>
             </div>
+
+            <button class="btn btn-sm btn-primary" @click="openHomeworkModal" v-if="$page.props.auth.user.is_teacher">
+                <i class="fa-solid fa-plus"></i> Huiswerk toevoegen</button>
         </div>
     </ShowModal>
+
+    <HomeworkModal :open-modal="openHwModal" :lesson-id="lessonId" @getLesson="getLesson"/>
 </template>
 <script>
 import Dialog from "primevue/dialog";
 import ShowModal from "@/Components/Modals/ShowModal.vue";
+import HomeworkModal from "@/Pages/Components/HomeworkModal.vue";
 
 export default {
     props: {
@@ -54,12 +63,14 @@ export default {
         lessonId: [Number, String],
     },
     components: {
+        HomeworkModal,
         ShowModal,
         Dialog,
     },
     data() {
         return {
-            lesson: null
+            lesson: null,
+            openHwModal: false
         }
     },
     methods: {
@@ -67,10 +78,8 @@ export default {
             this.$parent.openModal = false;
             this.$parent.lessonId = null;
             this.lesson = null;
-        }
-    },
-    watch: {
-        lessonId: function (id) {
+        },
+        getLesson(id = this.lesson) {
             if (id === null) return;
             axios.get(this.route('schedule.lesson', id))
                 .then((response) => {
@@ -79,6 +88,27 @@ export default {
                 .catch(() => {
                     this.toast('error', 'Er is iets fout gegaan bij het ophalen van dit lesuur!');
                 })
+        },
+        openHomeworkModal() {
+            this.openHwModal = true;
+        },
+        deleteHomework(id) {
+            this.$inertia.delete(this.route('teacher.schedules.deleteHomework', id), {
+                preserveState: true,
+                preserveScroll: true,
+                onSuccess: () => {
+                    this.getLesson();
+                    this.toast('success', 'Huiswerk is verwijderd!', '');
+                },
+                onError: () => {
+                    this.toast('error', 'Er is iets fout gegaan bij het verwijderen van het huiswerk!');
+                }
+            })
+        }
+    },
+    watch: {
+        lessonId: function (id) {
+            this.getLesson(id);
         }
     }
 }

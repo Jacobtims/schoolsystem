@@ -41,7 +41,7 @@ class HandleInertiaRequests extends Middleware
                 'user' => function () use ($request) {
                     if (auth()->check()) {
                         return array_merge($request->user()->only([
-                            'firstname', 'lastname', 'profile_photo_url'
+                            'firstname', 'lastname', 'profile_photo_url', 'is_teacher'
                         ]), [
                             'teacher_id' => $request->user()->is_teacher ? $request->user()->teacher->id : null
                         ]);

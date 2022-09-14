@@ -221,13 +221,15 @@ export default {
 
 #scheduleNavigator {
     .date {
-        font-size: 18px;
+        font-size: 16px;
+        display: inline-flex;
+        align-items: center;
     }
 
     .navigator {
         border: 0;
         background: none;
-        font-size: 20px;
+        font-size: 18px;
     }
 
     .multiselect {
