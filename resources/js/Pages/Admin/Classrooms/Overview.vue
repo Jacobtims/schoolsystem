@@ -46,23 +46,26 @@
     </div>
 
     <!-- Modals -->
-    <create-classroom-modal :open-modal="openCreateModal"></create-classroom-modal>
+    <create-classroom-modal :open-modal="openCreateModal"
+    ></create-classroom-modal>
     <delete-classroom-confirmation-modal :open-modal="openDeleteModal"
-                                       :classroom-id="deleteId"></delete-classroom-confirmation-modal>
-    <un-delete-classroom-confirmation-modal :open-modal="openUnDeleteModal"
-                                          :classroom-id="unDeleteId"></un-delete-classroom-confirmation-modal>
+                                         :classroom-id="deleteId"
+    ></delete-classroom-confirmation-modal>
+    <restore-classroom-confirmation-modal :open-modal="openRestoreModal"
+                                          :classroom-id="restoreId"
+    ></restore-classroom-confirmation-modal>
 </template>
 <script>
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import {pickBy, throttle} from "lodash";
 import CreateClassroomModal from "@/Pages/Admin/Classrooms/Modals/CreateClassroomModal.vue";
 import DeleteClassroomConfirmationModal from "@/Pages/Admin/Classrooms/Modals/DeleteClassroomConfirmationModal.vue";
-import UnDeleteClassroomConfirmationModal from "@/Pages/Admin/Classrooms/Modals/UnDeleteClassroomConfirmationModal.vue";
+import RestoreClassroomConfirmationModal from "@/Pages/Admin/Classrooms/Modals/RestoreClassroomConfirmationModal.vue";
 
 export default {
     layout: AdminLayout,
     components: {
-        UnDeleteClassroomConfirmationModal,
+        RestoreClassroomConfirmationModal,
         DeleteClassroomConfirmationModal,
         CreateClassroomModal
     },
@@ -76,9 +79,9 @@ export default {
             },
             openCreateModal: false,
             openDeleteModal: false,
-            openUnDeleteModal: false,
+            openRestoreModal: false,
             deleteId: null,
-            unDeleteId: null
+            restoreId: null
         }
     },
     methods: {
@@ -90,8 +93,8 @@ export default {
             this.openDeleteModal = true;
         },
         unDeletedClassroom(id) {
-            this.unDeleteId = id;
-            this.openUnDeleteModal = true;
+            this.restoreId = id;
+            this.openRestoreModal = true;
         }
     },
     watch: {

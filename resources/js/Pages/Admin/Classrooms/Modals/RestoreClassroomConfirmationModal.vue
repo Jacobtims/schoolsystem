@@ -7,7 +7,7 @@
 import DeleteModal from "@/Components/Modals/DeleteModal.vue";
 
 export default {
-    name: 'UnDeleteClassroomConfirmationModal',
+    name: 'RestoreClassroomConfirmationModal',
     props: {
         openModal: Boolean,
         classroomId: Number
@@ -17,11 +17,11 @@ export default {
     },
     methods: {
         close() {
-            this.$parent.openUnDeleteModal = false;
+            this.$parent.openRestoreModal = false;
             this.$parent.unDeleteId = null;
         },
         restoreClassroom() {
-            this.$inertia.post(route('admin.classrooms.restore', this.classroomId), {
+            this.$inertia.post(route('admin.classrooms.restore', this.classroomId), {}, {
                 preserveScroll: true,
                 onSuccess: () => {
                     this.close();
