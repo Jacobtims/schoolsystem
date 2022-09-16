@@ -3,9 +3,9 @@
 </template>
 <script>
 import Schedule from "@/Pages/Components/Schedule.vue";
-import TeacherLayout from "@/Layouts/TeacherLayout.vue";
+import StudentLayout from "@/Layouts/StudentLayout.vue";
 export default {
-    layout: TeacherLayout,
+    layout: StudentLayout,
     components: {Schedule}
 }
 </script>

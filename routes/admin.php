@@ -15,8 +15,6 @@ Route::middleware(['auth:sanctum', 'verified', 'role:admin'])->prefix('admin')->
     Route::post('/subjects/restore/{id}', [\App\Http\Controllers\Admin\SubjectController::class, 'restore'])->name('subjects.restore');
 
     Route::get('/schedules', [\App\Http\Controllers\Admin\ScheduleController::class, 'index'])->name('schedules.index');
-    Route::get('/schedule/school-classes/get', [\App\Http\Controllers\Admin\ScheduleController::class, 'getSchoolClasses'])->name('schedules.getSchoolClasses');
-    Route::get('/schedule/teachers/get', [\App\Http\Controllers\Admin\ScheduleController::class, 'getTeachers'])->name('schedules.getTeachers');
 
     Route::resource('lessons', \App\Http\Controllers\Admin\LessonController::class)->only(['create', 'store']);
     Route::get('/lessons/classes/get', [\App\Http\Controllers\Admin\LessonController::class, 'getSchoolClasses'])->name('lessons.getSchoolClasses');

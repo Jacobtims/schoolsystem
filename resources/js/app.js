@@ -20,7 +20,7 @@ import Toast from 'primevue/toast';
 import Multiselect from 'vue-multiselect';
 
 // Day.js
-import * as dayjs from 'dayjs'
+import dayjs from 'dayjs'
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import locale_nl from 'dayjs/locale/nl';
 
