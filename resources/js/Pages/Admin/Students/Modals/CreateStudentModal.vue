@@ -8,8 +8,16 @@
             <div class="col-md-7">
                 <Input label="Achternaam" v-model="studentForm.lastname" :error="studentForm.errors.lastname" min="2" required/>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-8">
                 <Input label="E-mailadres" v-model="studentForm.email" :error="studentForm.errors.email" type="email" required/>
+            </div>
+            <div class="col-md-4">
+                <Select label="Geslacht" v-model="studentForm.sex" :error="studentForm.errors.sex" required>
+                    <option selected disabled></option>
+                    <option value="m">Man</option>
+                    <option value="v">Vrouw</option>
+                    <option value="o">Overig</option>
+                </Select>
             </div>
             <div class="col-md-6">
                 <Input label="Straatnaam + huisnummer" v-model="studentForm.street" :error="studentForm.errors.street" required/>
@@ -46,6 +54,7 @@
 import {useForm} from "@inertiajs/inertia-vue3";
 import Input from "@/components/Inputs/Input.vue";
 import Checkbox from "@/components/Inputs/Checkbox.vue";
+import Select from "@/components/Inputs/Select.vue";
 import FormModal from "@/Components/Modals/FormModal.vue";
 
 export default {
@@ -56,7 +65,8 @@ export default {
     components: {
         FormModal,
         Input,
-        Checkbox
+        Checkbox,
+        Select
     },
     data() {
         return {
@@ -64,6 +74,7 @@ export default {
                 firstname: null,
                 lastname: null,
                 email: null,
+                sex: null,
                 street: null,
                 city: null,
                 country: 'Nederland',

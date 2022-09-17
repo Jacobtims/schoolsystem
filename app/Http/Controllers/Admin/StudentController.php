@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateStudentRequest;
 use App\Models\Role;
 use App\Models\Student;
 use App\Models\User;
+use DB;
 use Hash;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -39,7 +40,7 @@ class StudentController extends Controller
             ->when($request->has(['field', 'direction']), function ($query) use ($request) {
                 $query->orderBy($request->get('field'), $request->get('direction'));
             })
-            ->select(['users.id', 'students.id as student_id', 'firstname', 'lastname', 'sex', 'email', 'phone_number', 'street', 'zipcode', 'city', 'state', 'country', 'date_of_birth'])
+            ->select(['users.id', 'students.id as student_id', 'firstname', 'lastname', 'sex', 'email', 'phone_number', 'street', 'zipcode', 'city', 'state', 'country', 'date_of_birth', DB::raw('users.sex as sex_raw')])
             ->paginate(10);
 
         return Inertia::render('Admin/Students/Overview', [
@@ -66,7 +67,7 @@ class StudentController extends Controller
         $passwordHash = Hash::make($password);
 
         $request->merge(['password' => $passwordHash, 'role_id' => $studentRole->id]);
-        $user = User::create($request->only(['email', 'firstname', 'lastname', 'phone_number', 'date_of_birth', 'country', 'state', 'city', 'zipcode', 'street', 'password', 'role_id']));
+        $user = User::create($request->only(['email', 'firstname', 'lastname', 'sex', 'phone_number', 'date_of_birth', 'country', 'state', 'city', 'zipcode', 'street', 'password', 'role_id']));
         Student::create(['user_id' => $user->id]);
 
         if ($request->get('sendEmail')) {
@@ -86,7 +87,7 @@ class StudentController extends Controller
     public function update(UpdateStudentRequest $request, int $id): RedirectResponse
     {
         $user = User::findOrFail($id);
-        $user->fill($request->only(['email', 'firstname', 'lastname', 'phone_number', 'date_of_birth', 'country', 'state', 'city', 'zipcode', 'street']));
+        $user->fill($request->only(['email', 'firstname', 'lastname', 'sex', 'phone_number', 'date_of_birth', 'country', 'state', 'city', 'zipcode', 'street']));
         $user->save();
 
         return Redirect::back();

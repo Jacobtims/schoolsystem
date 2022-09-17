@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateTeacherRequest;
 use App\Models\Role;
 use App\Models\Teacher;
 use App\Models\User;
+use DB;
 use Hash;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -39,7 +40,7 @@ class TeacherController extends Controller
             ->when($request->has(['field', 'direction']), function ($query) use ($request) {
                 $query->orderBy($request->get('field'), $request->get('direction'));
             })
-            ->select(['users.id', 'firstname', 'lastname', 'sex', 'email', 'phone_number', 'street', 'zipcode', 'city', 'state', 'country', 'date_of_birth', 'teachers.abbreviation as abbreviation', 'teachers.student_name as student_name'])
+            ->select(['users.id', 'firstname', 'lastname', 'sex', 'email', 'phone_number', 'street', 'zipcode', 'city', 'state', 'country', 'date_of_birth', 'teachers.abbreviation as abbreviation', 'teachers.student_name as student_name', DB::raw('users.sex as sex_raw')])
             ->paginate(10);
 
         return Inertia::render('Admin/Teachers/Overview', [
@@ -66,7 +67,7 @@ class TeacherController extends Controller
         $passwordHash = Hash::make($password);
 
         $request->merge(['password' => $passwordHash, 'role_id' => $teacherRole->id]);
-        $user = User::create($request->only(['email', 'firstname', 'lastname', 'phone_number', 'date_of_birth', 'country', 'state', 'city', 'zipcode', 'street', 'password', 'role_id']));
+        $user = User::create($request->only(['email', 'firstname', 'lastname', 'sex', 'phone_number', 'date_of_birth', 'country', 'state', 'city', 'zipcode', 'street', 'password', 'role_id']));
         Teacher::create(['user_id' => $user->id, 'abbreviation' => $request->get('abbreviation'), 'student_name' => $request->get('student_name')]);
 
         if ($request->get('sendEmail') == true) {
@@ -86,7 +87,7 @@ class TeacherController extends Controller
     public function update(UpdateTeacherRequest $request, int $id): RedirectResponse
     {
         $user = User::findOrFail($id);
-        $user->fill($request->only(['email', 'firstname', 'lastname', 'phone_number', 'date_of_birth', 'country', 'state', 'city', 'zipcode', 'street']));
+        $user->fill($request->only(['email', 'firstname', 'lastname', 'sex', 'phone_number', 'date_of_birth', 'country', 'state', 'city', 'zipcode', 'street']));
         $user->save();
 
         $teacher = Teacher::findOrFail($user->teacher->id);

@@ -11,8 +11,16 @@
             <div class="col-md-7">
                 <Input label="Achternaam" v-model="studentForm.lastname" :error="studentForm.errors.lastname" min="2" required/>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-8">
                 <Input label="E-mailadres" v-model="studentForm.email" :error="studentForm.errors.email" type="email" required/>
+            </div>
+            <div class="col-md-4">
+                <Select label="Geslacht" v-model="studentForm.sex" :error="studentForm.errors.sex" required>
+                    <option selected disabled></option>
+                    <option value="m">Man</option>
+                    <option value="v">Vrouw</option>
+                    <option value="o">Overig</option>
+                </Select>
             </div>
             <div class="col-md-6">
                 <Input label="Straatnaam + huisnummer" v-model="studentForm.street" :error="studentForm.errors.street" required/>
@@ -49,6 +57,7 @@
 import {useForm} from "@inertiajs/inertia-vue3";
 import FormModal from "@/Components/Modals/FormModal.vue";
 import Input from "@/Components/Inputs/Input.vue";
+import Select from "@/Components/Inputs/Select.vue";
 
 export default {
     name: 'EditStudentModal',
@@ -58,7 +67,8 @@ export default {
     },
     components: {
         Input,
-        FormModal
+        FormModal,
+        Select
     },
     data() {
         return {
@@ -66,6 +76,7 @@ export default {
                 id: null,
                 firstname: null,
                 lastname: null,
+                sex: null,
                 email: null,
                 street: null,
                 city: null,
@@ -82,6 +93,7 @@ export default {
         user: function (newUser) {
             if (newUser != null) {
                 this.studentForm.id = newUser.id ?? null,
+                this.studentForm.sex = newUser.sex_raw ?? null,
                 this.studentForm.firstname = newUser.firstname ?? null,
                 this.studentForm.lastname = newUser.lastname ?? null,
                 this.studentForm.email = newUser.email ?? null,

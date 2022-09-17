@@ -14,8 +14,16 @@
             <div class="col-md-7">
                 <Input label="Achternaam" v-model="teacherForm.lastname" :error="teacherForm.errors.lastname" min="2" required/>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-8">
                 <Input label="E-mailadres" v-model="teacherForm.email" :error="teacherForm.errors.email" type="email" required/>
+            </div>
+            <div class="col-md-4">
+                <Select label="Geslacht" v-model="teacherForm.sex" :error="teacherForm.errors.sex" required>
+                    <option selected disabled></option>
+                    <option value="m">Man</option>
+                    <option value="v">Vrouw</option>
+                    <option value="o">Overig</option>
+                </Select>
             </div>
             <div class="col-md-6">
                 <Input label="Straatnaam + huisnummer" v-model="teacherForm.street" :error="teacherForm.errors.street" required/>
@@ -52,6 +60,7 @@
 import {useForm} from "@inertiajs/inertia-vue3";
 import FormModal from "@/Components/Modals/FormModal.vue";
 import Input from "@/Components/Inputs/Input.vue";
+import Select from "@/Components/Inputs/Select.vue";
 
 export default {
     name: 'EditTeacherModal',
@@ -61,7 +70,8 @@ export default {
     },
     components: {
         FormModal,
-        Input
+        Input,
+        Select
     },
     data() {
         return {
@@ -69,6 +79,7 @@ export default {
                 id: null,
                 firstname: null,
                 lastname: null,
+                sex: null,
                 email: null,
                 street: null,
                 city: null,
@@ -86,6 +97,7 @@ export default {
         teacher: function (newUser) {
             if (newUser != null) {
                 this.teacherForm.id = newUser.id ?? null,
+                this.teacherForm.sex = newUser.sex_raw ?? null,
                 this.teacherForm.firstname = newUser.firstname ?? null,
                 this.teacherForm.lastname = newUser.lastname ?? null,
                 this.teacherForm.email = newUser.email ?? null,

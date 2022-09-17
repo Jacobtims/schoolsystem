@@ -14,8 +14,16 @@
             <div class="col-md-7">
                 <Input label="Achternaam" v-model="teacherForm.lastname" :error="teacherForm.errors.lastname" min="2" required/>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-8">
                 <Input label="E-mailadres" v-model="teacherForm.email" :error="teacherForm.errors.email" type="email" required/>
+            </div>
+            <div class="col-md-4">
+                <Select label="Geslacht" v-model="teacherForm.sex" :error="teacherForm.errors.sex" required>
+                    <option selected disabled></option>
+                    <option value="m">Man</option>
+                    <option value="v">Vrouw</option>
+                    <option value="o">Overig</option>
+                </Select>
             </div>
             <div class="col-md-6">
                 <Input label="Straatnaam + huisnummer" v-model="teacherForm.street" :error="teacherForm.errors.street" required/>
@@ -43,7 +51,7 @@
 
                 <Input label="Wachtwoord" v-model="teacherForm.password" :error="teacherForm.errors.password" type="password" v-if="!teacherForm.generatePassword" class="mb-3"/>
 
-                <Checkbox v-model="teacherForm.sendEmail" label="Verstuur e-mail naar nieuwe student" :error="teacherForm.errors.sendEmail"/>
+                <Checkbox v-model="teacherForm.sendEmail" label="Verstuur e-mail naar nieuwe docent" :error="teacherForm.errors.sendEmail"/>
             </div>
         </form>
     </FormModal>
@@ -53,6 +61,7 @@ import {useForm} from "@inertiajs/inertia-vue3";
 import FormModal from "@/components/Modals/FormModal.vue";
 import Input from "@/components/Inputs/Input.vue";
 import Checkbox from "@/components/Inputs/Checkbox.vue";
+import Select from "@/Components/Inputs/Select.vue";
 
 export default {
     name: 'CreateTeacherModal',
@@ -62,13 +71,15 @@ export default {
     components: {
         Input,
         FormModal,
-        Checkbox
+        Checkbox,
+        Select
     },
     data() {
         return {
             teacherForm: useForm({
                 firstname: null,
                 lastname: null,
+                sex: null,
                 email: null,
                 street: null,
                 city: null,
