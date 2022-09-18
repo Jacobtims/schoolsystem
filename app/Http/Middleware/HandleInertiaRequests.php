@@ -57,7 +57,8 @@ class HandleInertiaRequests extends Middleware
             'settings' => [
                 'school_name' => app(GeneralSettings::class)->school_name
             ],
-            'current_route' => Route::currentRouteName()
+            'current_route' => Route::currentRouteName(),
+            'data' => session('data')
         ]);
     }
 }

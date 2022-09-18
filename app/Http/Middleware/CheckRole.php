@@ -20,6 +20,8 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next, ...$roles)
     {
+        abort_if(!auth()->check(), 404);
+
         foreach ($roles as $role) {
             if (strtolower($request->user()->role->name) === strtolower($role)) {
                 return $next($request);

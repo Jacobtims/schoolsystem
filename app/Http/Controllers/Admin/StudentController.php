@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ImportStudentsRequest;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
+use App\Imports\StudentsImport;
 use App\Models\Role;
 use App\Models\Student;
 use App\Models\User;
@@ -13,17 +15,12 @@ use Hash;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Log;
 use Redirect;
 use Str;
 
 class StudentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @param Request $request
-     * @return \Inertia\Response
-     */
     public function index(Request $request): \Inertia\Response
     {
         $request->validate([
@@ -35,7 +32,7 @@ class StudentController extends Controller
         $students = User::whereRoleId($studentRole->id)
             ->join('students', 'users.id', '=', 'students.user_id')
             ->when($request->has('search'), function ($query) use ($request) {
-                $query->where('firstname', 'LIKE', '%'.$request->get('search').'%');
+                $query->where('firstname', 'LIKE', '%' . $request->get('search') . '%');
             })
             ->when($request->has(['field', 'direction']), function ($query) use ($request) {
                 $query->orderBy($request->get('field'), $request->get('direction'));
@@ -49,12 +46,6 @@ class StudentController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param StoreStudentRequest $request
-     * @return RedirectResponse
-     */
     public function store(StoreStudentRequest $request): RedirectResponse
     {
         $studentRole = Role::whereName('Student')->firstOrFail();
@@ -77,13 +68,6 @@ class StudentController extends Controller
         return Redirect::back();
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param UpdateStudentRequest $request
-     * @param int $id
-     * @return RedirectResponse
-     */
     public function update(UpdateStudentRequest $request, int $id): RedirectResponse
     {
         $user = User::findOrFail($id);
@@ -93,12 +77,6 @@ class StudentController extends Controller
         return Redirect::back();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return RedirectResponse
-     */
     public function destroy(int $id): RedirectResponse
     {
         // Soft-delete user
@@ -110,5 +88,27 @@ class StudentController extends Controller
         $student->delete();
 
         return Redirect::back();
+    }
+
+    public function import(ImportStudentsRequest $request): RedirectResponse
+    {
+        // Start importing file
+        $import = new StudentsImport($request->get('password'), $request->boolean('generatePassword'), $request->boolean('sendEmail'));
+        $import->import($request->file('file'));
+
+        // Log validation failures
+        if ($import->failures()->count() > 0) {
+            Log::error('A validation error occurred during students import. Failures: ' . $import->failures());
+        }
+
+        // Log database errors
+        if ($import->errors()->count() > 0) {
+            Log::error('A database error occurred during students import. Errors: ' . $import->errors());
+        }
+
+        return back()->with('data', [
+            'students_count' => $import->amount,
+            'errors' => ($import->failures()->count() + $import->errors()->count())
+        ]);
     }
 }

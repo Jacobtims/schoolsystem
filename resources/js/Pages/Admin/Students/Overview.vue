@@ -5,7 +5,7 @@
                 <button class="btn btn-success me-2" @click="createStudent"><i class="fa-solid fa-plus"></i> Nieuwe</button>
                 <button class="btn btn-danger" :disabled="!selectedRows || selectedRows.length <= 0" @click="deleteSelectedStudents"><i class="fa-solid fa-trash-can"></i> Verwijderen</button>
 
-                <button class="btn btn-info ms-auto me-2"><i class="fa-solid fa-file-import"></i> Importeren</button>
+                <button class="btn btn-info ms-auto me-2" @click="importStudents"><i class="fa-solid fa-file-import"></i> Importeren</button>
                 <button class="btn btn-dark"><i class="fa-solid fa-file-export"></i> Exporteren</button>
             </div>
         </div>
@@ -95,11 +95,12 @@
     </div>
 
     <!-- Modals -->
-    <edit-student-modal :open-modal="openEditModal" :user="activeStudent"></edit-student-modal>
-    <create-student-modal :open-modal="openCreateModal"></create-student-modal>
-    <delete-student-confirmation-modal :open-modal="openDeleteModal" :user-id="deleteId"></delete-student-confirmation-modal>
-    <delete-selected-students-confirmation-modal :open-modal="openSelectedDeleteModal" :user-ids="selectedRows"></delete-selected-students-confirmation-modal>
-    <show-student-modal :open-modal="openShowModal" :user="activeStudent"></show-student-modal>
+    <edit-student-modal :open-modal="openEditModal" :user="activeStudent"/>
+    <create-student-modal :open-modal="openCreateModal"/>
+    <delete-student-confirmation-modal :open-modal="openDeleteModal" :user-id="deleteId"/>
+    <delete-selected-students-confirmation-modal :open-modal="openSelectedDeleteModal" :user-ids="selectedRows"/>
+    <show-student-modal :open-modal="openShowModal" :user="activeStudent"/>
+    <import-students-modal :open-modal="openImportModal"/>
 </template>
 <script>
 
@@ -111,10 +112,12 @@ import CreateStudentModal from "@/Pages/Admin/Students/Modals/CreateStudentModal
 import DeleteStudentConfirmationModal from "@/Pages/Admin/Students/Modals/DeleteStudentConfirmationModal.vue";
 import DeleteSelectedStudentsConfirmationModal from "@/Pages/Admin/Students/Modals/DeleteSelectedStudentsConfirmationModal.vue";
 import ShowStudentModal from "@/Pages/Admin/Students/Modals/ShowStudentModal.vue";
+import ImportStudentsModal from "@/Pages/Admin/Students/Modals/ImportStudentsModal.vue";
 
 export default {
     layout: AdminLayout,
     components: {
+        ImportStudentsModal,
         ShowStudentModal,
         DeleteSelectedStudentsConfirmationModal,
         DeleteStudentConfirmationModal,
@@ -140,7 +143,8 @@ export default {
             deleteId: null,
             selectedRows: [],
             openSelectedDeleteModal: false,
-            openShowModal: false
+            openShowModal: false,
+            openImportModal: false
         }
     },
     methods: {
@@ -176,6 +180,9 @@ export default {
         showStudent(student) {
             this.activeStudent = student;
             this.openShowModal = true;
+        },
+        importStudents() {
+            this.openImportModal = true;
         }
     },
     watch: {
