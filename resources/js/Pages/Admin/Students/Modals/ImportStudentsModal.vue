@@ -14,7 +14,9 @@
             <Checkbox v-model="importForm.sendEmail" label="Verstuur e-mail naar nieuwe studenten"
                       :error="importForm.errors.sendEmail"/>
 
-            <button class="btn btn-success mt-4" :disabled="importForm.processing">
+            <p class="text-danger mt-4">Let op! Dit kan enige tijd duren.</p>
+
+            <button class="btn btn-success" :disabled="importForm.processing">
                 Import
                 <div class="spinner-border spinner-border-sm text-light" v-if="importForm.processing">
                     <span class="visually-hidden">Loading...</span>

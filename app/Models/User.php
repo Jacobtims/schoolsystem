@@ -16,7 +16,7 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
-    protected $appends = ['profile_photo_url'];
+    protected $appends = ['profile_photo_url', 'raw_sex'];
 
     /**
      * The attributes that are mass assignable.
@@ -109,6 +109,14 @@ class User extends Authenticatable
             "o" => "Overig",
             default => "-",
         };
+    }
+
+    /**
+     * @return string
+     */
+    public function getRawSexAttribute(): string
+    {
+        return $this->attributes['sex'];
     }
 
     /**

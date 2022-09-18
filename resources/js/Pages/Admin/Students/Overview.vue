@@ -6,7 +6,7 @@
                 <button class="btn btn-danger" :disabled="!selectedRows || selectedRows.length <= 0" @click="deleteSelectedStudents"><i class="fa-solid fa-trash-can"></i> Verwijderen</button>
 
                 <button class="btn btn-info ms-auto me-2" @click="importStudents"><i class="fa-solid fa-file-import"></i> Importeren</button>
-                <button class="btn btn-dark"><i class="fa-solid fa-file-export"></i> Exporteren</button>
+                <button class="btn btn-dark" @click="exportStudents"><i class="fa-solid fa-file-export"></i> Exporteren</button>
             </div>
         </div>
 
@@ -101,6 +101,7 @@
     <delete-selected-students-confirmation-modal :open-modal="openSelectedDeleteModal" :user-ids="selectedRows"/>
     <show-student-modal :open-modal="openShowModal" :user="activeStudent"/>
     <import-students-modal :open-modal="openImportModal"/>
+    <export-students-modal :open-modal="openExportModal"/>
 </template>
 <script>
 
@@ -113,10 +114,12 @@ import DeleteStudentConfirmationModal from "@/Pages/Admin/Students/Modals/Delete
 import DeleteSelectedStudentsConfirmationModal from "@/Pages/Admin/Students/Modals/DeleteSelectedStudentsConfirmationModal.vue";
 import ShowStudentModal from "@/Pages/Admin/Students/Modals/ShowStudentModal.vue";
 import ImportStudentsModal from "@/Pages/Admin/Students/Modals/ImportStudentsModal.vue";
+import ExportStudentsModal from "@/Pages/Admin/Students/Modals/ExportStudentsModal.vue";
 
 export default {
     layout: AdminLayout,
     components: {
+        ExportStudentsModal,
         ImportStudentsModal,
         ShowStudentModal,
         DeleteSelectedStudentsConfirmationModal,
@@ -144,7 +147,8 @@ export default {
             selectedRows: [],
             openSelectedDeleteModal: false,
             openShowModal: false,
-            openImportModal: false
+            openImportModal: false,
+            openExportModal: false
         }
     },
     methods: {
@@ -183,6 +187,9 @@ export default {
         },
         importStudents() {
             this.openImportModal = true;
+        },
+        exportStudents() {
+            this.openExportModal = true;
         }
     },
     watch: {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\StudentsExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ImportStudentsRequest;
 use App\Http\Requests\StoreStudentRequest;
@@ -110,5 +111,10 @@ class StudentController extends Controller
             'students_count' => $import->amount,
             'errors' => ($import->failures()->count() + $import->errors()->count())
         ]);
+    }
+
+    public function export(Request $request)
+    {
+        return (new StudentsExport)->download('students.xlsx');
     }
 }
