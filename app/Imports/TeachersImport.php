@@ -3,7 +3,7 @@
 namespace App\Imports;
 
 use App\Models\Role;
-use App\Models\Student;
+use App\Models\Teacher;
 use App\Models\User;
 use Hash;
 use Maatwebsite\Excel\Concerns\Importable;
@@ -21,12 +21,12 @@ use Maatwebsite\Excel\Row;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Str;
 
-class StudentsImport implements OnEachRow, SkipsEmptyRows, WithHeadingRow, WithBatchInserts, WithChunkReading, WithValidation, SkipsOnFailure, SkipsOnError
+class TeachersImport implements OnEachRow, SkipsEmptyRows, WithHeadingRow, WithBatchInserts, WithChunkReading, WithValidation, SkipsOnFailure, SkipsOnError
 {
     use Importable, SkipsFailures, SkipsErrors;
 
     public int $amount = 0;
-    private Role $studentRole;
+    private Role $teacherRole;
 
     public function __construct(
         private ?bool   $generatePassword,
@@ -34,7 +34,7 @@ class StudentsImport implements OnEachRow, SkipsEmptyRows, WithHeadingRow, WithB
         private ?string $password
     )
     {
-        $this->studentRole = Role::whereName('student')->firstOrFail();
+        $this->teacherRole = Role::whereName('teacher')->firstOrFail();
     }
 
     public function onRow(Row $row)
@@ -62,10 +62,14 @@ class StudentsImport implements OnEachRow, SkipsEmptyRows, WithHeadingRow, WithB
             'city' => $row['woonplaats'],
             'zipcode' => $row['postcode'],
             'street' => $row['straatnaam_huisnummer'],
-            'role_id' => $this->studentRole->id,
+            'role_id' => $this->teacherRole->id,
             'password' => $passwordHash,
         ]);
-        Student::create(['user_id' => $user->id]);
+        Teacher::create([
+            'user_id' => $user->id,
+            'abbreviation' => $row['afkorting'],
+            'student_name' => $row['studenten_naam']
+        ]);
 
         $this->amount++;
     }
@@ -73,6 +77,8 @@ class StudentsImport implements OnEachRow, SkipsEmptyRows, WithHeadingRow, WithB
     public function rules(): array
     {
         return [
+            'afkorting' => 'required|min:2|max:3|unique:teachers,abbreviation',
+            'studenten_naam' => 'required|min:2|max:255',
             'voornaam' => 'required|string|min:2,max:255',
             'achternaam' => 'required|string|min:2,max:255',
             'e_mailadres' => 'required|email|unique:users,email|max:255',

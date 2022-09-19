@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ImportTeachersRequest;
 use App\Http\Requests\StoreTeacherRequest;
 use App\Http\Requests\UpdateTeacherRequest;
+use App\Imports\TeachersImport;
 use App\Models\Role;
 use App\Models\Teacher;
 use App\Models\User;
@@ -13,17 +15,12 @@ use Hash;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Log;
 use Redirect;
 use Str;
 
 class TeacherController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @param Request $request
-     * @return \Inertia\Response
-     */
     public function index(Request $request): \Inertia\Response
     {
         $request->validate([
@@ -49,12 +46,6 @@ class TeacherController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param StoreTeacherRequest $request
-     * @return RedirectResponse
-     */
     public function store(StoreTeacherRequest $request): RedirectResponse
     {
         $teacherRole = Role::whereName('Teacher')->firstOrFail();
@@ -77,13 +68,6 @@ class TeacherController extends Controller
         return Redirect::back();
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param UpdateTeacherRequest $request
-     * @param int $id
-     * @return RedirectResponse
-     */
     public function update(UpdateTeacherRequest $request, int $id): RedirectResponse
     {
         $user = User::findOrFail($id);
@@ -97,12 +81,6 @@ class TeacherController extends Controller
         return Redirect::back();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return RedirectResponse
-     */
     public function destroy(int $id): RedirectResponse
     {
         // Soft-delete user
@@ -114,5 +92,27 @@ class TeacherController extends Controller
         $teacher->delete();
 
         return Redirect::back();
+    }
+
+    public function import(ImportTeachersRequest $request): RedirectResponse
+    {
+        // Start importing file
+        $import = new TeachersImport($request->get('password'), $request->boolean('generatePassword'), $request->boolean('sendEmail'));
+        $import->import($request->file('file'));
+
+        // Log validation failures
+        if ($import->failures()->count() > 0) {
+            Log::error('A validation error occurred during teachers import. Failures: ' . $import->failures());
+        }
+
+        // Log database errors
+        if ($import->errors()->count() > 0) {
+            Log::error('A database error occurred during teachers import. Errors: ' . $import->errors());
+        }
+
+        return back()->with('data', [
+            'teachers_count' => $import->amount,
+            'errors' => ($import->failures()->count() + $import->errors()->count())
+        ]);
     }
 }

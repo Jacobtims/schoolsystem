@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Exports\StudentsExport;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ImportStudentsRequest;
+use App\Http\Requests\ImportTeachersRequest;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
-use App\Imports\StudentsImport;
+use App\Imports\TeachersImport;
 use App\Models\Role;
 use App\Models\Student;
 use App\Models\User;
@@ -91,10 +91,10 @@ class StudentController extends Controller
         return Redirect::back();
     }
 
-    public function import(ImportStudentsRequest $request): RedirectResponse
+    public function import(ImportTeachersRequest $request): RedirectResponse
     {
         // Start importing file
-        $import = new StudentsImport($request->get('password'), $request->boolean('generatePassword'), $request->boolean('sendEmail'));
+        $import = new TeachersImport($request->get('password'), $request->boolean('generatePassword'), $request->boolean('sendEmail'));
         $import->import($request->file('file'));
 
         // Log validation failures

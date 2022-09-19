@@ -5,7 +5,7 @@
                 <button class="btn btn-success me-2" @click="createTeacher"><i class="fa-solid fa-plus"></i> Nieuwe</button>
                 <button class="btn btn-danger" :disabled="!selectedRows || selectedRows.length <= 0" @click="deleteSelectedTeachers"><i class="fa-solid fa-trash-can"></i> Verwijderen</button>
 
-                <button class="btn btn-info ms-auto me-2"><i class="fa-solid fa-file-import"></i> Importeren</button>
+                <button class="btn btn-info ms-auto me-2" @click="importTeachers"><i class="fa-solid fa-file-import"></i> Importeren</button>
                 <button class="btn btn-dark"><i class="fa-solid fa-file-export"></i> Exporteren</button>
             </div>
         </div>
@@ -102,11 +102,12 @@
     </div>
 
     <!-- Modals -->
-    <edit-teacher-modal :open-modal="openEditModal" :teacher="activeTeacher"></edit-teacher-modal>
-    <create-teacher-modal :open-modal="openCreateModal"></create-teacher-modal>
-    <delete-teacher-confirmation-modal :open-modal="openDeleteModal" :user-id="deleteId"></delete-teacher-confirmation-modal>
-    <delete-selected-teachers-confirmation-modal :open-modal="openSelectedDeleteModal" :user-ids="selectedRows"></delete-selected-teachers-confirmation-modal>
-    <show-teacher-modal :open-modal="openShowModal" :teacher="activeTeacher"></show-teacher-modal>
+    <edit-teacher-modal :open-modal="openEditModal" :teacher="activeTeacher"/>
+    <create-teacher-modal :open-modal="openCreateModal"/>
+    <delete-teacher-confirmation-modal :open-modal="openDeleteModal" :user-id="deleteId"/>
+    <delete-selected-teachers-confirmation-modal :open-modal="openSelectedDeleteModal" :user-ids="selectedRows"/>
+    <show-teacher-modal :open-modal="openShowModal" :teacher="activeTeacher"/>
+    <import-teachers-modal :open-modal="openImportModal"/>
 </template>
 <script>
 
@@ -118,10 +119,12 @@ import CreateTeacherModal from "@/Pages/Admin/Teachers/Modals/CreateTeacherModal
 import DeleteTeacherConfirmationModal from "@/Pages/Admin/Teachers/Modals/DeleteTeacherConfirmationModal.vue";
 import DeleteSelectedTeachersConfirmationModal from "@/Pages/Admin/Teachers/Modals/DeleteSelectedTeachersConfirmationModal.vue";
 import ShowTeacherModal from "@/Pages/Admin/Teachers/Modals/ShowTeacherModal.vue";
+import ImportTeachersModal from "@/Pages/Admin/Teachers/Modals/ImportTeachersModal.vue";
 
 export default {
     layout: AdminLayout,
     components: {
+        ImportTeachersModal,
         ShowTeacherModal,
         DeleteSelectedTeachersConfirmationModal,
         DeleteTeacherConfirmationModal,
@@ -147,7 +150,8 @@ export default {
             deleteId: null,
             selectedRows: [],
             openSelectedDeleteModal: false,
-            openShowModal: false
+            openShowModal: false,
+            openImportModal: false
         }
     },
     methods: {
@@ -183,6 +187,9 @@ export default {
         showTeacher(teacher) {
             this.activeTeacher = teacher;
             this.openShowModal = true;
+        },
+        importTeachers() {
+            this.openImportModal = true;
         }
     },
     watch: {
