@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\SchoolClass;
 use App\Models\Student;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Collection;
 
 class StudentFactory extends Factory
 {
@@ -14,6 +15,13 @@ class StudentFactory extends Factory
      * @var string
      */
     protected $model = Student::class;
+    private SchoolClass $schoolClass;
+
+   public function __construct($count = null, ?Collection $states = null, ?Collection $has = null, ?Collection $for = null, ?Collection $afterMaking = null, ?Collection $afterCreating = null, $connection = null, ?Collection $recycle = null)
+   {
+       parent::__construct($count, $states, $has, $for, $afterMaking, $afterCreating, $connection, $recycle);
+       $this->schoolClass = SchoolClass::findOrFail(1);
+   }
 
     /**
      * Define the model's default state.
@@ -24,7 +32,7 @@ class StudentFactory extends Factory
     {
         return [
             'user_id' => null,
-            'school_class_id' => SchoolClass::findOrFail(1)->id
+            'school_class_id' => $this->schoolClass->id
         ];
     }
 }

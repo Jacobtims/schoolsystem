@@ -23,12 +23,8 @@ class DatabaseSeeder extends Seeder
             StandardLessonSeeder::class,
             SubjectSeeder::class,
             AttendanceTypeSeeder::class,
-            ClassroomSeeder::class
+            ClassroomSeeder::class,
+            StudentSeeder::class
         ]);
-
-        User::factory()
-            ->has(Student::factory()->count(1))
-            ->count(100)
-            ->create();
     }
 }
