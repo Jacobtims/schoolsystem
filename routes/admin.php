@@ -11,6 +11,7 @@ Route::middleware(['auth:sanctum', 'verified', 'role:admin'])->prefix('admin')->
 
     Route::resource('teachers', \App\Http\Controllers\Admin\TeacherController::class)->except(['create', 'show', 'edit']);
     Route::post('/teachers/import', [\App\Http\Controllers\Admin\TeacherController::class, 'import'])->name('teachers.import');
+    Route::get('/teachers/export', [\App\Http\Controllers\Admin\TeacherController::class, 'export'])->name('teachers.export');
 
     Route::resource('classes', \App\Http\Controllers\Admin\SchoolClassController::class)->except(['create', 'edit']);
     Route::post('/classes/add-students/{class}', [\App\Http\Controllers\Admin\SchoolClassController::class, 'addStudents'])->name('classes.addStudents');

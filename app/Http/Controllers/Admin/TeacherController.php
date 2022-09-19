@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\TeachersExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ImportTeachersRequest;
 use App\Http\Requests\StoreTeacherRequest;
@@ -32,7 +33,7 @@ class TeacherController extends Controller
         $teachers = User::whereRoleId($teacherRole->id)
             ->join('teachers', 'users.id', '=', 'teachers.user_id')
             ->when($request->has('search'), function ($query) use ($request) {
-                $query->where('firstname', 'LIKE', '%'.$request->get('search').'%');
+                $query->where('firstname', 'LIKE', '%' . $request->get('search') . '%');
             })
             ->when($request->has(['field', 'direction']), function ($query) use ($request) {
                 $query->orderBy($request->get('field'), $request->get('direction'));
@@ -114,5 +115,10 @@ class TeacherController extends Controller
             'teachers_count' => $import->amount,
             'errors' => ($import->failures()->count() + $import->errors()->count())
         ]);
+    }
+
+    public function export(Request $request)
+    {
+        return (new TeachersExport)->download('teachers.xlsx');
     }
 }

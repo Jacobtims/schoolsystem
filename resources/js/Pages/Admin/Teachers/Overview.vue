@@ -6,7 +6,7 @@
                 <button class="btn btn-danger" :disabled="!selectedRows || selectedRows.length <= 0" @click="deleteSelectedTeachers"><i class="fa-solid fa-trash-can"></i> Verwijderen</button>
 
                 <button class="btn btn-info ms-auto me-2" @click="importTeachers"><i class="fa-solid fa-file-import"></i> Importeren</button>
-                <button class="btn btn-dark"><i class="fa-solid fa-file-export"></i> Exporteren</button>
+                <button class="btn btn-dark" @click="exportTeachers"><i class="fa-solid fa-file-export"></i> Exporteren</button>
             </div>
         </div>
 
@@ -108,6 +108,7 @@
     <delete-selected-teachers-confirmation-modal :open-modal="openSelectedDeleteModal" :user-ids="selectedRows"/>
     <show-teacher-modal :open-modal="openShowModal" :teacher="activeTeacher"/>
     <import-teachers-modal :open-modal="openImportModal"/>
+    <export-teachers-modal :open-modal="openExportModal"/>
 </template>
 <script>
 
@@ -120,10 +121,12 @@ import DeleteTeacherConfirmationModal from "@/Pages/Admin/Teachers/Modals/Delete
 import DeleteSelectedTeachersConfirmationModal from "@/Pages/Admin/Teachers/Modals/DeleteSelectedTeachersConfirmationModal.vue";
 import ShowTeacherModal from "@/Pages/Admin/Teachers/Modals/ShowTeacherModal.vue";
 import ImportTeachersModal from "@/Pages/Admin/Teachers/Modals/ImportTeachersModal.vue";
+import ExportTeachersModal from "@/Pages/Admin/Teachers/Modals/ExportTeachersModal.vue";
 
 export default {
     layout: AdminLayout,
     components: {
+        ExportTeachersModal,
         ImportTeachersModal,
         ShowTeacherModal,
         DeleteSelectedTeachersConfirmationModal,
@@ -151,7 +154,8 @@ export default {
             selectedRows: [],
             openSelectedDeleteModal: false,
             openShowModal: false,
-            openImportModal: false
+            openImportModal: false,
+            openExportModal: false
         }
     },
     methods: {
@@ -190,6 +194,9 @@ export default {
         },
         importTeachers() {
             this.openImportModal = true;
+        },
+        exportTeachers() {
+            this.openExportModal = true;
         }
     },
     watch: {

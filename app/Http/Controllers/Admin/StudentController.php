@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Exports\StudentsExport;
+use App\Exports\TeachersExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ImportTeachersRequest;
 use App\Http\Requests\StoreStudentRequest;
@@ -115,6 +115,6 @@ class StudentController extends Controller
 
     public function export(Request $request)
     {
-        return (new StudentsExport)->download('students.xlsx');
+        return (new TeachersExport)->download('students.xlsx');
     }
 }
