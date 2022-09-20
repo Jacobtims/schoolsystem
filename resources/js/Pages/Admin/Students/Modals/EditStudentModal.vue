@@ -2,8 +2,24 @@
     <FormModal :open="openModal" header="Student bewerken" submit-text="Aanpassen"
                @close="close" @action="editStudent" :disabled="studentForm.processing" v-if="user">
         <form class="row g-3" @submit.prevent="editStudent()">
-            <div class="col-md-12">
-                <Input label="Leerlingnummer" v-model="studentForm.student_id" :error="studentForm.errors.student_id" type="number" readonly/>
+            <div class="col-md-12 d-flex gap-3 align-items-end mb-1">
+                <!-- Profile image -->
+                <div class="profile-img-container">
+                    <input type="file" @change="uploadProfileImage" name="profile_image" ref="profile_image" class="d-none" accept=".jpg, .jpeg, .png">
+                    <img :src="profile_photo ? profile_photo : user.profile_photo_url" class="rounded-circle"/>
+                    <section class="btn-wrapper">
+                        <button class="btn" type="button" @click="$refs.profile_image.click()"><i class="fa-solid fa-pen-to-square"></i></button>
+<!--                        <button class="btn" type="button"><i class="fa-solid fa-trash-can"></i></button>-->
+                    </section>
+                </div>
+                <!-- Leerlingnummer -->
+                <div class="w-100">
+                    <label class="form-label" for="leerlingnummer">Leerlingnummer</label>
+                    <input type="text" id="leerlingnummer" class="form-control" :value="studentForm.student_id" readonly/>
+                </div>
+            </div>
+            <div class="col-md-12 invalid-feedback d-block" v-if="studentForm.errors.profile_photo">
+                {{ studentForm.errors.profile_photo }}
             </div>
             <div class="col-md-5">
                 <Input label="Voornaam" v-model="studentForm.firstname" :error="studentForm.errors.firstname" min="2" required/>
@@ -73,6 +89,7 @@ export default {
     data() {
         return {
             studentForm: useForm({
+                _method: 'patch',
                 id: null,
                 firstname: null,
                 lastname: null,
@@ -85,26 +102,28 @@ export default {
                 zipcode: null,
                 phone_number: null,
                 date_of_birth: null,
-                student_id: null
-            })
+                student_id: null,
+                profile_photo: null
+            }),
+            profile_photo: null
         }
     },
     watch: {
         user: function (newUser) {
             if (newUser != null) {
-                this.studentForm.id = newUser.id ?? null,
-                this.studentForm.sex = newUser.sex_raw ?? null,
-                this.studentForm.firstname = newUser.firstname ?? null,
-                this.studentForm.lastname = newUser.lastname ?? null,
-                this.studentForm.email = newUser.email ?? null,
-                this.studentForm.street = newUser.street ?? null,
-                this.studentForm.city = newUser.city ?? null,
-                this.studentForm.country = newUser.country ?? null,
-                this.studentForm.state = newUser.state ?? null,
-                this.studentForm.zipcode = newUser.zipcode ?? null,
-                this.studentForm.phone_number = newUser.phone_number ?? null,
-                this.studentForm.date_of_birth = newUser.date_of_birth ?? null,
-                this.studentForm.student_id = newUser.student_id ?? null
+                this.studentForm.id = newUser.id ?? null;
+                this.studentForm.sex = newUser.sex_raw ?? null;
+                this.studentForm.firstname = newUser.firstname ?? null;
+                this.studentForm.lastname = newUser.lastname ?? null;
+                this.studentForm.email = newUser.email ?? null;
+                this.studentForm.street = newUser.street ?? null;
+                this.studentForm.city = newUser.city ?? null;
+                this.studentForm.country = newUser.country ?? null;
+                this.studentForm.state = newUser.state ?? null;
+                this.studentForm.zipcode = newUser.zipcode ?? null;
+                this.studentForm.phone_number = newUser.phone_number ?? null;
+                this.studentForm.date_of_birth = newUser.date_of_birth ?? null;
+                this.studentForm.student_id = newUser.student_id ?? null;
             }
         }
     },
@@ -113,20 +132,79 @@ export default {
             this.$parent.openEditModal = false;
             this.$parent.activeStudent = null;
             this.studentForm.reset();
+            this.profile_photo = null;
         },
         editStudent() {
-            this.studentForm.patch(route('admin.students.update', this.studentForm.id), {
+            this.studentForm.post(route('admin.students.update', this.studentForm.id), {
                 preserveScroll: true,
                 onSuccess: () => {
                     this.studentForm.reset();
                     this.close();
                     this.toast('success', 'Succesvol aangepast!', 'Student is aangepast.')
                 },
-                    onError: () => {
+                onError: () => {
                     this.toast('error', 'Fout!', 'Er is iets fout gegegaan tijdens het aanpassen van deze student. Probeer het opnieuw.')
                 }
             })
+        },
+        uploadProfileImage(event) {
+            let file = event.target.files[0];
+            let reader = new FileReader();
+
+            if(file['size'] > 2111775) {
+                this.toast('error', 'Bestand te groot', 'Profielfoto mag niet groter zijn dan 2MB!');
+                return;
+            }
+            if (file['type'] !== 'image/jpg' && file['type'] !== 'image/jpeg' && file['type'] !== 'image/png') {
+                this.toast('error', 'Onjuiste bestandstype', 'Profielfoto heeft een onjuist bestandstype!');
+                return;
+            }
+
+            // Load file
+            reader.readAsDataURL(file);
+            reader.onload = (e) => {
+                this.profile_photo = e.target.result;
+            }
+            this.studentForm.profile_photo = file;
         }
     }
 }
 </script>
+<style lang="scss">
+.profile-img-container {
+    position: relative;
+    width: 120px;
+    height: 120px;
+
+    img {
+        width: 120px;
+        height: 120px;
+        opacity: 1;
+        transition: opacity .2s ease-in-out;
+    }
+
+    .btn-wrapper {
+        position: absolute;
+        top: 0; right: 0; bottom: 0; left: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        transition: opacity .2s ease-in-out;
+
+        .btn {
+            padding: 8px;
+            font-size: 23px;
+        }
+    }
+
+    &:hover {
+        img {
+            opacity: .5;
+        }
+        .btn-wrapper {
+            opacity: 1;
+        }
+    }
+}
+</style>

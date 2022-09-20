@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Str;
 
 class User extends Authenticatable
 {
@@ -36,7 +37,8 @@ class User extends Authenticatable
         'zipcode',
         'street',
         'role_id',
-        'sex'
+        'sex',
+        'profile_photo'
     ];
 
     /**
@@ -95,7 +97,10 @@ class User extends Authenticatable
      */
     public function getProfilePhotoUrlAttribute(): string
     {
-        return "https://eu.ui-avatars.com/api/?size=50&background=D3E8F7&name=" . $this->firstname . "+" . $this->lastname;
+        if ($this->profile_photo !== null) {
+            return asset('storage/profiles/' . $this->profile_photo);
+        }
+        return "https://eu.ui-avatars.com/api/?size=50&background=D3E8F7&name=" . Str::slug($this->firstname) . "+" . Str::slug($this->lastname);
     }
 
     /**

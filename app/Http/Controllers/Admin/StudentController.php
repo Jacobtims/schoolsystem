@@ -15,9 +15,12 @@ use DB;
 use Hash;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Inertia\Inertia;
+use Intervention\Image\Facades\Image;
 use Log;
 use Redirect;
+use Storage;
 use Str;
 
 class StudentController extends Controller
@@ -38,7 +41,7 @@ class StudentController extends Controller
             ->when($request->has(['field', 'direction']), function ($query) use ($request) {
                 $query->orderBy($request->get('field'), $request->get('direction'));
             })
-            ->select(['users.id', 'students.id as student_id', 'firstname', 'lastname', 'sex', 'email', 'phone_number', 'street', 'zipcode', 'city', 'state', 'country', 'date_of_birth', DB::raw('users.sex as sex_raw')])
+            ->select(['users.id', 'students.id as student_id', 'firstname', 'lastname', 'sex', 'email', 'phone_number', 'street', 'zipcode', 'city', 'state', 'country', 'date_of_birth', 'profile_photo', DB::raw('users.sex as sex_raw')])
             ->paginate(10);
 
         return Inertia::render('Admin/Students/Overview', [
@@ -74,6 +77,8 @@ class StudentController extends Controller
         $user = User::findOrFail($id);
         $user->fill($request->only(['email', 'firstname', 'lastname', 'sex', 'phone_number', 'date_of_birth', 'country', 'state', 'city', 'zipcode', 'street']));
         $user->save();
+
+        $this->updateProfilePhoto($user, $request->file('profile_photo'));
 
         return Redirect::back();
     }
@@ -116,5 +121,19 @@ class StudentController extends Controller
     public function export(Request $request)
     {
         return (new TeachersExport)->download('students.xlsx');
+    }
+
+    private function updateProfilePhoto(User $user, UploadedFile $file = null)
+    {
+        if ($file !== null) {
+            $image = Image::make($file)->resize(120, 120);
+            $name = $user->id . '-' . now()->timestamp . '.' . $file->getClientOriginalExtension();
+
+            Storage::disk('public')->put('/profiles/' . $name, (string)$image->encode());
+
+            $user->update([
+                'profile_photo' => $name
+            ]);
+        }
     }
 }

@@ -35,7 +35,8 @@ class UpdateStudentRequest extends FormRequest
             'state' => 'required|string|max:255',
             'city' => 'required|string|max:255',
             'zipcode' => 'required|max:6',
-            'street' => 'required|max:255'
+            'street' => 'required|max:255',
+            'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ];
     }
 }
