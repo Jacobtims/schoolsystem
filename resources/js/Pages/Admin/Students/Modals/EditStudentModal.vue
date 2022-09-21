@@ -58,12 +58,14 @@
             <div class="col-md-6">
                 <Input label="Geboortedatum" v-model="studentForm.date_of_birth" :error="studentForm.errors.date_of_birth" type="date" required/>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <label for="inputBirthday" class="form-label">Wachtwoord reset</label><br/>
-                <small>Verstuurd een link naar e-mailadres <strong>{{ studentForm.email }}</strong> om het wachtwoord mee te kunnen resetten.</small>
-            </div>
-            <div class="col-md-6">
-                <button class="btn btn-secondary" type="button">Verstuur reset link</button>
+                <button class="btn btn-secondary" type="button" @click="sendPasswordResetLink" :disabled="loadingPasswordResetLink">
+                    Verstuur reset link
+                    <div class="spinner-border text-light spinner-border-sm" role="status" v-if="loadingPasswordResetLink">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </button>
             </div>
         </form>
     </FormModal>
@@ -104,7 +106,8 @@ export default {
                 student_id: null,
                 profile_photo: null
             }),
-            profile_photo: null
+            profile_photo: null,
+            loadingPasswordResetLink: false
         }
     },
     watch: {
@@ -165,6 +168,21 @@ export default {
                 this.profile_photo = e.target.result;
             }
             this.studentForm.profile_photo = file;
+        },
+        sendPasswordResetLink() {
+            this.loadingPasswordResetLink = true;
+            axios.post(route('admin.students.reset-password'), {
+                email: this.user.email
+            })
+                .then(() => {
+                    this.toast('success', 'Successvol!', 'Er is een e-mail verstuurd met instructies om het nieuw wachtwoord in te stellen.');
+                })
+                .catch(error => {
+                    this.toast('error', 'Er is iets fout gegaan!', error.response.data.status[0]);
+                })
+                .finally(() => {
+                    this.loadingPasswordResetLink = false;
+                });
         }
     }
 }
