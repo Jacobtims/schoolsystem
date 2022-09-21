@@ -39,7 +39,8 @@ class StoreTeacherRequest extends FormRequest
             'generatePassword' => 'required|boolean',
             'sendEmail' => 'required|boolean',
             'abbreviation' => 'required|min:2|max:3|unique:teachers,abbreviation',
-            'student_name' => 'required|min:2|max:255'
+            'student_name' => 'required|min:2|max:255',
+            'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ];
     }
 }

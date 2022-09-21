@@ -2,10 +2,24 @@
     <FormModal :open="openModal" header="Docent bewerken" submit-text="Aanpassen"
                @close="close" @action="editTeacher" :disabled="teacherForm.processing" v-if="teacher">
         <form class="row g-3" @submit.prevent="editTeacher()">
-            <div class="col-md-5">
-                <Input label="Afkorting" v-model="teacherForm.abbreviation" :error="teacherForm.errors.abbreviation" min="2" required/>
+            <div class="col-md-12 d-flex gap-3 align-items-end mb-1">
+                <!-- Profile image -->
+                <div class="profile-img-container">
+                    <input type="file" @change="uploadProfileImage" name="profile_image" ref="profile_image" class="d-none" accept=".jpg, .jpeg, .png">
+                    <img :src="profile_photo ? profile_photo : teacher.profile_photo_url" class="rounded-circle"/>
+                    <section class="btn-wrapper">
+                        <button class="btn" type="button" @click="$refs.profile_image.click()"><i class="fa-solid fa-pen-to-square"></i></button>
+                    </section>
+                </div>
+                <!-- Leerlingnummer -->
+                <div class="w-100">
+                    <Input label="Afkorting" v-model="teacherForm.abbreviation" :error="teacherForm.errors.abbreviation" min="2" required/>
+                </div>
             </div>
-            <div class="col-md-7">
+            <div class="col-md-12 invalid-feedback d-block" v-if="teacherForm.errors.profile_photo">
+                {{ teacherForm.errors.profile_photo }}
+            </div>
+            <div class="col-md-12">
                 <Input label="Studenten naam" v-model="teacherForm.student_name" :error="teacherForm.errors.student_name" min="2" required/>
             </div>
             <div class="col-md-5">
@@ -76,6 +90,7 @@ export default {
     data() {
         return {
             teacherForm: useForm({
+                _method: 'patch',
                 id: null,
                 firstname: null,
                 lastname: null,
@@ -89,8 +104,10 @@ export default {
                 phone_number: null,
                 date_of_birth: null,
                 abbreviation: null,
-                student_name: null
-            })
+                student_name: null,
+                profile_photo: null
+            }),
+            profile_photo: null
         }
     },
     watch: {
@@ -120,7 +137,7 @@ export default {
             this.teacherForm.reset();
         },
         editTeacher() {
-            this.teacherForm.patch(route('admin.teachers.update', this.teacherForm.id), {
+            this.teacherForm.post(route('admin.teachers.update', this.teacherForm.id), {
                 preserveScroll: true,
                 onSuccess: () => {
                     this.teacherForm.reset();
@@ -131,7 +148,65 @@ export default {
                     this.toast('error', 'Fout!', 'Er is iets fout gegegaan tijdens het aanpassen van deze docent. Probeer het opnieuw.')
                 }
             })
+        },
+        uploadProfileImage(event) {
+            let file = event.target.files[0];
+            let reader = new FileReader();
+
+            if(file['size'] > 2111775) {
+                this.toast('error', 'Bestand te groot', 'Profielfoto mag niet groter zijn dan 2MB!');
+                return;
+            }
+            if (file['type'] !== 'image/jpg' && file['type'] !== 'image/jpeg' && file['type'] !== 'image/png') {
+                this.toast('error', 'Onjuiste bestandstype', 'Profielfoto heeft een onjuist bestandstype!');
+                return;
+            }
+
+            // Load file
+            reader.readAsDataURL(file);
+            reader.onload = (e) => {
+                this.profile_photo = e.target.result;
+            }
+            this.teacherForm.profile_photo = file;
         }
     }
 }
 </script>
+<style lang="scss">
+.profile-img-container {
+    position: relative;
+    width: 120px;
+    height: 120px;
+
+    img {
+        width: 120px;
+        height: 120px;
+        opacity: 1;
+        transition: opacity .2s ease-in-out;
+    }
+
+    .btn-wrapper {
+        position: absolute;
+        top: 0; right: 0; bottom: 0; left: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        transition: opacity .2s ease-in-out;
+
+        .btn {
+            padding: 8px;
+            font-size: 23px;
+        }
+    }
+
+    &:hover {
+        img {
+            opacity: .5;
+        }
+        .btn-wrapper {
+            opacity: 1;
+        }
+    }
+}
+</style>

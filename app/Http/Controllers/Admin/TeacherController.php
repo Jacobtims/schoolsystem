@@ -15,9 +15,12 @@ use DB;
 use Hash;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Inertia\Inertia;
+use Intervention\Image\Facades\Image;
 use Log;
 use Redirect;
+use Storage;
 use Str;
 
 class TeacherController extends Controller
@@ -38,7 +41,7 @@ class TeacherController extends Controller
             ->when($request->has(['field', 'direction']), function ($query) use ($request) {
                 $query->orderBy($request->get('field'), $request->get('direction'));
             })
-            ->select(['users.id', 'firstname', 'lastname', 'sex', 'email', 'phone_number', 'street', 'zipcode', 'city', 'state', 'country', 'date_of_birth', 'teachers.abbreviation as abbreviation', 'teachers.student_name as student_name', DB::raw('users.sex as sex_raw')])
+            ->select(['users.id', 'firstname', 'lastname', 'sex', 'email', 'phone_number', 'street', 'zipcode', 'city', 'state', 'country', 'date_of_birth', 'profile_photo', 'teachers.abbreviation as abbreviation', 'teachers.student_name as student_name', DB::raw('users.sex as sex_raw')])
             ->paginate(10);
 
         return Inertia::render('Admin/Teachers/Overview', [
@@ -62,6 +65,8 @@ class TeacherController extends Controller
         $user = User::create($request->only(['email', 'firstname', 'lastname', 'sex', 'phone_number', 'date_of_birth', 'country', 'state', 'city', 'zipcode', 'street', 'password', 'role_id']));
         Teacher::create(['user_id' => $user->id, 'abbreviation' => $request->get('abbreviation'), 'student_name' => $request->get('student_name')]);
 
+        $this->updateProfilePhoto($user, $request->file('profile_photo'));
+
         if ($request->get('sendEmail') == true) {
             //TODO: Send e-mail to email-address...
         }
@@ -78,6 +83,8 @@ class TeacherController extends Controller
         $teacher = Teacher::findOrFail($user->teacher->id);
         $teacher->fill($request->only(['abbreviation', 'student_name']));
         $teacher->save();
+
+        $this->updateProfilePhoto($user, $request->file('profile_photo'));
 
         return Redirect::back();
     }
@@ -120,5 +127,19 @@ class TeacherController extends Controller
     public function export(Request $request)
     {
         return (new TeachersExport)->download('teachers.xlsx');
+    }
+
+    private function updateProfilePhoto(User $user, UploadedFile $file = null): void
+    {
+        if ($file !== null) {
+            $image = Image::make($file)->resize(120, 120);
+            $name = $user->id . '-' . now()->timestamp . '.' . $file->getClientOriginalExtension();
+
+            Storage::disk('public')->put('/profiles/' . $name, (string)$image->encode());
+
+            $user->update([
+                'profile_photo' => $name
+            ]);
+        }
     }
 }

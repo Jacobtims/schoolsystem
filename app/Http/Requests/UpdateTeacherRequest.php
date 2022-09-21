@@ -37,7 +37,8 @@ class UpdateTeacherRequest extends FormRequest
             'zipcode' => 'required|max:6',
             'street' => 'required|max:255',
             'abbreviation' => 'required|min:2|max:3',
-            'student_name' => 'required|min:2|max:255'
+            'student_name' => 'required|min:2|max:255',
+            'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ];
     }
 }
