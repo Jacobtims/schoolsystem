@@ -65,6 +65,8 @@ class StudentController extends Controller
         $user = User::create($request->only(['email', 'firstname', 'lastname', 'sex', 'phone_number', 'date_of_birth', 'country', 'state', 'city', 'zipcode', 'street', 'password', 'role_id']));
         Student::create(['user_id' => $user->id]);
 
+        $this->updateProfilePhoto($user, $request->file('profile_photo'));
+
         if ($request->get('sendEmail')) {
             //TODO: Send e-mail to email-address...
         }
@@ -123,7 +125,7 @@ class StudentController extends Controller
         return (new TeachersExport)->download('students.xlsx');
     }
 
-    private function updateProfilePhoto(User $user, UploadedFile $file = null)
+    private function updateProfilePhoto(User $user, UploadedFile $file = null): void
     {
         if ($file !== null) {
             $image = Image::make($file)->resize(120, 120);

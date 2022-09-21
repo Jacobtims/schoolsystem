@@ -9,7 +9,6 @@
                     <img :src="profile_photo ? profile_photo : user.profile_photo_url" class="rounded-circle"/>
                     <section class="btn-wrapper">
                         <button class="btn" type="button" @click="$refs.profile_image.click()"><i class="fa-solid fa-pen-to-square"></i></button>
-<!--                        <button class="btn" type="button"><i class="fa-solid fa-trash-can"></i></button>-->
                     </section>
                 </div>
                 <!-- Leerlingnummer -->

@@ -2,6 +2,19 @@
     <FormModal :open="openModal" header="Nieuwe student aanmaken" submit-text="Aanmaken"
                @close="close" @action="createStudent" :disabled="studentForm.processing">
         <form class="row g-3" @submit.prevent="createStudent()">
+            <div class="col-md-12 d-flex gap-3 align-items-end mb-1">
+                <!-- Profile image -->
+                <div class="profile-img-container">
+                    <input type="file" @change="uploadProfileImage" name="profile_image" ref="profile_image" class="d-none" accept=".jpg, .jpeg, .png">
+                    <img :src="profile_photo" class="rounded-circle"/>
+                    <section class="btn-wrapper">
+                        <button class="btn" type="button" @click="$refs.profile_image.click()"><i class="fa-solid fa-pen-to-square"></i></button>
+                    </section>
+                </div>
+                <div class="w-100 invalid-feedback d-block" v-if="studentForm.errors.profile_photo">
+                    {{ studentForm.errors.profile_photo }}
+                </div>
+            </div>
             <div class="col-md-5">
                 <Input label="Voornaam" v-model="studentForm.firstname" :error="studentForm.errors.firstname" min="2" required/>
             </div>
@@ -84,8 +97,10 @@ export default {
                 date_of_birth: null,
                 password: null,
                 generatePassword: true,
-                sendEmail: true
-            })
+                sendEmail: true,
+                profile_photo: null
+            }),
+            profile_photo: null
         }
     },
     methods: {
@@ -98,12 +113,33 @@ export default {
                 onSuccess: () => {
                     this.studentForm.reset();
                     this.close();
+                    this.profile_photo = null;
                     this.toast('success', 'Succesvol aangemaakt!', 'Student is aangemaakt.')
                 },
                 onError: () => {
                     this.toast('error', 'Fout!', 'Er is iets fout gegegaan tijdens het aanmaken van deze student. Probeer het opnieuw.')
                 }
             })
+        },
+        uploadProfileImage(event) {
+            let file = event.target.files[0];
+            let reader = new FileReader();
+
+            if(file['size'] > 2111775) {
+                this.toast('error', 'Bestand te groot', 'Profielfoto mag niet groter zijn dan 2MB!');
+                return;
+            }
+            if (file['type'] !== 'image/jpg' && file['type'] !== 'image/jpeg' && file['type'] !== 'image/png') {
+                this.toast('error', 'Onjuiste bestandstype', 'Profielfoto heeft een onjuist bestandstype!');
+                return;
+            }
+
+            // Load file
+            reader.readAsDataURL(file);
+            reader.onload = (e) => {
+                this.profile_photo = e.target.result;
+            }
+            this.studentForm.profile_photo = file;
         }
     }
 }

@@ -37,7 +37,8 @@ class StoreStudentRequest extends FormRequest
             'street' => 'required|max:255',
             'password' => 'nullable|required_if:generatePassword,0|min:8|max:255',
             'generatePassword' => 'required|boolean',
-            'sendEmail' => 'required|boolean'
+            'sendEmail' => 'required|boolean',
+            'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ];
     }
 }
