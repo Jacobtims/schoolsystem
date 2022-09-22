@@ -38,3 +38,9 @@ require_once __DIR__ . '/teacher.php';
 
 // Require student routes
 require_once __DIR__ . '/student.php';
+
+// User routes
+Route::middleware(['auth:sanctum', 'verified', 'role:student,teacher,admin'])->prefix('user')->name('user.')->group(function () {
+    Route::get('/profile', [\App\Http\Controllers\User\ProfileController::class, 'index'])->name('profile.index');
+    Route::delete('/profile/logout-other-browser-sessions', [\App\Http\Controllers\User\ProfileController::class, 'logoutOtherBrowserSessions'])->name('profile.logout-other-browser-sessions');
+});
