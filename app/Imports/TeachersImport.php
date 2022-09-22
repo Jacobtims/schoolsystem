@@ -2,6 +2,7 @@
 
 namespace App\Imports;
 
+use App\Mail\NewTeacherCreated;
 use App\Models\Role;
 use App\Models\Teacher;
 use App\Models\User;
@@ -18,6 +19,7 @@ use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Row;
+use Mail;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Str;
 
@@ -39,17 +41,15 @@ class TeachersImport implements OnEachRow, SkipsEmptyRows, WithHeadingRow, WithB
 
     public function onRow(Row $row)
     {
+        // Hash password
         if ($this->generatePassword) {
             $password = Str::random(8);
-            $passwordHash = Hash::make($password);
         } else {
-            $passwordHash = Hash::make($this->password);
+            $password = $this->password;
         }
+        $passwordHash = Hash::make($password);
 
-        if ($this->sendMail) {
-            //TODO: Send e-mail to email-address...
-        }
-
+        // Create teacher
         $user = User::create([
             'firstname' => $row['voornaam'],
             'lastname' => $row['achternaam'],
@@ -70,6 +70,11 @@ class TeachersImport implements OnEachRow, SkipsEmptyRows, WithHeadingRow, WithB
             'abbreviation' => $row['afkorting'],
             'student_name' => $row['studenten_naam']
         ]);
+
+        // Send email
+        if ($this->sendMail) {
+            Mail::to($user->email)->send(new NewTeacherCreated($user->email, $password));
+        }
 
         $this->amount++;
     }

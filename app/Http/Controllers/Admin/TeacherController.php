@@ -8,6 +8,7 @@ use App\Http\Requests\ImportTeachersRequest;
 use App\Http\Requests\StoreTeacherRequest;
 use App\Http\Requests\UpdateTeacherRequest;
 use App\Imports\TeachersImport;
+use App\Mail\NewTeacherCreated;
 use App\Models\Role;
 use App\Models\Teacher;
 use App\Models\User;
@@ -19,6 +20,7 @@ use Illuminate\Http\UploadedFile;
 use Inertia\Inertia;
 use Intervention\Image\Facades\Image;
 use Log;
+use Mail;
 use Redirect;
 use Storage;
 use Str;
@@ -54,7 +56,7 @@ class TeacherController extends Controller
     {
         $teacherRole = Role::whereName('Teacher')->firstOrFail();
 
-        if ($request->get('generatePassword') == true) {
+        if ($request->get('generatePassword')) {
             $password = Str::random(8);
         } else {
             $password = $request->get('password');
@@ -67,8 +69,8 @@ class TeacherController extends Controller
 
         $this->updateProfilePhoto($user, $request->file('profile_photo'));
 
-        if ($request->get('sendEmail') == true) {
-            //TODO: Send e-mail to email-address...
+        if ($request->get('sendEmail')) {
+            Mail::to($user->email)->send(new NewTeacherCreated($user->email, $password));
         }
 
         return Redirect::back();
@@ -105,7 +107,7 @@ class TeacherController extends Controller
     public function import(ImportTeachersRequest $request): RedirectResponse
     {
         // Start importing file
-        $import = new TeachersImport($request->get('password'), $request->boolean('generatePassword'), $request->boolean('sendEmail'));
+        $import = new TeachersImport($request->boolean('generatePassword'), $request->boolean('sendEmail'), $request->get('password'));
         $import->import($request->file('file'));
 
         // Log validation failures
