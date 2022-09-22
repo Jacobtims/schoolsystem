@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Exports\TeachersExport;
+use App\Exports\StudentsExport;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ImportTeachersRequest;
+use App\Http\Requests\ImportStudentsRequest;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
-use App\Imports\TeachersImport;
+use App\Imports\StudentsImport;
+use App\Mail\NewStudentCreated;
 use App\Models\Role;
 use App\Models\Student;
 use App\Models\User;
@@ -17,10 +18,10 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Password;
-use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Intervention\Image\Facades\Image;
 use Log;
+use Mail;
 use Redirect;
 use Storage;
 use Str;
@@ -56,6 +57,7 @@ class StudentController extends Controller
     {
         $studentRole = Role::whereName('Student')->firstOrFail();
 
+        // Create password hash
         if ($request->get('generatePassword')) {
             $password = Str::random(8);
         } else {
@@ -63,14 +65,17 @@ class StudentController extends Controller
         }
         $passwordHash = Hash::make($password);
 
+        // Create student
         $request->merge(['password' => $passwordHash, 'role_id' => $studentRole->id]);
         $user = User::create($request->only(['email', 'firstname', 'lastname', 'sex', 'phone_number', 'date_of_birth', 'country', 'state', 'city', 'zipcode', 'street', 'password', 'role_id']));
         Student::create(['user_id' => $user->id]);
 
+        // Update profile photo
         $this->updateProfilePhoto($user, $request->file('profile_photo'));
 
+        // Send mail to student
         if ($request->get('sendEmail')) {
-            //TODO: Send e-mail to email-address...
+            Mail::to($user->email)->send(new NewStudentCreated($user->email, $password));
         }
 
         return Redirect::back();
@@ -100,10 +105,10 @@ class StudentController extends Controller
         return Redirect::back();
     }
 
-    public function import(ImportTeachersRequest $request): RedirectResponse
+    public function import(ImportStudentsRequest $request): RedirectResponse
     {
         // Start importing file
-        $import = new TeachersImport($request->get('password'), $request->boolean('generatePassword'), $request->boolean('sendEmail'));
+        $import = new StudentsImport($request->boolean('generatePassword'), $request->boolean('sendEmail'), $request->get('password'));
         $import->import($request->file('file'));
 
         // Log validation failures
@@ -124,7 +129,7 @@ class StudentController extends Controller
 
     public function export(Request $request)
     {
-        return (new TeachersExport)->download('students.xlsx');
+        return (new StudentsExport())->download('students.xlsx');
     }
 
     private function updateProfilePhoto(User $user, UploadedFile $file = null): void
