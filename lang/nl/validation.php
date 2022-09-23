@@ -170,5 +170,6 @@ return [
         'school_name' => 'school naam',
         'weighting' => 'weging',
         'description' => 'omschrijving',
+        'password' => 'wachtwoord'
     ],
 ];

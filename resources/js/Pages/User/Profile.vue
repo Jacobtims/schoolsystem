@@ -5,8 +5,19 @@
             <h3>Profielgegevens</h3>
             <p>Bewerk de profielgegevens van je account.</p>
         </div>
-        <div class="col-md-9">
+        <div class="col-md-9 mb-3">
             <UserProfile :user="user"/>
+        </div>
+
+        <div class="col-md-12 my-5"><hr/></div>
+
+        <!-- Update password -->
+        <div class="col-md-3 mb-3">
+            <h3>Wachtwoord aanpassen</h3>
+            <p>Zorg dat je een lang en willekeurig wachtwoord gebruikt om veilig te blijven.</p>
+        </div>
+        <div class="col-md-9 mb-3">
+            <UpdatePassword/>
         </div>
 
         <div class="col-md-12 my-5"><hr/></div>
@@ -26,9 +37,10 @@ import Sessions from "@/Pages/User/Components/Sessions.vue";
 import StudentLayout from "@/Layouts/StudentLayout.vue";
 import TeacherLayout from "@/Layouts/TeacherLayout.vue";
 import UserProfile from "@/Pages/User/Components/UserProfile.vue";
+import UpdatePassword from "@/Pages/User/Components/UpdatePassword.vue";
 
 export default {
-    components: {UserProfile, Sessions},
+    components: {UpdatePassword, UserProfile, Sessions},
     props: {
         sessions: Array,
         role: String,

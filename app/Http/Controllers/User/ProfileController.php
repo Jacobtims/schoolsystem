@@ -4,7 +4,9 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Traits\SessionTrait;
+use Hash;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\Password;
 use Inertia\Inertia;
 use Inertia\Response;
 use Intervention\Image\Facades\Image;
@@ -48,6 +50,20 @@ class ProfileController extends Controller
                 'profile_photo' => $name
             ]);
         }
+
+        return back();
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => 'required|current_password',
+            'password' => ['required', 'confirmed', Password::defaults()],
+        ]);
+
+        auth()->user()->update([
+            'password' => Hash::make($request->password)
+        ]);
 
         return back();
     }
