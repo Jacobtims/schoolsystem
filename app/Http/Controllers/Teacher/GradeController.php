@@ -52,7 +52,7 @@ class GradeController extends Controller
             $subject = $subjects->firstOrFail();
         }
 
-        $schoolClass = SchoolClass::whereName($class)->with('students.user:id,firstname,lastname')->firstOrFail();
+        $schoolClass = SchoolClass::whereName($class)->with('students.user:id,firstname,lastname,sex')->firstOrFail();
         $assignments = Assignment::with('grades')->where('subject_id', $subject->id)->where('school_class_id', $schoolClass->id)->get();
 
         return Inertia::render('Teacher/Grades/Show', [
