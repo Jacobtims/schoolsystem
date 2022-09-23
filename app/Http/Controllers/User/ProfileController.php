@@ -7,6 +7,8 @@ use App\Http\Traits\SessionTrait;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
+use Intervention\Image\Facades\Image;
+use Storage;
 
 class ProfileController extends Controller
 {
@@ -17,7 +19,37 @@ class ProfileController extends Controller
         $sessions = $this->collectSessions($request);
         $role = auth()->user()->role->name;
 
-        return Inertia::render('User/Profile', compact('sessions', 'role'));
+        $user = auth()->user()->only(['email', 'firstname', 'lastname', 'profile_photo_url']);
+
+        return Inertia::render('User/Profile', compact('sessions', 'role', 'user'));
+    }
+
+    public function updateUser(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
+        ]);
+
+        // Update email
+        auth()->user()->update([
+            'email' => $request->email,
+        ]);
+
+        // Update profile photo
+        $file = $request->file('profile_photo');
+        if ($file !== null) {
+            $image = Image::make($file)->resize(120, 120);
+            $name = auth()->user()->id . '-' . now()->timestamp . '.' . $file->getClientOriginalExtension();
+
+            Storage::disk('public')->put('/profiles/' . $name, (string)$image->encode());
+
+            auth()->user()->update([
+                'profile_photo' => $name
+            ]);
+        }
+
+        return back();
     }
 
     public function logoutOtherBrowserSessions(Request $request)
