@@ -32,7 +32,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(student, index) in schoolClass.students" :key="'student'+index" v-if="schoolClass && schoolClass.students.length > 0">
+                        <tr v-for="(student, index) in students.data" :key="'student'+index" v-if="schoolClass && students.data.length > 0">
                             <td>
                                 <img :src="student.user.profile_photo_url" alt="Profile picture"
                                      class="rounded-circle" width="50" height="50"/>
@@ -48,20 +48,22 @@
                             </td>
                         </tr>
                         <tr v-else-if="schoolClass">
-                            <td colspan="4">Deze klas heeft geen leerlingen!</td>
+                            <td colspan="4">Geen leerlingen gevonden!</td>
                         </tr>
                         <tr v-else>
                             <td colspan="4">Selecteer aub een klas.</td>
                         </tr>
                     </tbody>
                 </table>
+
+                <pagination :pagination="students" class="mt-2" v-if="schoolClass && students.data.length > 0"/>
             </div>
         </div>
     </div>
 
     <!-- Modals -->
-    <add-students-modal :open-modal="openAddStudentsModal" :school-class="schoolClass"/>
-    <delete-student-from-class-confirmation-modal :open-modal="openDeleteModal" :school-class="schoolClass" :student-id="selectedStudent"/>
+    <add-students-modal :open-modal="openAddStudentsModal" :school-class="schoolClass" v-if="schoolClass"/>
+    <delete-student-from-class-confirmation-modal :open-modal="openDeleteModal" :school-class="schoolClass" :student-id="selectedStudent" v-if="schoolClass"/>
     <create-school-class-modal :open-modal="openCreateModal"/>
 </template>
 <script>
@@ -71,13 +73,15 @@ import {pickBy, throttle} from "lodash";
 import DeleteStudentFromClassConfirmationModal
     from "@/Pages/Admin/SchoolClasses/Modals/DeleteStudentFromClassConfirmationModal.vue";
 import CreateSchoolClassModal from "@/Pages/Admin/SchoolClasses/Modals/CreateSchoolClassModal.vue";
+import Pagination from "@/Components/Pagination.vue";
 
 export default {
-    components: {CreateSchoolClassModal, DeleteStudentFromClassConfirmationModal, AddStudentsModal},
+    components: {Pagination, CreateSchoolClassModal, DeleteStudentFromClassConfirmationModal, AddStudentsModal},
     layout: AdminLayout,
     props: {
         schoolClasses: Object,
-        schoolClass: Object
+        schoolClass: Object,
+        students: Object
     },
     data() {
         return {

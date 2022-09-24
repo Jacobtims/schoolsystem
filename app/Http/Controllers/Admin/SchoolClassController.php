@@ -24,14 +24,13 @@ class SchoolClassController extends Controller
         $schoolClasses = SchoolClass::select(['id', 'name'])->get();
 
         $schoolClass = null;
+        $students = null;
         if ($request->has('class')) {
-            $schoolClass = SchoolClass::whereName($request->get('class'))->with('students.user')->firstOrFail();
+            $schoolClass = SchoolClass::whereName($request->get('class'))->firstOrFail();
+            $students = $schoolClass->students()->with('user')->paginate();
         }
 
-        return Inertia::render('Admin/SchoolClasses/Overview', [
-            'schoolClasses' => $schoolClasses,
-            'schoolClass' => $schoolClass
-        ]);
+        return Inertia::render('Admin/SchoolClasses/Overview', compact('schoolClasses', 'schoolClass', 'students'));
     }
 
     public function store(StoreSchoolClassRequest $request): RedirectResponse
@@ -83,14 +82,18 @@ class SchoolClassController extends Controller
         ]);
 
         $students = Student::join('users', 'students.user_id', '=', 'users.id')
-            ->when($request->get('query'), function ($q) use ($request) {
-                $q->where('students.id', 'LIKE', '%' . $request->get('query') . '%')
-                ->orWhere('firstname', 'LIKE', '%' . $request->get('query') . '%')
-                ->orWhere('lastname', 'LIKE', '%' . $request->get('query') . '%');
-            })
             ->when($request->get('school_class'), function ($q) use ($request) {
-                $q->where('school_class_id', '!=', $request->get('school_class'))
-                    ->orWhereNull('school_class_id');
+                $q->where(function ($q) use ($request) {
+                    $q->where('school_class_id', '!=', $request->get('school_class'));
+                    $q->orWhereNull('school_class_id');
+                });
+            })
+            ->when($request->get('query'), function ($q) use ($request) {
+                $q->where(function ($q) use ($request) {
+                    $q->where('students.id', 'LIKE', '%' . $request->get('query') . '%');
+                    $q->orWhere('firstname', 'LIKE', '%' . $request->get('query') . '%');
+                    $q->orWhere('lastname', 'LIKE', '%' . $request->get('query') . '%');
+                });
             })
             ->limit(50)
             ->select(['students.id', 'users.firstname', 'users.lastname'])

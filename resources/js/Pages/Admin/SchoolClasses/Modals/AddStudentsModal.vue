@@ -38,9 +38,6 @@ export default {
             isLoading: false
         }
     },
-    mounted() {
-        this.asyncFindStudents();
-    },
     methods: {
         asyncFindStudents (query) {
             this.isLoading = true;
@@ -87,6 +84,15 @@ export default {
                     this.disabled = false;
                 }
             })
+        }
+    },
+    mounted() {
+        this.asyncFindStudents();
+    },
+    watch: {
+        schoolClass() {
+            this.selectedStudents = [];
+            this.asyncFindStudents();
         }
     }
 }
