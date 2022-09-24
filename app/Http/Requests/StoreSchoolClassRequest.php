@@ -26,8 +26,8 @@ class StoreSchoolClassRequest extends FormRequest
         return [
             'mentor_abbreviation' => 'required|string|max:255|exists:teachers,abbreviation',
             'class_name' => 'required|unique:school_classes,name|min:2|max:255',
-            'studentIds' => 'array',
-            'studentIds.*' => 'integer|exists:students,id'
+            'students' => 'array',
+            'students.*.id' => 'integer|exists:students,id'
         ];
     }
 }

@@ -60,9 +60,9 @@
     </div>
 
     <!-- Modals -->
-    <add-students-modal :open-modal="openAddStudentsModal" :school-class="schoolClass"></add-students-modal>
-    <delete-student-from-class-confirmation-modal :open-modal="openDeleteModal" :school-class="schoolClass" :student-id="selectedStudent"></delete-student-from-class-confirmation-modal>
-    <create-school-class-modal :open-modal="openCreateModal"></create-school-class-modal>
+    <add-students-modal :open-modal="openAddStudentsModal" :school-class="schoolClass"/>
+    <delete-student-from-class-confirmation-modal :open-modal="openDeleteModal" :school-class="schoolClass" :student-id="selectedStudent"/>
+    <create-school-class-modal :open-modal="openCreateModal"/>
 </template>
 <script>
 import AdminLayout from "@/Layouts/AdminLayout.vue";

@@ -10,18 +10,11 @@ use App\Models\Teacher;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Inertia\Inertia;
 use Redirect;
 
 class SchoolClassController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @param Request $request
-     * @return \Inertia\Response
-     */
     public function index(Request $request): \Inertia\Response
     {
         $request->validate([
@@ -41,12 +34,6 @@ class SchoolClassController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param StoreSchoolClassRequest $request
-     * @return RedirectResponse
-     */
     public function store(StoreSchoolClassRequest $request): RedirectResponse
     {
         $mentor = Teacher::whereAbbreviation($request->get('mentor_abbreviation'))->firstOrFail();
@@ -55,81 +42,30 @@ class SchoolClassController extends Controller
             'name' => $request->get('class_name')
         ]);
 
-        $studentIds = $request->get('studentIds');
+        $students = $request->collect('students')->pluck('id');
 
-        Student::whereIn('id', $studentIds)->update(['school_class_id' => $schoolClass->id]);
+        Student::whereIn('id', $students)->update(['school_class_id' => $schoolClass->id]);
 
         return Redirect::back();
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return JsonResponse
-     */
-    public function show(int $id): JsonResponse
-    {
-        $schoolClass = SchoolClass::whereId($id)->with('students.user')->firstOrFail();
-
-        return response()->json([
-            'class' => $schoolClass
-        ]);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param int $id
-     * @return Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
-    /**
-     * Add students to a specific school class
-     *
-     * @param Request $request
-     * @param int $id
-     * @return RedirectResponse
-     */
-    public function addStudents(Request $request, int $id): RedirectResponse
+    public function addStudentsToSchoolClass(Request $request, int $id): RedirectResponse
     {
         $request->validate([
-            'studentIds' => 'array',
-            'studentIds.*' => 'integer|exists:students,id'
+            'students' => 'array',
+            'students.*.id' => 'integer|exists:students,id'
         ]);
 
         $schoolClass = SchoolClass::findOrFail($id);
 
-        $studentIds = $request->get('studentIds');
+        $students = $request->collect('students')->pluck('id');
 
-        Student::whereIn('id', $studentIds)->update(['school_class_id' => $schoolClass->id]);
+        Student::whereIn('id', $students)->update(['school_class_id' => $schoolClass->id]);
 
         return Redirect::back();
     }
 
-    /**
-     * Remove a student from a specific school class
-     *
-     * @param int $studentId
-     * @return RedirectResponse
-     */
-    public function removeStudent(int $studentId): RedirectResponse
+    public function removeStudentFromSchoolClass(int $studentId): RedirectResponse
     {
         $student = Student::findOrFail($studentId);
 
@@ -137,5 +73,29 @@ class SchoolClassController extends Controller
         $student->save();
 
         return Redirect::back();
+    }
+
+    public function getStudents(Request $request): JsonResponse
+    {
+        $request->validate([
+            'query' => 'nullable|string',
+            'school_class' => 'nullable|exists:school_classes,id'
+        ]);
+
+        $students = Student::join('users', 'students.user_id', '=', 'users.id')
+            ->when($request->get('query'), function ($q) use ($request) {
+                $q->where('students.id', 'LIKE', '%' . $request->get('query') . '%')
+                ->orWhere('firstname', 'LIKE', '%' . $request->get('query') . '%')
+                ->orWhere('lastname', 'LIKE', '%' . $request->get('query') . '%');
+            })
+            ->when($request->get('school_class'), function ($q) use ($request) {
+                $q->where('school_class_id', '!=', $request->get('school_class'))
+                    ->orWhereNull('school_class_id');
+            })
+            ->limit(50)
+            ->select(['students.id', 'users.firstname', 'users.lastname'])
+            ->get();
+
+        return response()->json($students);
     }
 }
