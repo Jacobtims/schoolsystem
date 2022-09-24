@@ -12,7 +12,7 @@
                 </div>
             </div>
             <div class="col-md-12">
-                <button type="submit" class="btn btn-success"><i class="fa-solid fa-file-arrow-up"></i> Opslaan</button>
+                <button type="submit" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i> Opslaan</button>
             </div>
         </form>
     </section>
@@ -28,7 +28,18 @@
             <i class="fa-solid fa-plus"></i> Nieuwe toevoegen
         </button>
         <br/><br/>
-        <button class="btn btn-success" @click="saveLessons"><i class="fa-solid fa-file-arrow-up"></i> Opslaan</button>
+        <button class="btn btn-success" @click="saveLessons"><i class="fa-solid fa-floppy-disk"></i> Opslaan</button>
+    </section>
+    <section class="mt-4">
+        <h3>Studenten</h3>
+        <form class="row g-3" @submit.prevent="saveStudentsAutoIncrement">
+            <div class="col-md-6">
+                <Input label="Leerlingnummer teller" v-model="studentsIncrement" :error="$page.props.errors.students_increment"/>
+            </div>
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i> Opslaan</button>
+            </div>
+        </form>
     </section>
 </template>
 
@@ -36,19 +47,23 @@
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import {useForm} from "@inertiajs/inertia-vue3";
 import {Inertia} from "@inertiajs/inertia";
+import Input from "@/Components/Inputs/Input.vue";
 
 export default {
+    components: {Input},
     layout: AdminLayout,
     props: {
         settings: Object,
-        standardLessons: Object
+        standardLessons: Object,
+        maxStudentsAutoIncrement: Number
     },
     data() {
         return {
             settingsForm: useForm({
                 school_name: this.settings.school_name
             }),
-            lessons: this.standardLessons
+            lessons: this.standardLessons,
+            studentsIncrement: this.maxStudentsAutoIncrement
         }
     },
     methods: {
@@ -78,6 +93,19 @@ export default {
                 preserveScroll: true,
                 onSuccess: () => {
                     this.toast('success', 'Succesvol uren aangepast!')
+                },
+                onError: () => {
+                    this.toast('error', 'Fout!', 'Er is iets fout gegegaan tijdens het opslaan. Probeer het opnieuw.')
+                }
+            });
+        },
+        saveStudentsAutoIncrement() {
+            Inertia.patch(route('admin.settings.students-auto-increment'), {
+                students_increment: this.studentsIncrement
+            }, {
+                preserveScroll: true,
+                onSuccess: () => {
+                    this.toast('success', 'Succesvol studenten leerlingnummer teller aangepast!')
                 },
                 onError: () => {
                     this.toast('error', 'Fout!', 'Er is iets fout gegegaan tijdens het opslaan. Probeer het opnieuw.')

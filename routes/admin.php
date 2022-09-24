@@ -35,6 +35,7 @@ Route::middleware(['auth:sanctum', 'verified', 'role:admin'])->prefix('admin')->
     Route::get('/settings', [\App\Http\Controllers\Admin\SettingController::class, 'index'])->name('settings');
     Route::patch('/settings', [\App\Http\Controllers\Admin\SettingController::class, 'update'])->name('settings.update');
     Route::patch('/settings/lessons', [\App\Http\Controllers\Admin\SettingController::class, 'updateLessons'])->name('settings.lessons.update');
+    Route::patch('/settings/students-auto-increment', [\App\Http\Controllers\Admin\SettingController::class, 'updateStudentsAutoIncrement'])->name('settings.students-auto-increment');
 
     Route::resource('classrooms', \App\Http\Controllers\Admin\ClassroomController::class)->only(['index', 'store', 'destroy']);
     Route::post('/classrooms/restore/{id}', [\App\Http\Controllers\Admin\ClassroomController::class, 'restore'])->name('classrooms.restore');
