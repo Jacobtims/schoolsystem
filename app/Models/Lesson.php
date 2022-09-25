@@ -28,15 +28,6 @@ class Lesson extends Model
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'attendance_registered'
-    ];
-
-    /**
      * @return BelongsTo
      */
     public function teacher(): BelongsTo
@@ -71,17 +62,9 @@ class Lesson extends Model
     /**
      * @return HasMany
      */
-    public function attendances(): HasMany
+    public function absences(): HasMany
     {
-        return $this->hasMany(Attendance::class);
-    }
-
-    /**
-     * @return HasMany
-     */
-    public function absentees(): HasMany
-    {
-        return $this->hasMany(Attendance::class)->where('present', false);
+        return $this->hasMany(Absence::class);
     }
 
     /**
