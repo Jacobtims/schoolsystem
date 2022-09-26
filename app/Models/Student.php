@@ -67,8 +67,8 @@ class Student extends Model
     /**
      * @return HasMany
      */
-    public function attendances(): HasMany
+    public function absences(): HasMany
     {
-        return $this->hasMany(Attendance::class);
+        return $this->hasMany(Absence::class);
     }
 }

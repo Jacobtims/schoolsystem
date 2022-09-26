@@ -3,35 +3,43 @@
 namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
-use App\Models\Attendance;
-use Auth;
-use DB;
+use App\Models\Student;
 use Inertia\Inertia;
 
 class AttendanceController extends Controller
 {
-    /**
-     * @return \Inertia\Response
-     */
     public function index(): \Inertia\Response
     {
-        // TODO: Complete rebuild
+        $student = Student::findOrFail(auth()->user()->student->id);
 
-        $attendances = Attendance::whereStudentId(Auth::user()->student->id)->get();
+        // All queries for counts
+        $notRegistered = $student->lessons()->where(function ($q) {
+            $q->whereAttendanceRegistered(false)->orWhereNull('attendance_registered');
+        })->whereDoesntHave('absences', function ($q) use ($student) {
+            $q->where('student_id', $student->id);
+        })->whereDate('date', '<=', today())
+            ->count();
 
-        $counts = [
-            'present' => $attendances->where('status', '=', true)->count(),
-            'authorizedAbsent' => $attendances->where('status', '=', false)->where('verified', '=', true)->count(),
-            'unauthorizedAbsence' => $attendances->where('status', '=', false)->filter(function ($attendance) {
-                return $attendance->verified === false || $attendance->verified === null;
-            })->count()
-        ];
+        $present = $student->lessons()->whereAttendanceRegistered(true)
+            ->whereDoesntHave('absences', function ($q) use ($student) {
+            $q->where('student_id', $student->id);
+        })->whereDate('date', '<=', today())
+            ->count();
 
-        $absent = $attendances->load('lesson.time')->where('status', '=', false)->sortByDesc('lesson.date')->values();
+        $allowedAbsent = $student->lessons()->whereHas('absences', function ($q) use ($student) {
+            $q->where('student_id', $student->id)->where('reason_verified', true);
+        })->whereDate('date', '<=', today())
+            ->count();
 
-        return Inertia::render('Student/Attendance', [
-            'counts' => $counts,
-            'absent' => $absent
-        ]);
+        $unallowedAbsent = $student->lessons()->whereHas('absences', function ($q) use ($student) {
+            $q->where('reason_verified', false)->orWhereNull('reason_verified');
+            $q->where('student_id', $student->id);
+        })->whereDate('date', '<=', today())
+            ->count();
+
+        // All student's absences
+        $absences = $student->absences()->with(['lesson:id,time,date', 'lesson.time', 'type'])->paginate();
+
+        return Inertia::render('Student/Attendance', compact('present', 'allowedAbsent', 'unallowedAbsent', 'notRegistered', 'absences'));
     }
 }

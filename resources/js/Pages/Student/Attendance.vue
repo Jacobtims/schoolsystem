@@ -3,9 +3,18 @@
         <div class="col-sm-6 col-lg-4 col-xl-3 mb-3">
             <div class="card">
                 <div class="card-body text-center">
+                    <h3 class="card-title">Niet geregistreerd</h3>
+                    <small>Aantal lesuren</small>
+                    <h3 class="fw-bold">{{ notRegistered }} uur</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-4 col-xl-3 mb-3">
+            <div class="card">
+                <div class="card-body text-center">
                     <h3 class="card-title">Aanwezig</h3>
                     <small>Aantal lesuren</small>
-                    <h3 class="fw-bold">{{ counts.present }} uur</h3>
+                    <h3 class="fw-bold">{{ present }} uur</h3>
                 </div>
             </div>
         </div>
@@ -14,7 +23,7 @@
                 <div class="card-body text-center">
                     <h3 class="card-title">Geoorloofd afwezig</h3>
                     <small>Aantal lesuren</small>
-                    <h3 class="fw-bold">{{ counts.authorizedAbsent }} uur</h3>
+                    <h3 class="fw-bold">{{ allowedAbsent }} uur</h3>
                 </div>
             </div>
         </div>
@@ -23,47 +32,47 @@
                 <div class="card-body text-center">
                     <h3 class="card-title">Ongeoorloofd afwezig</h3>
                     <small>Aantal lesuren</small>
-                    <h3 class="fw-bold text-danger">{{ counts.unauthorizedAbsence }} uur</h3>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6 col-lg-4 col-xl-3 mb-3">
-            <div class="card">
-                <div class="card-body text-center">
-                    <h3 class="card-title">Niet geregistreerd</h3>
-                    <small>Aantal lesuren</small>
-                    <h3 class="fw-bold">-1 uur</h3>
+                    <h3 class="fw-bold text-danger">{{ unallowedAbsent }} uur</h3>
                 </div>
             </div>
         </div>
     </div>
-    <div class="card mt-3">
+    <div class="card mt-3" v-if="absences.data.length > 0">
         <div class="card-body">
-            <table class="table table-borderless m-0" id="table-absent">
+            <table class="table table-borderless m-0 mb-4" id="table-absent">
                 <tr>
                     <th>Datum</th>
                     <th>Les</th>
-                    <th>Status</th>
+                    <th>Type</th>
                     <th>Reden</th>
+                    <th>Status</th>
                 </tr>
-                <tr v-for="(abs, index) in absent" :key="'absent'+index">
-                    <td>{{ $dayjs(abs.lesson.date).format('LL') }}</td>
-                    <td>{{ abs.lesson.time.from }} - {{ abs.lesson.time.to }}</td>
-                    <td v-if="abs.verified === 1">Geoorloofd</td>
-                    <td v-else-if="abs.verified === 0 || abs.verified === null" class="text-danger">Ongeoorloofd</td>
-                    <td>{{ abs.reason ?? 'Onbekend' }}</td>
+                <tr v-for="(absence, index) in absences.data" :key="'absent'+index">
+                    <td>{{ this.$dayjs(absence.lesson.date).format('LL') }}</td>
+                    <td>{{ absence.lesson.time.id }}e lesuur ({{ absence.lesson.time.from }} - {{ absence.lesson.time.to }})</td>
+                    <td>{{ absence.type ? absence.type.name : '-'}}</td>
+                    <td>{{ absence.reason ?? '-' }}</td>
+                    <td v-if="absence.reason_verified">Geoorloofd</td>
+                    <td v-else-if="!absence.reason_verified" class="text-danger">Ongeoorloofd</td>
                 </tr>
             </table>
+
+            <Pagination :pagination="absences"/>
         </div>
     </div>
 </template>
 <script>
 import StudentLayout from "@/Layouts/StudentLayout.vue";
+import Pagination from "@/Components/Pagination.vue";
 export default {
+    components: {Pagination},
     layout: StudentLayout,
     props: {
-        counts: Object,
-        absent: Object
+        present: Number,
+        allowedAbsent: Number,
+        unallowedAbsent: Number,
+        notRegistered: Number,
+        absences: Object
     }
 }
 </script>
