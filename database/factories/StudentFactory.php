@@ -15,12 +15,10 @@ class StudentFactory extends Factory
      * @var string
      */
     protected $model = Student::class;
-    private SchoolClass $schoolClass;
 
    public function __construct($count = null, ?Collection $states = null, ?Collection $has = null, ?Collection $for = null, ?Collection $afterMaking = null, ?Collection $afterCreating = null, $connection = null, ?Collection $recycle = null)
    {
        parent::__construct($count, $states, $has, $for, $afterMaking, $afterCreating, $connection, $recycle);
-       $this->schoolClass = SchoolClass::findOrFail(1);
    }
 
     /**
@@ -32,7 +30,7 @@ class StudentFactory extends Factory
     {
         return [
             'user_id' => null,
-            'school_class_id' => $this->schoolClass->id
+            'school_class_id' => rand(1, 200)
         ];
     }
 }

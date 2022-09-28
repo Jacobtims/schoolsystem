@@ -85,7 +85,7 @@ class UserSeeder extends Seeder
             [
                 'id' => 1,
                 'mentor_id' => Teacher::findOrFail(1)->id,
-                'name' => 'TEST'
+                'name' => 'TEST2022'
             ]
         ]);
 
