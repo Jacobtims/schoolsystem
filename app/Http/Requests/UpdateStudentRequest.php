@@ -28,7 +28,7 @@ class UpdateStudentRequest extends FormRequest
             'email' => 'required|email|max:255',
             'firstname' => 'required|string|min:2,max:255',
             'lastname' => 'required|string|min:2,max:255',
-            'sex' => 'required|string|in:m,v,o',
+            'sex' => 'required|string|in:Man,Vrouw,Overig',
             'phone_number' => 'required|max:255',
             'date_of_birth' => 'required|date',
             'country' => 'required|string|max:255',

@@ -87,7 +87,7 @@ class TeachersImport implements OnEachRow, SkipsEmptyRows, WithHeadingRow, WithB
             'voornaam' => 'required|string|min:2,max:255',
             'achternaam' => 'required|string|min:2,max:255',
             'e_mailadres' => 'required|email|unique:users,email|max:255',
-            'geslacht' => 'required|string|in:m,v,o',
+            'geslacht' => 'required|string|in:Man,Vrouw,Overig',
             'telefoonnummer' => 'required|max:255',
             'geboortedatum' => 'required|date',
             'land' => 'required|string|max:255',

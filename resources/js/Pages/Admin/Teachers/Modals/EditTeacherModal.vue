@@ -34,9 +34,9 @@
             <div class="col-md-4">
                 <Select label="Geslacht" v-model="teacherForm.sex" :error="teacherForm.errors.sex" required>
                     <option selected disabled></option>
-                    <option value="m">Man</option>
-                    <option value="v">Vrouw</option>
-                    <option value="o">Overig</option>
+                    <option value="Man">Man</option>
+                    <option value="Vrouw">Vrouw</option>
+                    <option value="Overig">Overig</option>
                 </Select>
             </div>
             <div class="col-md-6">
@@ -117,7 +117,7 @@ export default {
         teacher: function (newUser) {
             if (newUser != null) {
                 this.teacherForm.id = newUser.id ?? null,
-                this.teacherForm.sex = newUser.sex_raw ?? null,
+                this.teacherForm.sex = newUser.sex ?? null,
                 this.teacherForm.firstname = newUser.firstname ?? null,
                 this.teacherForm.lastname = newUser.lastname ?? null,
                 this.teacherForm.email = newUser.email ?? null,

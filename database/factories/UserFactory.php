@@ -34,7 +34,7 @@ class UserFactory extends Factory
             'password' => $this->passwordHash,
             'firstname' => $this->faker->firstName,
             'lastname' => $this->faker->lastName,
-            'sex' => ['m', 'v', 'o'][array_rand(['m', 'v', 'o'])],
+            'sex' => ['Man', 'Vrouw', 'Overig'][array_rand(['Man', 'Vrouw', 'Overig'])],
             'phone_number' => $this->faker->phoneNumber,
             'date_of_birth' => $this->faker->dateTimeBetween('1990-01-01', '2021-12-31')->format('Y-m-d'),
             'country' => 'Nederland',

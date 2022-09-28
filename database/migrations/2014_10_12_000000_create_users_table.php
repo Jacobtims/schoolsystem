@@ -21,7 +21,7 @@ return new class extends Migration
             $table->rememberToken();
             $table->string('firstname');
             $table->string('lastname');
-            $table->enum('sex', ['m', 'v', 'o']);
+            $table->enum('sex', ['Man', 'Vrouw', 'Overig']);
             $table->string('phone_number');
             $table->date('date_of_birth');
             $table->string('country');

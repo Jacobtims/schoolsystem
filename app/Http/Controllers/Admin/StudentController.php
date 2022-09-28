@@ -12,7 +12,6 @@ use App\Mail\NewStudentCreated;
 use App\Models\Role;
 use App\Models\Student;
 use App\Models\User;
-use DB;
 use Hash;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -44,7 +43,7 @@ class StudentController extends Controller
             ->when($request->has(['field', 'direction']), function ($query) use ($request) {
                 $query->orderBy($request->get('field'), $request->get('direction'));
             })
-            ->select(['users.id', 'students.id as student_id', 'firstname', 'lastname', 'sex', 'email', 'phone_number', 'street', 'zipcode', 'city', 'state', 'country', 'date_of_birth', 'profile_photo', DB::raw('users.sex as sex_raw')])
+            ->select(['users.id', 'students.id as student_id', 'firstname', 'lastname', 'sex', 'email', 'phone_number', 'street', 'zipcode', 'city', 'state', 'country', 'date_of_birth', 'profile_photo'])
             ->paginate(10);
 
         return Inertia::render('Admin/Students/Overview', [

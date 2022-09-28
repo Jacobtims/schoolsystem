@@ -12,7 +12,6 @@ use App\Mail\NewTeacherCreated;
 use App\Models\Role;
 use App\Models\Teacher;
 use App\Models\User;
-use DB;
 use Hash;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -43,7 +42,7 @@ class TeacherController extends Controller
             ->when($request->has(['field', 'direction']), function ($query) use ($request) {
                 $query->orderBy($request->get('field'), $request->get('direction'));
             })
-            ->select(['users.id', 'firstname', 'lastname', 'sex', 'email', 'phone_number', 'street', 'zipcode', 'city', 'state', 'country', 'date_of_birth', 'profile_photo', 'teachers.abbreviation as abbreviation', 'teachers.student_name as student_name', DB::raw('users.sex as sex_raw')])
+            ->select(['users.id', 'firstname', 'lastname', 'sex', 'email', 'phone_number', 'street', 'zipcode', 'city', 'state', 'country', 'date_of_birth', 'profile_photo', 'teachers.abbreviation as abbreviation', 'teachers.student_name as student_name'])
             ->paginate(10);
 
         return Inertia::render('Admin/Teachers/Overview', [

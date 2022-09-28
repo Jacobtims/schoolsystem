@@ -27,9 +27,9 @@
             <div class="col-md-4">
                 <Select label="Geslacht" v-model="studentForm.sex" :error="studentForm.errors.sex" required>
                     <option selected disabled></option>
-                    <option value="m">Man</option>
-                    <option value="v">Vrouw</option>
-                    <option value="o">Overig</option>
+                    <option value="Man">Man</option>
+                    <option value="Vrouw">Vrouw</option>
+                    <option value="Overig">Overig</option>
                 </Select>
             </div>
             <div class="col-md-6">

@@ -37,7 +37,7 @@ class StudentsExport implements FromQuery, WithMapping, WithHeadings, ShouldAuto
             $row->firstname,
             $row->lastname,
             $row->email,
-            $row->raw_sex,
+            $row->sex,
             $row->phone_number,
             Date::stringToExcel($row->date_of_birth),
             $row->country,

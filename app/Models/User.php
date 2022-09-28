@@ -17,7 +17,7 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
-    protected $appends = ['profile_photo_url', 'raw_sex'];
+    protected $appends = ['profile_photo_url'];
 
     /**
      * The attributes that are mass assignable.
@@ -101,27 +101,6 @@ class User extends Authenticatable
             return asset('storage/profiles/' . $this->profile_photo);
         }
         return "https://eu.ui-avatars.com/api/?size=50&background=D3E8F7&name=" . Str::slug($this->firstname) . "+" . Str::slug($this->lastname);
-    }
-
-    /**
-     * @return string
-     */
-    public function getSexAttribute(): string
-    {
-        return match ($this->attributes['sex']) {
-            "m" => "Man",
-            "v" => "Vrouw",
-            "o" => "Overig",
-            default => "-",
-        };
-    }
-
-    /**
-     * @return string
-     */
-    public function getRawSexAttribute(): string
-    {
-        return $this->attributes['sex'];
     }
 
     /**
