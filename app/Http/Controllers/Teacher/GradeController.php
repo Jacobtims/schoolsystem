@@ -12,14 +12,12 @@ use App\Models\Subject;
 use Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Validator;
 
 class GradeController extends Controller
 {
-    /**
-     * @return \Inertia\Response
-     */
     public function index(): \Inertia\Response
     {
         $schoolClasses = SchoolClass::withCount('students')->get();
@@ -29,12 +27,6 @@ class GradeController extends Controller
         ]);
     }
 
-    /**
-     * @param string $class
-     * @param Request $request
-     * @return \Inertia\Response
-     * @throws \Illuminate\Validation\ValidationException
-     */
     public function show(string $class, Request $request): \Inertia\Response
     {
         Validator::validate(['class' =>$class], [
@@ -63,10 +55,6 @@ class GradeController extends Controller
         ]);
     }
 
-    /**
-     * @param StoreAssignmentRequest $request
-     * @return RedirectResponse
-     */
     public function storeAssignment(StoreAssignmentRequest $request): RedirectResponse
     {
         $subject = Subject::whereName($request->get('subject'))->firstOrFail();
@@ -83,10 +71,6 @@ class GradeController extends Controller
         return back();
     }
 
-    /**
-     * @param StoreGradesRequest $request
-     * @return RedirectResponse
-     */
     public function store(StoreGradesRequest $request): RedirectResponse
     {
         $grades = $request->get('grades');

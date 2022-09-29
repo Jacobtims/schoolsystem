@@ -27,7 +27,7 @@ class StoreGradesRequest extends FormRequest
             'grades' => 'required|array',
             'grades.*' => 'array',
             'grades.*.*' => 'array',
-            'grades.*.*.number' => 'nullable'
+            'grades.*.*.number' => 'nullable|integer|min:1|max:10'
         ];
     }
 }
