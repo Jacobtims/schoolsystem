@@ -3,27 +3,19 @@
 namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
-use Auth;
+use App\Models\Subject;
 use Inertia\Inertia;
 
 class GradeController extends Controller
 {
-    /**
-     * @return \Inertia\Response
-     */
     public function index(): \Inertia\Response
     {
-        $grades = Auth::user()->student->grades()->with(['assignment', 'assignment.subject', 'teacher'])->orderByDesc('created_at')
-            ->get()->groupBy('assignment.subject_id');
+        $subjects = Subject::whereHas('grades', function ($q) {
+            $q->where('student_id', auth()->user()->student->id);
+        })->with('grades', function ($q) {
+            $q->where('student_id', auth()->user()->student->id)->with(['assignment', 'assignment.subject', 'teacher']);
+        })->get();
 
-        $averages = [];
-        foreach ($grades as $key => $grade) {
-            $averages[$key] = round($grade->avg('number'), 1);
-        }
-
-        return Inertia::render('Student/Grades/Index', [
-            'grades' => $grades,
-            'averages' => $averages
-        ]);
+        return Inertia::render('Student/Grades/Index', compact('subjects'));
     }
 }

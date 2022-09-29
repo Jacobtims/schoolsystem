@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Subject extends Model
@@ -13,21 +14,18 @@ class Subject extends Model
 
     public $timestamps = false;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var string[]
-     */
     protected $fillable = [
         'name',
         'abbreviation'
     ];
 
-    /**
-     * @return HasMany
-     */
-    public function grades(): HasMany
+    public function assignments(): HasMany
     {
-        return $this->hasMany(Grade::class);
+        return $this->hasMany(Assignment::class);
+    }
+
+    public function grades(): HasManyThrough
+    {
+        return $this->hasManyThrough(Grade::class, Assignment::class);
     }
 }

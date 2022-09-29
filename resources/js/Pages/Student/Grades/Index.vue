@@ -1,16 +1,17 @@
 <template>
-    <div class="card mb-3" v-for="(subject, index) in grades" :key="index" v-if="grades && Object.keys(grades).length > 0">
+    <div class="card mb-3" v-for="(subject, index) in subjects" :key="'subject'+index"
+         v-if="subjects && subjects.length > 0">
         <div class="card-body row">
-            <h3 class="d-inline col-2">{{ subject[0]['assignment']['subject']['name'] }}</h3>
+            <h3 class="d-inline col-2">{{ subject.name }}</h3>
             <div class="col-9 row" id="grades">
-                <div v-for="grade in subject"
-                     :class="{'grade': true, 'clickable': true, 'grade-plus': grade.number > 5.4, 'grade-min': grade.number < 5.5}"
+                <div v-for="grade in subject.grades"
+                     class="grade clickable" :class="gradeClass(grade.number)"
                      @click="openGradeModal(grade)">
                     {{ grade.number }}
                 </div>
             </div>
-            <div :class="{'col-1': true, 'average': true, 'grade-plus': averages[index] > 5.4, 'grade-min': averages[index] < 5.5}">
-                {{ averages[index] }}
+            <div class="col-1 average" :class="gradeClass(subject.average)">
+                {{ subject.average }}
             </div>
         </div>
     </div>
@@ -30,8 +31,7 @@ import ShowGradeModal from "@/Pages/Student/Grades/Modals/ShowGradeModal.vue";
 export default {
     layout: StudentLayout,
     props: {
-        grades: Object,
-        averages: Object
+        subjects: Object
     },
     components: {
         ShowGradeModal
@@ -42,14 +42,31 @@ export default {
             openModal: false
         }
     },
+    mounted() {
+        this.calculateAverages();
+    },
     methods: {
         openGradeModal(grade) {
             this.activeGrade = grade;
             this.activeGrade.date = this.$dayjs(grade.created_at).format('LL');
             this.openModal = true;
         },
-        closeGradeModal() {
-            this.activeGrade = null;
+        gradeClass(grade) {
+            if (grade >= 5.5) {
+                return "grade-plus";
+            }
+            return "grade-min";
+        },
+        calculateAverages() {
+            this.subjects.forEach(subject => {
+                let count = 0;
+                let total = 0;
+                subject.total = subject.grades.forEach(grade => {
+                    count += grade.assignment.weighting;
+                    total += (grade.number * grade.assignment.weighting);
+                });
+                subject.average = total / count;
+            });
         }
     }
 }
