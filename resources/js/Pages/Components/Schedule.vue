@@ -59,7 +59,6 @@ import '@fullcalendar/core/vdom' // solves problem with Vite
 import FullCalendar from '@fullcalendar/vue3';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import nlLocal from '@fullcalendar/core/locales/nl';
-import bootstrap5Plugin from '@fullcalendar/bootstrap5';
 import {debounce} from "lodash";
 import LessonModal from "@/Pages/Components/LessonModal.vue";
 
@@ -76,10 +75,8 @@ export default {
             calendarOptions: {
                 locale: nlLocal,
                 plugins: [
-                    timeGridPlugin,
-                    bootstrap5Plugin
+                    timeGridPlugin
                 ],
-                themeSystem: 'bootstrap5',
                 headerToolbar: null,
                 dayHeaderFormat: {
                     weekday: 'short',

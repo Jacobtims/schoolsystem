@@ -1,14 +1,16 @@
-// Import all of Bootstrap's CSS
-@import "~bootstrap/scss/bootstrap";
+// Tailwind
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 // Variables
-@import "variables";
+//@import "variables";
 
 // Admin
-@import "admin";
+//@import "admin";
 
 // Student
-@import "student";
+//@import "student";
 
 // Vue Multiselect bootstrap 5 styling
-@import "multiselect";
+//@import "multiselect";
