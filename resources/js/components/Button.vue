@@ -1,14 +1,27 @@
-<script setup>
-defineProps({
-    type: {
-        type: String,
-        default: 'submit',
-    },
-});
-</script>
-
 <template>
-    <button :type="type" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray transition ease-in-out duration-150">
-        <slot />
+    <button class="px-4 py-2.5 rounded-lg border border-transparent shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-75" :class="styleClasses" :disabled="disabled">
+        <slot/>
     </button>
 </template>
+<script>
+export default {
+    props: {
+        disabled: {
+            default: false,
+            type: Boolean
+        },
+        btn: {
+            default: 'primary',
+            type: String
+        }
+    },
+    computed: {
+        styleClasses() {
+            switch (this.btn) {
+                case 'primary':
+                    return 'text-white bg-primary-700 hover:bg-primary-800 focus:ring-primary-600 disabled:hover:bg-primary-700';
+            }
+        }
+    }
+}
+</script>

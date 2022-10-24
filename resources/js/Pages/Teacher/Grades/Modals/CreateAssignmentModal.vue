@@ -30,7 +30,7 @@
 <script>
 import {useForm} from "@inertiajs/inertia-vue3";
 import FormModal from "@/Components/Modals/FormModal.vue";
-import Input from "@/Components/Inputs/Input.vue";
+import Input from "@/Components/Inputs/InputWithLabel.vue";
 
 export default {
     name: 'CreateAssignmentModal',

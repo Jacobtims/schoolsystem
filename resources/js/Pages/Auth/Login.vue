@@ -1,118 +1,74 @@
 <template>
-    <Head title="Login" />
+    <Head title="Log in"/>
 
-    <main class="vh-100">
-        <div class="container-fluid h-100">
-            <div class="row d-flex align-items-center justify-content-center h-100">
-                <div class="d-md-block d-none col-md-6 col-lg-6 col-xl-8" id="left-side">
-                    <div class="d-flex align-items-center h-100">
-                        <section class="p-5">
-                            <h1>Welkom terug!</h1>
-                            <p class="mb-0">Voer je e-mailadres en</p>
-                            <p>wachtwoord in om door te gaan</p>
-                        </section>
-                    </div>
-                </div>
-                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 p-5 text-center">
-                    <h1 class="mb-0" style="font-size: 50px;">Log in</h1>
-                    <h3 class="mb-3">om toegang te krijgen tot het portaal</h3>
+    <AuthLayout>
+        <h1 class="text-5xl md:text-6xl text-dark-blue font-bold mb-8">Log in</h1>
 
-                    <div v-if="status" class="alert alert-success">
-                        {{ status }}
-                    </div>
+        <Alert type="success" v-if="status">{{ status }}</Alert>
 
-                    <form @submit.prevent="submit" class="row">
-                        <div class="col-md-12 mb-3">
-                            <div class="form-floating">
-                                <input type="email" :class="{'form-control': true, 'is-invalid': form.errors.email}" id="email" v-model="form.email" required autofocus placeholder="Email address" aria-describedby="emailFeedback">
-                                <label for="email" class="text-start">E-mailadres</label>
+        <form @submit.prevent="submit" class="space-y-4">
+            <Input type="email" v-model="form.email" :invalid="form.errors.email" placeholder="E-mailadres" required autofocus/>
 
-                                <div id="emailFeedback" class="invalid-feedback text-start" v-if="form.errors.email">
-                                    {{ form.errors.email }}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12 mb-3">
-                            <div class="form-floating">
-                                <input type="password" :class="{'form-control': true, 'is-invalid': form.errors.password}" id="password" v-model="form.password" required autocomplete="current-password" placeholder="Password" aria-describedby="passwordFeedback">
-                                <label for="password" class="text-start">Wachtwoord</label>
+            <Input type="password" v-model="form.password" :invalid="form.errors.password" placeholder="Wachtwoord" required/>
 
-                                <div id="passwordFeedback" class="invalid-feedback text-start" v-if="form.errors.password">
-                                    {{ form.errors.password }}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12 mb-3">
-                            <div class="form-check text-start">
-                                <input class="form-check-input" type="checkbox" id="remember" v-model="form.remember">
-                                <label class="form-check-label" for="remember">Onthoud me</label>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <button class="btn btn-primary mb-3 w-100 p-2" :disabled="form.processing">
-                                Inloggen
-                            </button>
-                        </div>
-
-                        <div>
-                            <Link v-if="canResetPassword" :href="route('password.request')">
-                                Wachtwoord vergeten?
-                            </Link>
-                        </div>
-                    </form>
-
-                    <div class="d-none">
-                        Copyright &copy; {{ currentYear }} - Jacob Timmerman
-                    </div>
-                </div>
+            <div class="flex items-center justify-between !mb-5">
+                <Checkbox id="remember" v-model="form.remember">Onthoud me</Checkbox>
+                <Link v-if="canResetPassword" :href="route('password.request')" class="text-sm text-primary-600">
+                    Wachtwoord vergeten?
+                </Link>
             </div>
-        </div>
-    </main>
+
+            <Button :disabled="form.processing" btn="primary" class="w-full">Inloggen</Button>
+        </form>
+    </AuthLayout>
 </template>
 
 <script>
-    import { Head, Link } from '@inertiajs/inertia-vue3';
+import {Head, Link} from '@inertiajs/inertia-vue3';
+import Input from "@/Components/Inputs/Input.vue";
+import Button from "@/Components/Button.vue";
+import Checkbox from "@/Components/Inputs/Checkbox.vue";
+import Alert from "@/Components/Alert.vue";
+import AuthLayout from "@/Layouts/AuthLayout.vue";
 
-    export default {
-        components: {
-            Head,
-            Link,
-        },
+export default {
+    components: {
+        AuthLayout,
+        Alert,
+        Input,
+        Head,
+        Link,
+        Button,
+        Checkbox
+    },
 
-        props: {
-            canResetPassword: Boolean,
-            status: String
-        },
+    props: {
+        canResetPassword: Boolean,
+        status: String
+    },
 
-        data() {
-            return {
-                form: this.$inertia.form({
-                    email: '',
-                    password: '',
-                    remember: false
-                }),
-                currentYear: new Date().getFullYear()
-            }
-        },
+    data() {
+        return {
+            form: this.$inertia.form({
+                email: '',
+                password: '',
+                remember: false
+            }),
+            currentYear: new Date().getFullYear()
+        }
+    },
 
-        methods: {
-            submit() {
-                this.form
-                    .transform(data => ({
-                        ... data,
-                        remember: this.form.remember ? 'on' : ''
-                    }))
-                    .post(this.route('login'), {
-                        onFinish: () => this.form.reset('password'),
-                    })
-            }
+    methods: {
+        submit() {
+            this.form
+                .transform(data => ({
+                    ...data,
+                    remember: this.form.remember ? 'on' : ''
+                }))
+                .post(this.route('login'), {
+                    onFinish: () => this.form.reset('password'),
+                })
         }
     }
-</script>
-<style>
-#left-side {
-    background: #5490ff;
-    color: #fff;
-    height: 100%;
 }
-</style>
+</script>

@@ -27,8 +27,8 @@
 </template>
 <script>
 import ShowModal from "@/Components/Modals/ShowModal.vue";
-import Input from "@/Components/Inputs/Input.vue";
-import Checkbox from "@/Components/Inputs/Checkbox.vue";
+import Input from "@/Components/Inputs/InputWithLabel.vue";
+import Checkbox from "@/Components/Inputs/CheckboxOld.vue";
 import {useForm} from "@inertiajs/inertia-vue3";
 
 export default {

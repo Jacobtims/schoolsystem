@@ -65,8 +65,8 @@
 </template>
 <script>
 import {useForm} from "@inertiajs/inertia-vue3";
-import Input from "@/components/Inputs/Input.vue";
-import Checkbox from "@/components/Inputs/Checkbox.vue";
+import Input from "@/Components/Inputs/InputWithLabel.vue";
+import Checkbox from "@/Components/Inputs/CheckboxOld.vue";
 import Select from "@/components/Inputs/Select.vue";
 import FormModal from "@/Components/Modals/FormModal.vue";
 

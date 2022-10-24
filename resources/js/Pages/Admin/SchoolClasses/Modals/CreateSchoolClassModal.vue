@@ -41,7 +41,7 @@
 </template>
 <script>
 import FormModal from "@/components/Modals/FormModal.vue";
-import Input from "@/components/Inputs/Input.vue";
+import Input from "@/Components/Inputs/InputWithLabel.vue";
 import {useForm} from "@inertiajs/inertia-vue3";
 
 export default {

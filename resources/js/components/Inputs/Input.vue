@@ -1,30 +1,25 @@
 <template>
-    <label :for="id" class="form-label">{{ label }}</label>
-    <input class="form-control" :class="{'is-invalid': error}" :aria-describedby="feedback" :id="id"
-           :value="modelValue" @input="$emit('update:modelValue', $event.target.value)" v-bind="$attrs">
-    <div :id="feedback" class="invalid-feedback" v-if="error">
-        {{ error }}
-    </div>
-    <slot/>
+    <input
+        class="w-full shadow-sm text-gray-700 border-gray-300 rounded-lg placeholder:text-gray-400 focus:border-primary-600 focus:ring-primary-600"
+        :class="{'border-dark-red invalid:border-dark-red': invalid}"
+        :value="modelValue"
+        @input="$emit('update:modelValue', $event.target.value)"
+        v-bind="$attrs"/>
+    <span class="text-xs text-red-600" v-if="invalid">
+        {{ invalid }}
+    </span>
 </template>
-
 <script>
 export default {
-    inheritAttrs: false,
     props: {
+        inheritAttrs: false,
         modelValue: {
             default: "",
             type: [String, Number]
         },
-        label: String,
-        error: String
-    },
-    computed: {
-        id() {
-            return "input" + this.label;
-        },
-        feedback() {
-            return "feedback" + (this.id[0].toUpperCase() + this.id.slice(1));
+        invalid: {
+            default: false,
+            type: [String, Boolean]
         }
     }
 }

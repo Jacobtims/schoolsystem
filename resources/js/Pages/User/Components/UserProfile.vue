@@ -21,7 +21,7 @@
 </template>
 <script>
 import {useForm} from "@inertiajs/inertia-vue3";
-import Input from "@/Components/Inputs/Input.vue";
+import Input from "@/Components/Inputs/InputWithLabel.vue";
 
 export default {
     components: {Input},

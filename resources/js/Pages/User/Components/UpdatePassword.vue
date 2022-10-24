@@ -12,7 +12,7 @@
     </div>
 </template>
 <script>
-import Input from "@/Components/Inputs/Input.vue";
+import Input from "@/Components/Inputs/InputWithLabel.vue";
 import {useForm} from "@inertiajs/inertia-vue3";
 
 export default {

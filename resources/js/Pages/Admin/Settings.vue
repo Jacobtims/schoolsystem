@@ -47,7 +47,7 @@
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import {useForm} from "@inertiajs/inertia-vue3";
 import {Inertia} from "@inertiajs/inertia";
-import Input from "@/Components/Inputs/Input.vue";
+import Input from "@/Components/Inputs/InputWithLabel.vue";
 
 export default {
     components: {Input},
