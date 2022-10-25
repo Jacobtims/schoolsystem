@@ -1,61 +1,66 @@
 <template>
-    <nav class="navbar navbar-expand-sm navbar-light" id="student-navbar">
-        <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+    <nav class="flex w-full items-center justify-between bg-white border-b border-gray-300 py-5 px-4 md:px-10">
+        <div class="hidden md:block text-3xl font-semibold">
+            {{ $page.props.settings.school_name }}
+        </div>
+        <button class="md:hidden bg-gray-100 rounded-lg w-[45px] h-[45px] z-[510]"
+                @click="mobileNavbarOpen = !mobileNavbarOpen">
+            <i class="fa-solid fa-bars text-xl" v-if="!mobileNavbarOpen"></i>
+            <i class="fa-solid fa-xmark text-xl" v-else></i>
+        </button>
+
+        <div class="flex items-center">
+            <button class="bg-gray-100 rounded-lg w-[45px] h-[45px] mr-6 hidden md:block">
+                <i class="fa-regular fa-message text-xl"></i>
             </button>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item me-5">
-                        <a class="nav-link notifications" href="#"><i class="fa-solid fa-bell"></i></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                           data-bs-toggle="dropdown" aria-expanded="false">
-                            <img :src="$page.props.auth.user.profile_photo_url"
-                                 class="rounded-circle profile-image"/>
-                            <span class="align-middle mx-2">{{ $page.props.auth.user.firstname }} {{ $page.props.auth.user.lastname }}</span>
-                        </a>
-
-                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <Link class="dropdown-item" :href="route('user.profile.index')">Profiel</Link>
-                            <!--                            <hr/>-->
-                            <Link class="dropdown-item" :href="route('logout')" method="post" as="button" type="button">Uitloggen</Link>
-                        </div>
-                    </li>
-                </ul>
+            <button class="bg-gray-100 rounded-lg w-[45px] h-[45px] mr-10 hidden md:block">
+                <i class="relative fa-regular fa-bell text-xl">
+                    <span class="absolute -top-0 -right-1 bg-dark-red w-2.5 h-2.5 rounded-full"></span>
+                </i>
+            </button>
+            <div class="relative inline-block w-[45px] h-[45px]">
+                <button @click="dropdownOpen = !dropdownOpen">
+                    <img :src="$page.props.auth.user.profile_photo_url" class="rounded-lg w-[45px] h-[45px]"/>
+                </button>
+                <div class="absolute right-0 z-10 w-52 bg-white rounded shadow-lg mt-2" v-if="dropdownOpen">
+                    <ul class="py-1 text-sm text-gray-700 space-y-1">
+                        <li>
+                            <Link :href="route('user.profile.index')" class="block py-2 px-4 hover:bg-gray-100">
+                                <i class="fa-regular fa-user w-5"></i> Profiel
+                            </Link>
+                        </li>
+                        <li>
+                            <Link class="block py-2 px-4 hover:bg-gray-100 w-full text-left" :href="route('logout')"
+                                  method="post" as="button">
+                                <i class="fa-solid fa-arrow-right-from-bracket w-5"></i> Uitloggen
+                            </Link>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </nav>
+
+    <MobileNavbar :show="mobileNavbarOpen"/>
 </template>
 <script>
 import {Link} from "@inertiajs/inertia-vue3";
+import {Inertia} from "@inertiajs/inertia";
+import MobileNavbar from "@/Layouts/Student/MobileNavbar.vue";
 
 export default {
-    components: {Link}
+    components: {MobileNavbar, Link},
+    data() {
+        return {
+            dropdownOpen: false,
+            mobileNavbarOpen: false,
+        }
+    },
+    mounted() {
+        Inertia.on('before', () => {
+            this.dropdownOpen = false;
+            this.mobileNavbarOpen = false;
+        });
+    },
 }
 </script>
-<style lang="scss">
-#student-navbar {
-    margin: 0 -12px;
-
-    .nav-link {
-        font-size: 17px;
-        font-weight: 500;
-    }
-    .notifications {
-        font-size: 24px;
-        padding: 4px 8px 4px 8px;
-    }
-    .profile-image {
-        width: 30px;
-        height: 30px;
-    }
-    .dropdown-toggle::after {
-        vertical-align: middle;
-    }
-}
-</style>

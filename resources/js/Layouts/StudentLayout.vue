@@ -1,22 +1,21 @@
 <template>
-    <div class="container-fluid" id="studentBackground">
-        <div class="row flex-nowrap">
-            <sidebar/>
+    <div class="flex w-full min-h-screen bg-gray-100">
+        <Sidebar/>
+        <div class="w-full">
+            <Navbar/>
 
-            <div class="col">
-                <navbar/>
-
-                <main class="py-3">
-                    <slot></slot>
-                </main>
-            </div>
+            <main class="my-5 mx-10">
+                <slot/>
+            </main>
         </div>
     </div>
+
     <Toast position="bottom-right"/>
 </template>
 <script>
 import Sidebar from "@/Layouts/Student/Sidebar.vue";
 import Navbar from "@/Layouts/Student/Navbar.vue";
+
 export default {
     components: {
         Navbar,
