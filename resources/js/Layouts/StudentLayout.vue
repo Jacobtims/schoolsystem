@@ -4,7 +4,7 @@
         <div class="w-full">
             <Navbar/>
 
-            <main class="my-5 mx-10">
+            <main class="m-10">
                 <slot/>
             </main>
         </div>
