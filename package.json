@@ -23,7 +23,6 @@
     },
     "dependencies": {
         "@fullcalendar/core": "^5.11.3",
-        "@fullcalendar/daygrid": "^5.11.2",
         "@fullcalendar/interaction": "^5.11.2",
         "@fullcalendar/timegrid": "^5.11.2",
         "@fullcalendar/vue3": "^5.11.2",
