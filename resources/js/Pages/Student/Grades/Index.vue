@@ -1,25 +1,24 @@
 <template>
-    <div class="card mb-3" v-for="(subject, index) in subjects" :key="'subject'+index"
-         v-if="subjects && subjects.length > 0">
-        <div class="card-body row">
-            <h3 class="d-inline col-2">{{ subject.name }}</h3>
-            <div class="col-9 row" id="grades">
+    <Card v-for="(subject, index) in subjects" class="mb-6 flex flex-col md:flex-row md:items-center"
+          :key="'subject'+index" v-if="subjects && subjects.length > 0">
+        <h3 class="text-2xl font-medium w-48 overflow-x-auto mb-4 md:mb-0">{{ subject.name }}</h3>
+        <div class="flex flex-1 items-center justify-between">
+            <div class="flex overflow-x-auto">
                 <div v-for="grade in subject.grades"
-                     class="grade clickable" :class="gradeClass(grade.number)"
+                     class="p-2 mr-4 text-center text-lg bg-gray-200 rounded-lg w-11 cursor-pointer"
+                     :class="gradeClass(grade.number)"
                      @click="openGradeModal(grade)">
                     {{ grade.number }}
                 </div>
             </div>
-            <div class="col-1 average" :class="gradeClass(subject.average)">
+            <div class="p-2 text-center text-lg bg-gray-200 rounded-lg w-11" :class="gradeClass(subject.average)">
                 {{ subject.average }}
             </div>
         </div>
-    </div>
-    <div class="card mb-3" v-else>
-        <div class="card-body">
-            Er zijn geen cijfers gevonden!
-        </div>
-    </div>
+    </Card>
+    <Card class="mb-3" v-else>
+        Er zijn geen cijfers gevonden!
+    </Card>
 
     <!-- Modal -->
     <show-grade-modal :open-modal="openModal" :grade="activeGrade"/>
@@ -27,6 +26,7 @@
 <script>
 import StudentLayout from "@/Layouts/StudentLayout.vue";
 import ShowGradeModal from "@/Pages/Student/Grades/Modals/ShowGradeModal.vue";
+import Card from '@/Components/Card.vue';
 
 export default {
     layout: StudentLayout,
@@ -34,7 +34,8 @@ export default {
         subjects: Object
     },
     components: {
-        ShowGradeModal
+        ShowGradeModal,
+        Card
     },
     data() {
         return {
@@ -53,9 +54,9 @@ export default {
         },
         gradeClass(grade) {
             if (grade >= 5.5) {
-                return "grade-plus";
+                return "text-dark-green";
             }
-            return "grade-min";
+            return "text-dark-red";
         },
         calculateAverages() {
             this.subjects.forEach(subject => {
@@ -71,38 +72,3 @@ export default {
     }
 }
 </script>
-<style lang="scss">
-.grade, .average {
-    padding: 8px;
-    margin-right: 16px;
-    margin-bottom: 16px;
-    width: 42px;
-    height: 42px;
-    text-align: center;
-    background-color: #E5E5E5;
-    border-radius: 8px;
-    font-size: 17px;
-    font-weight: 600;
-}
-
-.average {
-    position: absolute;
-    right: 0;
-}
-
-#grades {
-    margin-bottom: -16px;
-}
-
-.grade-plus {
-    color: #00E60F;
-}
-
-.grade-min {
-    color: #E60000;
-}
-
-#table-grades {
-    font-size: 18px;
-}
-</style>
