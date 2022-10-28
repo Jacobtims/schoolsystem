@@ -3,7 +3,7 @@
         <div class="hidden md:block text-3xl font-semibold">
             {{ $page.props.settings.school_name }}
         </div>
-        <button class="md:hidden bg-gray-100 rounded-lg w-[45px] h-[45px] z-[510]"
+        <button class="md:hidden bg-gray-100 rounded-lg w-[45px] h-[45px] z-[901]"
                 @click="mobileNavbarOpen = !mobileNavbarOpen">
             <i class="fa-solid fa-bars text-xl" v-if="!mobileNavbarOpen"></i>
             <i class="fa-solid fa-xmark text-xl" v-else></i>

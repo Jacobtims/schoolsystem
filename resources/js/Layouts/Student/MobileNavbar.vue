@@ -1,5 +1,5 @@
 <template>
-    <div class="h-full w-0 fixed top-0 left-0 overflow-x-hidden bg-white duration-500" :class="show && '!w-full'">
+    <div class="h-full w-0 fixed top-0 left-0 overflow-x-hidden bg-white duration-500 z-[900]" :class="show && '!w-full'">
         <nav class="px-4 mt-14">
             <ul class="flex flex-col items-left space-y-4 py-10 text-gray-700">
                 <li>
