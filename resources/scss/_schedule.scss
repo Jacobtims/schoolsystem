@@ -1,0 +1,66 @@
+// Make calendar fit horizontal in screen
+.fc.fc-media-screen.fc-direction-ltr.fc-theme-standard.fc-liquid-hack {
+    @apply flex-1 overflow-auto #{!important};
+}
+
+// Header styling
+.fc-scrollgrid-section.fc-scrollgrid-section-header .fc-scroller-harness .fc-scroller {
+    overflow: hidden !important;
+}
+
+.fc.fc-theme-standard .fc-view-harness th {
+    @apply bg-primary-50 #{!important};
+}
+
+.fc .fc-col-header-cell-cushion .day-header {
+    @apply flex flex-col py-5 text-gray-700 #{!important};
+
+    .day-header-day {
+        @apply text-3xl font-medium #{!important};
+    }
+
+    .day-header-weekday {
+        @apply text-base font-medium uppercase #{!important};
+    }
+}
+
+// Remove dotted lines
+.fc .fc-timegrid-slot-minor {
+    border-top-style: none !important;
+}
+
+// Removed color today column
+.fc .fc-timegrid-col.fc-day-today {
+    background: none !important;
+}
+
+// Event styling
+.fc-timegrid-event.fc-v-event.fc-event {
+    border-radius: 0 8px 8px 0 !important;
+    border: none !important;
+    box-shadow: 4px 0 rgba(0, 0, 0, 0.25) inset !important;
+    font-size: 14px !important;
+    @apply p-1 pl-2.5 overflow-hidden #{!important};
+
+    .lesson-subject {
+        @apply uppercase font-semibold #{!important};
+    }
+
+    .lesson-classroom {
+        font-size: 13px !important;
+    }
+}
+
+// Times
+.fc-timegrid-slot-label-frame.fc-scrollgrid-shrink-frame {
+    @apply text-gray-700 #{!important};
+}
+
+// Now indicator
+.fc-timegrid-now-indicator-arrow {
+    @apply border-primary-800 border-t-transparent border-b-transparent #{!important};
+}
+
+.fc-timegrid-now-indicator-line {
+    @apply border-primary-800 #{!important};
+}

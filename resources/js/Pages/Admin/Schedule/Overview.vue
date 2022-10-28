@@ -2,7 +2,7 @@
     <Schedule/>
 </template>
 <script>
-import Schedule from "@/Pages/Components/Schedule.vue";
+import Schedule from "@/Components/Schedule/Schedule.vue";
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 export default {
     components: {Schedule},

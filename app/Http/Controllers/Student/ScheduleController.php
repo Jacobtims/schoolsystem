@@ -18,6 +18,6 @@ class ScheduleController extends Controller
     public function index(Request $request): \Inertia\Response
     {
         // Return
-        return Inertia::render('Student/Schedule2');
+        return Inertia::render('Student/Schedule');
     }
 }
