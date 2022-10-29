@@ -3,15 +3,15 @@
           :key="'subject'+index" v-if="subjects && subjects.length > 0">
         <h3 class="text-2xl font-medium w-48 overflow-x-auto mb-4 md:mb-0">{{ subject.name }}</h3>
         <div class="flex flex-1 items-center justify-between">
-            <div class="flex overflow-x-auto">
+            <div class="flex overflow-x-auto mr-4">
                 <div v-for="grade in subject.grades"
-                     class="p-2 mr-4 text-center text-lg bg-gray-200 rounded-lg w-11 cursor-pointer"
+                     class="p-2 mr-4 text-center text-lg bg-gray-200 rounded-lg w-11 flex-none cursor-pointer"
                      :class="gradeClass(grade.number)"
                      @click="openGradeModal(grade)">
                     {{ grade.number }}
                 </div>
             </div>
-            <div class="p-2 text-center text-lg bg-gray-200 rounded-lg w-11" :class="gradeClass(subject.average)">
+            <div class="p-2 text-center text-lg bg-gray-200 rounded-lg w-11 flex-none" :class="gradeClass(subject.average)">
                 {{ subject.average }}
             </div>
         </div>
@@ -66,7 +66,7 @@ export default {
                     count += grade.assignment.weighting;
                     total += (grade.number * grade.assignment.weighting);
                 });
-                subject.average = total / count;
+                subject.average = Math.round((total / count) * 10) / 10;
             });
         }
     }

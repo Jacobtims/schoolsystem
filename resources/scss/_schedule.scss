@@ -1,5 +1,5 @@
 // Make calendar fit horizontal in screen
-.fc.fc-media-screen.fc-direction-ltr.fc-theme-standard.fc-liquid-hack {
+.fc.fc-media-screen.fc-direction-ltr.fc-theme-standard {
     @apply flex-1 overflow-auto #{!important};
 }
 
