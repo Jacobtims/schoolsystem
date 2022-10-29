@@ -1,45 +1,31 @@
 <template>
-    <div class="row">
-        <div class="col-sm-6 col-lg-4 col-xl-3 mb-3">
-            <div class="card">
-                <div class="card-body text-center">
-                    <h3 class="card-title">Niet geregistreerd</h3>
-                    <small>Aantal lesuren</small>
-                    <h3 class="fw-bold">{{ notRegistered }} uur</h3>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6 col-lg-4 col-xl-3 mb-3">
-            <div class="card">
-                <div class="card-body text-center">
-                    <h3 class="card-title">Aanwezig</h3>
-                    <small>Aantal lesuren</small>
-                    <h3 class="fw-bold">{{ present }} uur</h3>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6 col-lg-4 col-xl-3 mb-3">
-            <div class="card">
-                <div class="card-body text-center">
-                    <h3 class="card-title">Geoorloofd afwezig</h3>
-                    <small>Aantal lesuren</small>
-                    <h3 class="fw-bold">{{ allowedAbsent }} uur</h3>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6 col-lg-4 col-xl-3 mb-3">
-            <div class="card">
-                <div class="card-body text-center">
-                    <h3 class="card-title">Ongeoorloofd afwezig</h3>
-                    <small>Aantal lesuren</small>
-                    <h3 class="fw-bold text-danger">{{ unallowedAbsent }} uur</h3>
-                </div>
-            </div>
-        </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
+        <Card class="text-center">
+            <h2 class="text-2xl font-semibold mb-4">Niet geregistreerd</h2>
+            <h6 class="text-sm font-light mb-1">Aantal lesuren</h6>
+            <h3 class="text-3xl font-semibold">{{ notRegistered }} uur</h3>
+        </Card>
+        <Card class="text-center">
+            <h2 class="text-2xl font-semibold mb-4">Aanwezig</h2>
+            <h6 class="text-sm font-light mb-1">Aantal lesuren</h6>
+            <h3 class="text-3xl font-semibold">{{ present }} uur</h3>
+        </Card>
+        <Card class="text-center">
+            <h2 class="text-2xl font-semibold mb-4">Geoorloofd afwezig</h2>
+            <h6 class="text-sm font-light mb-1">Aantal lesuren</h6>
+            <h3 class="text-3xl font-semibold">{{ allowedAbsent }} uur</h3>
+        </Card>
+        <Card class="text-center">
+            <h2 class="text-2xl font-semibold mb-4">Ongeoorloofd afwezig</h2>
+            <h6 class="text-sm font-light mb-1">Aantal lesuren</h6>
+            <h3 class="text-3xl font-semibold text-dark-red">{{ unallowedAbsent }} uur</h3>
+        </Card>
     </div>
-    <div class="card mt-3" v-if="absences.data.length > 0">
-        <div class="card-body">
-            <table class="table table-borderless m-0 mb-4" id="table-absent">
+
+    <Card v-if="absences.data.length > 0">
+        <div class="overflow-x-auto relative">
+            <table class="table-auto w-full text-left mb-4" id="absencesTable">
+                <thead class="text-sm uppercase bg-slate-50 border-b">
                 <tr>
                     <th>Datum</th>
                     <th>Les</th>
@@ -47,25 +33,36 @@
                     <th>Reden</th>
                     <th>Status</th>
                 </tr>
-                <tr v-for="(absence, index) in absences.data" :key="'absent'+index">
+                </thead>
+                <tbody>
+                <tr v-for="(absence, index) in absences.data" :key="'absent'+index" class="odd:bg-white even:bg-slate-50">
                     <td>{{ this.$dayjs(absence.lesson.date).format('LL') }}</td>
-                    <td>{{ absence.lesson.time.id }}e lesuur ({{ absence.lesson.time.from }} - {{ absence.lesson.time.to }})</td>
-                    <td>{{ absence.type ? absence.type.name : '-'}}</td>
+                    <td>{{ absence.lesson.time.id }}e lesuur ({{ absence.lesson.time.from }} - {{
+                            absence.lesson.time.to
+                        }})
+                    </td>
+                    <td>{{ absence.type ? absence.type.name : '-' }}</td>
                     <td>{{ absence.reason ?? '-' }}</td>
                     <td v-if="absence.reason_verified">Geoorloofd</td>
                     <td v-else-if="!absence.reason_verified" class="text-danger">Ongeoorloofd</td>
                 </tr>
+                </tbody>
             </table>
-
-            <Pagination :pagination="absences"/>
         </div>
-    </div>
+
+        <Pagination :pagination="absences"/>
+    </Card>
+    <Card v-else>
+        <p>Geen meldingen gevonden!</p>
+    </Card>
 </template>
 <script>
 import StudentLayout from "@/Layouts/StudentLayout.vue";
 import Pagination from "@/Components/Pagination.vue";
+import Card from '@/Components/Card.vue';
+
 export default {
-    components: {Pagination},
+    components: {Pagination, Card},
     layout: StudentLayout,
     props: {
         present: Number,
@@ -77,7 +74,12 @@ export default {
 }
 </script>
 <style lang="scss">
-#table-absent {
-    font-size: 18px;
+#absencesTable {
+    tr th {
+        @apply py-3 px-6;
+    }
+    tr td {
+        @apply py-4 px-6;
+    }
 }
 </style>

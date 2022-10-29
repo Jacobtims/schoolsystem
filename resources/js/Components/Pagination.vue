@@ -1,24 +1,35 @@
 <template>
-    <div class="d-flex flex-row align-items-center justify-content-center" id="pagination">
-        <button class="btn" :disabled="noPreviousPage" @click="loadPage(1)">
+    <div class="flex items-center justify-center gap-1.5" id="pagination">
+        <Button btn="secondary" size="sm" :disabled="noPreviousPage" @click="loadPage(1)">
             <i class="fa-solid fa-angles-left"></i>
-        </button>
-        <button class="btn" :disabled="noPreviousPage" @click="loadPage(this.pagination.current_page - 1)"><i
-            class="fa-solid fa-angle-left"></i>
-        </button>
-        <input class="btn" type="number" v-model="page" @keydown.enter="loadPage(page)" :style="{'width': 'calc('+(page.toString().length ?? 1)+'ch + 26px) !important'}"/>
-        <span>of {{ this.pagination.last_page }}</span>
-        <button class="btn" :disabled="noNextPage" @click="loadPage(this.pagination.current_page + 1)"><i
-            class="fa-solid fa-angle-right"></i>
-        </button>
-        <button class="btn" :disabled="noNextPage" @click="loadPage(this.pagination.last_page)"><i
-            class="fa-solid fa-angles-right"></i>
-        </button>
+        </Button>
+        <Button btn="secondary" size="sm" :disabled="noPreviousPage"
+                @click="loadPage(this.pagination.current_page - 1)">
+            <i class="fa-solid fa-angle-left"></i>
+        </Button>
+
+        <Input type="number" v-model="page" @keydown.enter="loadPage(page)"
+               :style="{'width': 'calc('+(page.toString().length ?? 1)+'ch + 26px) !important'}"/>
+        <span class="whitespace-nowrap">of {{ this.pagination.last_page }}</span>
+
+        <Button btn="secondary" size="sm" :disabled="noNextPage" @click="loadPage(this.pagination.current_page + 1)">
+            <i class="fa-solid fa-angle-right"></i>
+        </Button>
+        <Button btn="secondary" size="sm" :disabled="noNextPage" @click="loadPage(this.pagination.last_page)">
+            <i class="fa-solid fa-angles-right"></i>
+        </Button>
     </div>
 </template>
 <script>
+import Button from "@/Components/Button.vue";
+import Input from "@/Components/Inputs/Input.vue";
+
 export default {
     name: 'Pagination',
+    components: {
+        Input,
+        Button
+    },
     props: {
         pagination: {
             type: Object,
@@ -54,43 +65,22 @@ export default {
 </script>
 <style lang="scss">
 #pagination {
-    vertical-align: middle;
-
-    .btn {
-        background-color: #fff;
-        color: #055CFC;
-        border: 1px solid #E5E5E5;
-
-        &:not(:last-child) {
-            margin-right: 8px;
-        }
-
-        i {
-            font-size: 14px;
-        }
-    }
-
     input[type=number] {
-        color: #055CFC;
-        border: 1px solid #E5E5E5;
-        background: #fff;
-        padding: 6px 12px;
-        width: max-content;
+        @apply border-gray-200;
+        padding-top: 7px;
+        padding-bottom: 7px;
 
         &:focus {
-            outline: none;
+            @apply focus:border-gray-300 focus:ring-0;
         }
+
         -moz-appearance: textfield;
     }
 
-    input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
+    input[type=number]::-webkit-outer-spin-button,
+    input[type=number]::-webkit-inner-spin-button {
         -webkit-appearance: none;
         margin: 0;
-    }
-
-    span {
-        margin-right: 8px;
     }
 }
 </style>

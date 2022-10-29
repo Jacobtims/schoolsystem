@@ -1,7 +1,7 @@
 <template>
     <button
-        class="px-4 py-2.5 rounded-lg border border-transparent shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-75"
-        :class="styleClasses" :disabled="disabled">
+        class="px-4 py-2.5 rounded-lg border border-transparent shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50"
+        :class="[styleClasses, sizeClasses]" :disabled="disabled">
         <slot/>
     </button>
 </template>
@@ -15,6 +15,9 @@ export default {
         btn: {
             default: 'primary',
             type: String
+        },
+        size: {
+            type: String
         }
     },
     computed: {
@@ -24,6 +27,12 @@ export default {
                     return 'text-white bg-primary-700 hover:bg-primary-800 focus:ring-primary-600 disabled:hover:bg-primary-700';
                 case 'secondary':
                     return 'text-primary-900 bg-white border border-gray-200 hover:bg-gray-100 focus:ring-primary-300 disabled:hover:bg-white';
+            }
+        },
+        sizeClasses() {
+            switch (this.size) {
+                case 'sm':
+                    return 'px-3 py-1.5';
             }
         }
     }
