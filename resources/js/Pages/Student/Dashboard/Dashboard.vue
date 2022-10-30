@@ -10,9 +10,6 @@
             <h3 class="text-2xl font-semibold text-dark-blue mb-5">Laatst toegevoegd</h3>
             <Grades :grades="grades"/>
         </Card>
-        <Card class="">
-            <h3 class="text-2xl font-semibold text-dark-blue mb-5">Vakanties</h3>
-        </Card>
     </div>
 </template>
 <script>

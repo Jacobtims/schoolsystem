@@ -4,7 +4,7 @@
         <div class="w-full flex flex-col h-screen">
             <Navbar/>
 
-            <main class="p-10 flex-1 overflow-auto">
+            <main class="px-4 md:px-6 lg:px-10 py-10 flex-1 overflow-auto">
                 <slot/>
             </main>
         </div>
