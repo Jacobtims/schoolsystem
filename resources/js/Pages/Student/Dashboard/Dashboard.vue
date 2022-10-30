@@ -4,12 +4,11 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
         <Card class="">
             <h3 class="text-2xl font-semibold text-dark-blue mb-5">Vandaag</h3>
-            <div class="flex max-h-80">
-                <SmallSchedule :events="events"/>
-            </div>
+            <SmallSchedule :events="events"/>
         </Card>
         <Card class="">
             <h3 class="text-2xl font-semibold text-dark-blue mb-5">Laatst toegevoegd</h3>
+            <Grades :grades="grades"/>
         </Card>
         <Card class="">
             <h3 class="text-2xl font-semibold text-dark-blue mb-5">Vakanties</h3>
@@ -20,13 +19,16 @@
 import StudentLayout from "@/Layouts/StudentLayout.vue";
 import Card from '@/Components/Card.vue';
 import SmallSchedule from "@/Pages/Student/Dashboard/SmallSchedule.vue";
+import Grades from "@/Pages/Student/Dashboard/Grades.vue";
 
 export default {
     layout: StudentLayout,
     props: {
-        events: Object
+        events: Object,
+        grades: Object
     },
     components: {
+        Grades,
         SmallSchedule,
         Card
     },

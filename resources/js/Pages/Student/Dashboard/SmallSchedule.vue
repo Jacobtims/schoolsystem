@@ -1,14 +1,16 @@
 <template>
-    <FullCalendar
-        ref="schedule"
-        :options='calendarOptions'
-        id="smallSchedule"
-    >
-        <template v-slot:eventContent='arg'>
-            <p class="lesson-subject">{{ arg.event.extendedProps.subject.name }}</p>
-            <p class="lesson-classroom">{{ arg.event.extendedProps.classroom.name }}</p>
-        </template>
-    </FullCalendar>
+    <div class="flex max-h-80">
+        <FullCalendar
+            ref="schedule"
+            :options='calendarOptions'
+            id="smallSchedule"
+        >
+            <template v-slot:eventContent='arg'>
+                <p class="lesson-subject">{{ arg.event.extendedProps.subject.name }}</p>
+                <p class="lesson-classroom">{{ arg.event.extendedProps.classroom.name }}</p>
+            </template>
+        </FullCalendar>
+    </div>
 </template>
 <script>
 import '@fullcalendar/core/vdom'; // solves problem with Vite
