@@ -4,6 +4,9 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
         <Card class="">
             <h3 class="text-2xl font-semibold text-dark-blue mb-5">Vandaag</h3>
+            <div class="flex max-h-80">
+                <SmallSchedule :events="events"/>
+            </div>
         </Card>
         <Card class="">
             <h3 class="text-2xl font-semibold text-dark-blue mb-5">Laatst toegevoegd</h3>
@@ -16,10 +19,15 @@
 <script>
 import StudentLayout from "@/Layouts/StudentLayout.vue";
 import Card from '@/Components/Card.vue';
+import SmallSchedule from "@/Pages/Student/Dashboard/SmallSchedule.vue";
 
 export default {
     layout: StudentLayout,
+    props: {
+        events: Object
+    },
     components: {
+        SmallSchedule,
         Card
     },
     computed: {

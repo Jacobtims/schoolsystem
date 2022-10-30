@@ -64,3 +64,8 @@
 .fc-timegrid-now-indicator-line {
     @apply border-primary-800 #{!important};
 }
+
+// Small schedule
+#smallSchedule .fc-scrollgrid-section.fc-scrollgrid-section-header {
+    display: none;
+}
